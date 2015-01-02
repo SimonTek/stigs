@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Matthew M. Conley / SimonTek 
+# 	last edited: 05/06/2014
+#
+if grep "showfailed" /etc/pam.d/system-auth; then
+echo "This machine is CCE-27291-4 Compliant" >> /var/log/Stig
+echo "This machine is CCE-27291-4 Compliant"
+else
+echo "This machine isn't CCE-27291-4 Compliant" >> /var/log/Stig
+echo "This machine isn't CCE-27291-4 Compliant"
+sed -i '/pam_limits.so/a\session\trequired\tpam_lastlog.so showfailed' /etc/pam.d/*
+fi
+

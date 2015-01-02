@@ -1,0 +1,40 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38536
+#Group Title: SRG-OS-000240
+#Version: RHEL-06-000176
+#Severity: low
+#Description: In addition to auditing new user and group accounts, these watches will alert the system administrator(s) to any modifications. Any unexpected users, groups, or modifications should be investigated for legitimacy.
+#Rule Title: The operating system must automatically audit account disabling actions.
+#Version: RHEL-06-000176
+
+#Check Content: To determine if the system is configured to audit account changes, run the following command: 
+
+#auditctl -l | egrep '(/etc/passwd|/etc/shadow|/etc/group|/etc/gshadow|/etc/security/opasswd)'
+
+#If the system is configured to watch for account changes, lines should be returned for each file specified (and with "perm=wa" for each). 
+#If the system is not configured to audit account changes, this is a finding.
+
+
+#Fix Text: Add the following to "/etc/audit/audit.rules", in order to capture events that modify account changes: 
+
+# audit_account_changes
+#-w /etc/group -p wa -k audit_account_changes
+#-w /etc/passwd -p wa -k audit_account_changes
+#-w /etc/gshadow -p wa -k audit_account_changes
+#-w /etc/shadow -p wa -k audit_account_changes
+#-w /etc/security/opasswd -p wa -k audit_account_changes
+
+if auditctl -l | egrep '(/etc/passwd|/etc/shadow|/etc/group|/etc/gshadow|/etc/security/opasswd)'; then
+echo "This machine is RHEL-06-000176 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000176 Compliant"
+else
+echo "This machine isn't RHEL-06-000176 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000176 Compliant"
+echo "-w /etc/group -p wa -k audit_account_changes" >> /etc/audit/audit.rules
+echo "-w /etc/passwd -p wa -k audit_account_changes" >> /etc/audit/audit.rules
+echo "-w /etc/gshadow -p wa -k audit_account_changes" >> /etc/audit/audit.rules
+echo "-w /etc/shadow -p wa -k audit_account_changes" >> /etc/audit/audit.rules
+echo "-w /etc/security/opasswd -p wa -k audit_account_changes" >> /etc/audit/audit.rules
+fi

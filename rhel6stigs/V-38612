@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38612
+#Group Title: SRG-OS-000106
+#Version: RHEL-06-000236
+#Severity: medium
+#Description: SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts.
+#Rule Title: The SSH daemon must not allow host-based authentication.
+#Version: RHEL-06-000236
+
+#Check Content: To determine how the SSH daemon's "HostbasedAuthentication" option is set, run the following command: 
+
+# grep -i HostbasedAuthentication /etc/ssh/sshd_config
+
+#If no line, a commented line, or a line indicating the value "no" is returned, then the required value is set. 
+#If the required value is not set, this is a finding.
+
+
+#Fix Text: SSH's cryptographic host-based authentication is more secure than ".rhosts" authentication, since hosts are cryptographically authenticated. However, it is not recommended that hosts unilaterally trust one another, even within an organization. 
+
+#To disable host-based authentication, add or correct the following line in "/etc/ssh/sshd_config": 
+
+#HostbasedAuthentication no
+
+if grep -i HostbasedAuthentication /etc/ssh/sshd_config |grep -v '^#'|grep no; then
+echo "This machine is RHEL-06-000236 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000236 Compliant"
+else
+echo "This machine isn't RHEL-06-000236 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000236 Compliant"
+echo "HostbasedAuthentication no" >> /etc/ssh/sshd_config
+fi

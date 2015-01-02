@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38568
+#Group Title: SRG-OS-000064
+#Version: RHEL-06-000199
+#Severity: low
+#Description: The unauthorized exportation of data to external media could result in an information leak where classified information, Privacy Act information, and intellectual property could be lost. An audit trail should be created each time a filesystem is mounted to help identify and guard against information loss.
+#Rule Title: The audit system must be configured to audit successful file system mounts.
+#Version: RHEL-06-000199
+
+#Check Content: To verify that auditing is configured for all media exportation events, run the following command: 
+
+# auditctl -l | grep syscall | grep mount
+#If there is no output, this is a finding.
+#Fix Text: At a minimum, the audit system should collect media exportation events for all users and root. Add the following to "/etc/audit/audit.rules", setting b64 to either b32 or b64 as appropriate for your system: 
+
+#-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k export
+#-a always,exit -F arch=b64 -S mount -F auid==0 -k export
+
+if auditctl -l | grep syscall | grep mount; then
+echo "This machine is RHEL-06-000199 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000199 Compliant"
+else
+echo "This machine isn't RHEL-06-000199 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000199 Compliant"
+echo "-a always,exit -F arch=b64 -S mount -F auid>=500 -F auid!=4294967295 -k export" >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b64 -S mount -F auid==0 -k export" >> /etc/audit/audit.rules
+fi

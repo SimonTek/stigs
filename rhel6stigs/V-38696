@@ -1,0 +1,28 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38696
+#Group Title: SRG-OS-000098
+#Version: RHEL-06-000303
+#Severity: medium
+#Description: By default, AIDE does not install itself for periodic execution. Periodically running AIDE may reveal unexpected changes in installed files.
+#Rule Title: The operating system must employ automated mechanisms, per organization defined frequency, to detect the addition of unauthorized components/devices into the operating system.
+#Version: RHEL-06-000303
+
+#Check Content: To determine that periodic AIDE execution has been scheduled, run the following command: 
+# grep aide /etc/crontab
+
+#If there is no output, this is a finding.
+
+#Fix Text: AIDE should be executed on a periodic basis to check for changes. To implement a daily execution of AIDE at 4:05am using cron, add the following line to /etc/crontab: 
+#05 4 * * * root /usr/sbin/aide --check
+#AIDE can be executed periodically through other means; this is merely one example.
+
+if grep aide /etc/crontab; then
+echo "This machine is RHEL-06-000303 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000303 Compliant"
+else
+echo "This machine isn't RHEL-06-000303 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000303 Compliant"
+echo "05 4 * * * root /usr/sbin/aide --check" >> /etc/crontab
+fi

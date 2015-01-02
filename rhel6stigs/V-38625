@@ -1,0 +1,39 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38625
+#Group Title: SRG-OS-000250
+#Version: RHEL-06-000252
+#Severity: medium
+#Description: The ssl directive specifies whether to use ssl or not. If not specified it will default to "no". It should be set to "start_tls" rather than doing LDAP over SSL.
+#Rule Title: If the system is using LDAP for authentication or account information, the system must use a TLS connection using FIPS 140-2 approved cryptographic algorithms.
+#Version: RHEL-06-000252
+
+#Check Content: If the system does not use LDAP for authentication or account information, this is not applicable.
+
+#To ensure LDAP is configured to use TLS for all transactions, run the following command: 
+
+#$ grep start_tls /etc/pam_ldap.conf
+
+
+#If no lines are returned, this is a finding.
+
+
+#Fix Text: Configure LDAP to enforce TLS use. First, edit the file "/etc/pam_ldap.conf", and add or correct the following lines: 
+
+#ssl start_tls
+
+#Then review the LDAP server and ensure TLS has been configured.
+if rpm -qa |grep pam_ldap; then
+if grep logrotate /var/log/cron*; then
+echo "This machine is RHEL-06-000138 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000138 Compliant"
+else
+echo "This machine isn't RHEL-06-000138 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000138 Compliant"
+yum reinstall logrotate -y
+fi
+else
+echo "This machine does not run LDAP" >> /var/log/Stig
+echo "This machine does not run LDAP"
+fi

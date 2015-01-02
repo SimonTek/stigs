@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#Group ID: V-39298
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000141
+#Severity: low
+#Description: When enabled, vSphere performs bidirectional authentication of both the iSCSI target and host. There is a potential for a MiTM attack, when not authenticating both the iSCSI target and host, in which an attacker might impersonate either side of the connection to steal data. Bidirectional authentication mitigates this risk.
+#Rule Title: The system must enable bidirectional CHAP authentication for iSCSI traffic.
+#Version: SRG-OS-99999-ESXI5-000141
+#http://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.vcli.examples.doc_50%2Fcli_manage_iscsi_storage.7.5.html
+#Check Content: This check applies to the use of iSCSI storage. If iSCSI storage is not used, this check is not applicable. 
+# In the vSphere Client, select the host, and then choose: Configuration - Storage Adaptors - iSCSI Initiator Properties -  CHAP - CHAP (Target Authenticates Host) - determine if "Use Chap" is selected with a "Name" and a "Secret" configured.
+#If iSCSI storage is used and "Use CHAP" is not selected and configured with a "Name" and a "Secret", this is a finding.
+
+#Fix Text: In the vSphere Client, select the host, and then choose: Configuration >> Storage Adaptors >> iSCSI Initiator Properties >>  CHAP >> CHAP (Target Authenticates Host). Select "Use Chap", and configure the "Name" and "Secret" options.      
+
+if esxcli iscsi adapter list|grep Adapter; then
+echo "iSCSI adapter found,needs to be configured by the Systems Admin"
+echo "For notes on how to set up CHAP authentication for iSCSI view the website below" >> /var/log/hardened
+echo "http://pubs.vmware.com/vsphere-50/index.jsp?topic=%2Fcom.vmware.vcli.examples.doc_50%2Fcli_manage_iscsi_storage.7.5.html" >> /var/log/hardened.log
+else
+echo "no iSCSI adapter installed"
+fi 

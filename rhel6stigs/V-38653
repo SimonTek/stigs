@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38653
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000341
+#Severity: high
+#Description: Presence of the default SNMP password enables querying of different system aspects and could result in unauthorized knowledge of the system.
+#Rule Title: The snmpd service must not use a default password.
+#Version: RHEL-06-000341
+
+#Check Content: To ensure the default password is not set, run the following command: 
+
+# grep -v "^#" /etc/snmp/snmpd.conf| grep public
+#There should be no output. 
+#If there is output, this is a finding.
+#Fix Text: Edit "/etc/snmp/snmpd.conf", remove default community string "public". Upon doing that, restart the SNMP service: 
+# service snmpd restart
+
+if grep -v "^#" /etc/snmp/snmpd.conf| grep public; then
+echo "This machine isn't RHEL-06-000341 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000341 Compliant"
+sed -i '/public/ s/^/#/' /etc/snmp/snmpd.conf
+else
+echo "This machine is RHEL-06-000341 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000341 Compliant"
+fi

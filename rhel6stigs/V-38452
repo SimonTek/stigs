@@ -1,0 +1,36 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38452
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000518
+#Severity: low
+#Description: Permissions on system binaries and configuration files that are too generous could allow an unauthorized user to gain privileges that they should not have. The permissions set by the vendor should be maintained. Any deviations from this baseline should be investigated.
+#Rule Title: The system package management tool must verify permissions on all files and directories associated with packages.
+#Version: RHEL-06-000518
+
+#Check Content: The following command will list which files and directories on the system have permissions different from what is expected by the RPM database: 
+
+# rpm -Va  | grep '^.M'
+
+#If there is any output, for each file or directory found, find the associated RPM package and compare the RPM-expected permissions with the actual permissions on the file or directory:
+
+# rpm -qf [file or directory name]
+# rpm -q --queryformat "[%{FILENAMES} %{FILEMODES:perms}\n]" [package] | grep  [filename]
+# ls -lL [filename]
+
+#If the existing permissions are more permissive than those expected by RPM, this is a finding.
+
+
+#Fix Text: The RPM package management system can restore file access permissions of package files and directories. The following command will update permissions on files and directories with permissions different from what is expected by the RPM database: 
+
+# rpm --setperms [package]
+
+if rpm -Va  | grep '^.M'; then
+echo "This machine is RHEL-06-000518 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000518 Compliant"
+else
+echo "This machine isn't RHEL-06-000518 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000518 Compliant"
+rpm --setperms [package]
+fi

@@ -1,0 +1,52 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38702
+#Group Title: SRG-OS-000037
+#Version: RHEL-06-000339
+#Severity: low
+#Description: To trace malicious activity facilitated by the FTP service, it must be configured to ensure that all commands sent to the ftp server are logged using the verbose vsftpd log format. The default vsftpd log file is /var/log/vsftpd.log.
+#Rule Title: The FTP daemon must be configured for logging or verbose mode.
+#Version: RHEL-06-000339
+
+#Check Content: Find if logging is applied to the ftp daemon. 
+
+#Procedures: 
+
+#If vsftpd is started by xinetd the following command will indicate the xinetd.d startup file. 
+
+# grep vsftpd /etc/xinetd.d/*
+# grep server_args [vsftpd xinetd.d startup file]
+#This will indicate the vsftpd config file used when starting through xinetd. If the [server_args]line is missing or does not include the vsftpd configuration file, then the default config file (/etc/vsftpd/vsftpd.conf) is used. 
+# grep xferlog_enable [vsftpd config file]
+#If xferlog_enable is missing, or is not set to yes, this is a finding.
+#Fix Text: Add or correct the following configuration options within the "vsftpd" configuration file, located at "/etc/vsftpd/vsftpd.conf". 
+
+#xferlog_enable=YES
+#xferlog_std_format=NO
+#log_ftp_protocol=YES
+
+if grep vsftpd /etc/xinetd.d/*; then
+echo "This machine isn't RHEL-06-000339 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000339 Compliant"
+grep -q ^xferlog_enable=YES /etc/vsftpd/vsftpd.conf && \
+  sed -i "s@xferlog_enable.*@xferlog_enable=YES@g" /etc/vsftpd/vsftpd.conf
+if ! [ $? -eq 0 ]; then
+    echo "xferlog_enable=YES" >> /etc/vsftpd/vsftpd.conf
+fi
+
+grep -q ^xferlog_std_format=NO /etc/vsftpd/vsftpd.conf && \
+  sed -i "s@xferlog_std_format=.*@xferlog_std_format=NO@g" /etc/vsftpd/vsftpd.conf
+if ! [ $? -eq 0 ]; then
+    echo "xferlog_std_format=NO" >> /etc/vsftpd/vsftpd.conf
+fi
+
+grep -q ^log_ftp_protocol=YES /etc/vsftpd/vsftpd.conf && \
+  sed -i "s@log_ftp_protocol=.*@log_ftp_protocol=YES@g" /etc/vsftpd/vsftpd.conf
+if ! [ $? -eq 0 ]; then
+    echo "log_ftp_protocol=YES" >> /etc/vsftpd/vsftpd.conf
+fi
+else
+echo "This machine is RHEL-06-000339 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000339 Compliant"
+fi

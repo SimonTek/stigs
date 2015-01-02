@@ -1,0 +1,39 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38590
+#Group Title: SRG-OS-000030
+#Version: RHEL-06-000071
+#Severity: low
+#Description: Installing "screen" ensures a console locking capability is available for users who may need to suspend console logins.
+#Rule Title: The system must allow locking of the console screen in text mode.
+#Version: RHEL-06-000071
+
+#Check Content: Run the following command to determine if the "screen" package is installed: 
+
+# rpm -q screen
+
+
+#If the package is not installed, this is a finding.
+
+
+#Fix Text: To enable console screen locking when in text mode, install the "screen" package: 
+
+# yum install screen
+
+#Instruct users to begin new terminal sessions with the following command: 
+
+#$ screen
+
+#The console can now be locked with the following key combination: 
+
+#ctrl+a x
+
+if rpm -q screen|grep "not installed"; then
+echo "This machine isn't RHEL-06-000071 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000071 Compliant"
+yum install screen -y
+else
+echo "This machine is RHEL-06-000071 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000071 Compliant"
+fi

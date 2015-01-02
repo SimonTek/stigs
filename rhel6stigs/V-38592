@@ -1,0 +1,46 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38592
+#Group Title: SRG-OS-000022
+#Version: RHEL-06-000356
+#Severity: medium
+#Description: Locking out user accounts after a number of incorrect attempts prevents direct password guessing attacks. Ensuring that an administrator is involved in unlocking locked accounts draws appropriate attention to such situations.
+#Rule Title: The system must require administrator action to unlock an account locked by excessive failed login attempts.
+#Version: RHEL-06-000356
+
+#Check Content: To ensure the failed password attempt policy is configured correctly, run the following command: 
+
+# grep pam_faillock /etc/pam.d/system-auth-ac
+
+#The output should show "unlock_time=<some-large-number>"; the largest acceptable value is 604800 seconds (one week). 
+#If that is not the case, this is a finding.
+
+
+#Fix Text: To configure the system to lock out accounts after a number of incorrect login attempts and require an administrator to unlock the account using "pam_faillock.so": 
+
+#Add the following lines immediately below the "pam_unix.so" statement in the AUTH section of
+#"/etc/pam.d/system-auth-ac": 
+
+#auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900
+#auth required pam_faillock.so authsucc deny=3 unlock_time=604800  fail_interval=900
+#Note that any updates made to "/etc/pam.d/system-auth-ac" will be overwritten by the "authconfig" program.  The "authconfig" program should not be used.
+
+if grep pam_faillock /etc/pam.d/system-auth|grep authfail; then
+echo "This machine is RHEL-06-000357 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000357 Compliant"
+else
+echo "This machine isn't RHEL-06-000357 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000357 Compliant"
+sed -i '/pam_deny.so/a \auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth-ac
+sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth-ac
+sed -i '/pam_deny.so/a \auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth
+sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth
+
+
+sed -i '/pam_deny.so/a \auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/password-auth
+sed -i '/pam_deny.so/a \auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/password-auth-ac
+sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/password-auth
+sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/password-auth-ac
+
+fi

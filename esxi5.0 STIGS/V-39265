@@ -1,0 +1,38 @@
+#!/bin/sh
+
+#Group ID: V-39265
+#Group Title: GEN005519
+#Version: GEN005519-ESXI5-000102
+#Severity: medium
+#Description: X11 forwarding over SSH allows for the secure remote execution of X11-based applications. This feature can increase the attack surface of an SSH connection and should not be enabled unless needed.
+#Rule Title: The SSH daemon must be configured to not allow X11 forwarding.
+#Version: GEN005519-ESXI5-000102
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Check the SSH daemon configuration for the X11 forwarding setting. 
+
+# grep -i "^X11Forwarding"  /etc/ssh/sshd_config
+
+#If "X11Forwarding" is set to "yes", this is a finding. 
+
+#Re-enable lock down mode.
+
+
+#Fix Text: 
+# 
+
+#Disable lock down mode.
+#Enable the ESXi Shell.
+
+#Edit the SSH daemon configuration and add/modify the "X11Forwarding" configuration, setting it to "no". 
+# vi /etc/ssh/sshd_config
+
+#Re-enable lock down mode.
+
+#
+if grep -i "^X11Forwarding"  /etc/ssh/sshd_config |grep "yes"; then
+	echo "Need to fix X11Forwarding to no"
+sed -i 's/X11Forwarding yes/#X11Forwarding no/g' /etc/ssh/sshd_config
+else
+echo "X11Forward is off"
+fi

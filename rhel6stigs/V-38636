@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38636
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000159
+#Severity: medium
+#Description: The total storage for audit log files must be large enough to retain log information over the period required. This is a function of the maximum log file size and the number of logs retained.
+#Rule Title: The system must retain enough rotated audit logs to cover the required log retention period.
+#Version: RHEL-06-000159
+
+#Check Content: Inspect "/etc/audit/auditd.conf" and locate the following line to determine how many logs the system is configured to retain after rotation: "# grep num_logs /etc/audit/auditd.conf" 
+
+#num_logs = 5
+
+
+#If the overall system log file(s) retention hasn't been properly set up, this is a finding.
+
+
+#Fix Text: Determine how many log files "auditd" should retain when it rotates logs. Edit the file "/etc/audit/auditd.conf". Add or modify the following line, substituting [NUMLOGS] with the correct value: 
+
+#num_logs = [NUMLOGS]
+
+#Set the value to 5 for general-purpose systems. Note that values less than 2 result in no log rotation.
+
+if grep num_logs /etc/audit/auditd.conf|grep 5; then
+echo "This machine is RHEL-06-000159 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000159 Compliant"
+else
+echo "This machine isn't RHEL-06-000159 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000159 Compliant"
+sed -i 's@num_logs@#num_logs@g' /etc/audit/auditd.conf
+echo "num_logs = 5" >> /etc/audit/auditd.conf
+fi

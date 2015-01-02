@@ -1,0 +1,36 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38678
+#Group Title: SRG-OS-000048
+#Version: RHEL-06-000311
+#Severity: medium
+#Description: Notifying administrators of an impending disk space problem may allow them to take corrective action prior to any disruption.
+#Rule Title: The audit system must provide a warning when allocated audit record storage volume reaches a documented percentage of maximum audit record storage capacity.
+#Version: RHEL-06-000311
+
+#Check Content: Inspect "/etc/audit/auditd.conf" and locate the following line to determine whether the system is configured to email the administrator when disk space is starting to run low: 
+# grep space_left /etc/audit/auditd.conf 
+#space_left = [num_megabytes]
+#If the "num_megabytes" value does not correspond to a documented value for remaining audit partition capacity or if there is no locally documented value for remaining audit partition capacity, this is a finding.
+#Fix Text: The "auditd" service can be configured to take an action when disk space starts to run low. Edit the file "/etc/audit/auditd.conf". Modify the following line, substituting [ACTION] appropriately: 
+#space_left = [num_megabytes]
+#The "num_megabytes" value should be set to a fraction of the total audit storage capacity available that will allow a system administrator to be notified with enough time to respond to the situation causing the capacity issues.  This value must also be documented locally.
+
+
+if grep "space_left" /etc/audit/auditd.conf|grep 75|grep -v admin; then
+echo "This machine is RHEL-06-000311 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000311 Compliant"
+else
+echo "This machine isn't RHEL-06-000311 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000311 Compliant"
+sed -i 's/\(^space_left =\)/#\1/' /etc/audit/auditd.conf
+   sed -i '/^#space_left/ a\ space_left = 75' /etc/audit/auditd.conf  
+fi
+
+var_auditd_admin_space_left_action="single"
+grep -q ^admin_space_left_action /etc/audit/auditd.conf && \
+  sed -i "s/admin_space_left_action.*/admin_space_left_action = $var_auditd_space_left_action/g" /etc/audit/auditd.conf
+if ! [ $? -eq 0 ]; then
+    echo "admin_space_left_action = $var_auditd_space_left_action" >> /etc/audit/auditd.conf
+fi

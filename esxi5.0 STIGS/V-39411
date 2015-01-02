@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39411
+#Group Title: SRG-OS-000033
+#Version: SRG-OS-000033-ESXI5
+#Severity: high
+#Description: Remote network access is accomplished by leveraging common communication protocols and establishing a remote connection. These connections will occur over the public Internet. 
+Remote access is any access to an organizational information system by a user (or an information system) communicating through an external, non-organization-controlled network (e.g., the Internet). Examples of remote access methods include dial-up, broadband, and wireless. 
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#Check the SSH daemon configuration for required protocol. # grep -i "Protocol 2" /etc/ssh/sshd_config | grep -v '^#' 
+#If no lines are returned, or the returned protocol list contains anything except 2, this is a finding.
+#Edit the SSH daemon configuration and add/modify the "Protocol" configuration for Protocol 2 only. 
+# vi /etc/ssh/sshd_config
+
+if grep -i "Protocol 2" /etc/ssh/sshd_config | grep -v '^#' 
+echo "sshd is set to only use Protocol 2"
+else
+echo "Protocol 2" >> /etc/ssh/sshd_config
+fi
+
+if grep -i "Protocol 2,1" /etc/ssh/sshd_config then;
+sed -i 's@Protocol 2,1@Protocol 2@g' /etc/ssh/sshd_config
+fi

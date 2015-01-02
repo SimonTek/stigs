@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38571
+#Group Title: SRG-OS-000070
+#Version: RHEL-06-000059
+#Severity: low
+#Description: Requiring a minimum number of lowercase characters makes password guessing attacks more difficult by ensuring a larger search space.
+#Rule Title: The system must require passwords to contain at least one lowercase alphabetic character.
+#Version: RHEL-06-000059
+
+#Check Content: To check how many lowercase characters are required in a password, run the following command: 
+
+#$ grep pam_cracklib /etc/pam.d/system-auth
+
+#The "lcredit" parameter (as a negative number) will indicate how many special characters are required. The DoD requires at least one lowercase character in a password. This would appear as "lcredit=-1". 
+#If lcredit is not found or not set to the required value, this is a finding.
+
+
+#Fix Text: The pam_cracklib module's "lcredit=" parameter controls requirements for usage of lowercase letters in a password. When set to a negative number, any password will be required to contain that many lowercase characters. When set to a positive number, pam_cracklib will grant +1 additional length credit for each lowercase character. Add "lcredit=-1" after pam_cracklib.so to require use of a lowercase character in passwords.
+
+if grep pam_cracklib /etc/pam.d/system-auth|grep lcredit=-; then
+echo "This machine is RHEL-06-000059 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000059 Compliant"
+else
+echo "This machine isn't RHEL-06-000059 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000059 Compliant"
+sed -i '/^password    requisite/ s/$/ lcredit=-1/' /etc/pam.d/system-auth
+fi

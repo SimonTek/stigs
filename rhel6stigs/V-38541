@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38541
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000183
+#Severity: low
+#Description: The system's mandatory access policy (SELinux) should not be arbitrarily changed by anything other than administrator action. All changes to MAC policy should be audited.
+#Rule Title: The audit system must be configured to audit modifications to the systems Mandatory Access Control (MAC) configuration (SELinux).
+#Version: RHEL-06-000183
+
+#Check Content: To determine if the system is configured to audit changes to its SELinux configuration files, run the following command: 
+
+# auditctl -l | grep "dir=/etc/selinux"
+
+#If the system is configured to watch for changes to its SELinux configuration, a line should be returned (including "perm=wa" indicating permissions that are watched). 
+#If the system is not configured to audit attempts to change the MAC policy, this is a finding.
+
+
+#Fix Text: Add the following to "/etc/audit/audit.rules": 
+
+#-w /etc/selinux/ -p wa -k MAC-policy
+if auditctl -l | grep "watch=/etc/localtime"; then
+echo "This machine is RHEL-06-000183 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000183 Compliant"
+else
+echo "This machine isn't RHEL-06-000183 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000183 Compliant"
+echo "-w /etc/selinux/ -p wa -k MAC-policy" >> /etc/audit/audit.rules
+fi

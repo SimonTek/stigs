@@ -1,0 +1,8 @@
+#
+# Stig Scripts for RHEL 6
+#
+# by Matthew M. Conley aka SimonTek
+#
+#
+# Use scripts individually on a test system first, then figure out what you do and do not need, and then run an installer around that. I used generic info in some places due to security issues of release ip's or domains. so you will have to fill those in.
+#

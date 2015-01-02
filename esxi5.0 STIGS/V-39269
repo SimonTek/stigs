@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#Group ID: V-39269
+#Group Title: GEN005529
+#Version: GEN005529-ESXI5-708
+#Severity: medium
+#Description: Environment variables can be used to change the behavior of remote sessions and should be limited. Locale environment variables specify the language, character set, and other features modifying the operation of software to match the user's preferences.
+#Rule Title: The SSH client must not send environment variables to the server or must only send those pertaining to locale.
+#Version: GEN005529-ESXI5-708
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/ssh/ssh_config 
+#<required_keyword> = AcceptEnv 
+#<required_keyword_setpoint> = LOCALE
+#Execute the following command(s):
+# grep AcceptEnv /etc/ssh/ssh_config
+#If "AcceptEnv" is not set to "LOCALE" this is a finding.
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/ssh/ssh_config 
+#<required_keyword> = AcceptEnv 
+#<required_keyword_setpoint> = LOCALE
+#Add/modify the <required_keyword> and/or <required_keyword_setpoint> where/as required to "LOCALE".
+
+#Re-enable lock down mode.
+
+#Solved by #Group ID: V-39266

@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39295
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000136
+#Severity: medium
+#Description: The ESXi Shell is an interactive command line environment available locally from the DCUI or remotely via SSH. Activities performed from the ESXi Shell bypass vCenter RBAC and audit controls. The ESXi shell should only be turned on when needed to troubleshoot/resolve problems that cannot be fixed through the vSphere client.
+#Rule Title: The system must disable ESXi Shell unless needed for diagnostics or troubleshooting.
+#Version: SRG-OS-99999-ESXI5-000136
+#Check Content: From the vSphere Client, select the host then select "Configuration >> Security Profiles". In the Services section select "Properties". Select the "ESXi Shell" and click Options. Verify the ESXi Shell is set to "Start and stop manually".
+#If the ESXi Shell service startup policy is not set to "Start and stop manually", this is a finding.
+#Fix Text: From the vSphere Client, select the host then select "Configuration >>  Security Profiles". In the Services section select "Properties". Select the "ESXi Shell" and click Options. Stop the ESXi Shell and select the option to "Start and stop manually".
+
+if /etc/init.d/ESXShell status|grep "enabled"; then
+echo "ESXShell is enabled, We will disable it now"
+/sbin/chkconfig ESXShell off 
+/etc/init.d/ESXShell stop
+else
+echo "ESXShell is Disabled"
+fi

@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#Group ID: V-39352
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000160
+#Severity: medium
+#Description: ESXi hosts configured to join an Active Directory domain using host profiles do not protect the passwords used for host authentication. To avoid transmitting clear text passwords, the vSphere Authentication Proxy must be used to configure hosts in an Active Directory.
+
+#Rule Title: The system must use the vSphere Authentication Proxy to protect passwords when adding ESXi hosts to Active Directory.
+#Version: SRG-OS-99999-ESXI5-000160
+#Check Content: For systems that do not use Active Directory and have no local user accounts, other than root and/or vpxuser, this check is not applicable.
+#For systems that do not use Active Directory and do have local user accounts, other than root and/or vpxuser, this check is a finding.
+#From the vSphere client, select "Host Profiles". Right click the Host Profile and select Edit. Choose "Authentication configuration >> Active Directory Configuration >> Join Domain Method". Verify the Join Domain Method is set to "Use vSphere Authentication Proxy to add the host to domain".
+#If the Join Domain Method is not set to "Use vSphere Authentication Proxy to add the host to domain", this is a finding.
+#Fix Text: From the vSphere client, select "Host Profiles".  Right click the Host Profile and select Edit.  Choose "Authentication configuration >> Active Directory Configuration >> Join Domain Method".  Set the Join Domain Method to "Use vSphere Authentication Proxy to add the host to domain".
+
+echo "SRG-OS-99999-ESXI5-000160, We do not use AD servers" >> /tmp/sysadmintodo
+echo "SRG-OS-99999-ESXI5-000160, We do not use AD servers for this"

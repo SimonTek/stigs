@@ -1,0 +1,39 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38573
+#Group Title: SRG-OS-000021
+#Version: RHEL-06-000061
+#Severity: medium
+#Description: Locking out user accounts after a number of incorrect attempts prevents direct password guessing attacks.
+#Rule Title: The system must disable accounts after three consecutive unsuccessful login attempts.
+#Version: RHEL-06-000061
+
+#Check Content: To ensure the failed password attempt policy is configured correctly, run the following command: 
+
+# grep pam_faillock /etc/pam.d/system-auth-ac
+
+#The output should show "deny=3". 
+#If that is not the case, this is a finding.
+
+
+#Fix Text: To configure the system to lock out accounts after a number of incorrect login attempts using "pam_faillock.so": 
+
+#Add the following lines immediately below the "pam_unix.so" statement in the AUTH section of "/etc/pam.d/system-auth-ac": 
+
+#auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900
+
+
+
+#auth required pam_faillock.so authsucc deny=3 unlock_time=604800 fail_interval=900
+
+#Note that any updates made to "/etc/pam.d/system-auth-ac" will be overwritten by the "authconfig" program.  The "authconfig" program should not be used.
+
+if grep pam_faillock /etc/pam.d/system-auth-ac; then
+echo "This machine is RHEL-06-000061 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000061 Compliant"
+else
+echo "This machine isn't RHEL-06-000061 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000061 Compliant"
+sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth-ac
+fi

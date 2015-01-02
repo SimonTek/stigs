@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38584
+#Group Title: SRG-OS-000096
+#Version: RHEL-06-000204
+#Severity: low
+#Description: Removing the "xinetd" package decreases the risk of the xinetd service's accidental (or intentional) activation.
+#Rule Title: The xinetd service must be uninstalled if no network services utilizing it are enabled.
+#Version: RHEL-06-000204
+
+#Check Content: If network services are using the xinetd service, this is not applicable.
+
+#Run the following command to determine if the "xinetd" package is installed: 
+# rpm -q xinetd
+#If the package is installed, this is a finding.
+#Fix Text: The "xinetd" package can be uninstalled with the following command: 
+# yum erase xinetd
+
+if rpm -q xinetd|grep "not installed"; then 
+echo "This machine is RHEL-06-000204 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000204 Compliant"
+else
+echo "This machine isn't RHEL-06-000204 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000204 Compliant"
+yum erase xinetd -y
+fi

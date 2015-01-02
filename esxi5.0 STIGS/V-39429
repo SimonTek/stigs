@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#Group ID: V-39429
+#Group Title: GEN000100
+#Version: GEN000100-ESXI5-000062
+#Severity: high
+#Description: An operating system release is considered supported if the vendor continues to provide security patches for the product. With an unsupported release, it will not be possible to resolve security issues discovered in the system software.
+#Rule Title: The operating system must be a supported release.
+#Version: GEN000100-ESXI5-000062
+
+#Check Content: From the vSphere Client/vCenter and select the host: View the menu header above the "Configuration" tab.  If the version is not supported, this is a finding.
+
+#Fix Text: Upgrade to a supported version.
+# Not automated this
+echo "GEN000100-ESXI5-000062 has to be done manually" >> /tmp/sysadmintodo

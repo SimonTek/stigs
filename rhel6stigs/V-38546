@@ -1,0 +1,38 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38546
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000098
+#Severity: medium
+#Description: Any unnecessary network stacks - including IPv6 - should be disabled, to reduce the vulnerability to exploitation.
+#Rule Title: The IPv6 protocol handler must not be bound to the network stack unless needed.
+#Version: RHEL-06-000098
+
+#Check Content: If the system uses IPv6, this is not applicable.
+
+#If the system is configured to prevent the loading of the "ipv6" kernel module, it will contain a line of the form: 
+
+#options ipv6 disable=1
+
+#Such lines may be inside any file in "/etc/modprobe.d" or the deprecated "/etc/modprobe.conf". This permits insertion of the IPv6 kernel module (which other parts of the system expect to be present), but otherwise keeps it inactive. Run the following command to search for such lines in all files in "/etc/modprobe.d" and the deprecated "/etc/modprobe.conf": 
+
+#$ grep -r ipv6 /etc/modprobe.conf /etc/modprobe.d
+
+
+#If the IPv6 kernel module is loaded, this is a finding.
+
+
+#Fix Text: To prevent the IPv6 kernel module ("ipv6") from loading the IPv6 networking stack, add the following line to "/etc/modprobe.d/disabled.conf" (or another file in "/etc/modprobe.d"): 
+
+#options ipv6 disable=1
+
+#This permits the IPv6 module to be loaded (and thus satisfy other modules that depend on it), while disabling support for the IPv6 protocol.
+if grep -r ipv6 /etc/modprobe.d/; then
+echo "This machine is RHEL-06-000098 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000098 Compliant"
+else
+echo "This machine isn't RHEL-06-000098 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000098 Compliant"
+echo "options ipv6 disable=1" >> /etc/modprobe.d/disabled.conf
+fi

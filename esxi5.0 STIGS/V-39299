@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39299
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000143
+#Severity: low
+#Description: NFC (Network File Copy) is used to migrate or clone a VM between two ESXi hosts over the network. By default, SSL is used only for the authentication of the transfer, but SSL must also be enabled on the data transfer. Without this setting VM contents could potentially be sniffed if the management network is not adequately isolated and secured.
+#Rule Title: The system must enable SSL for NFC.
+#Version: SRG-OS-99999-ESXI5-000143
+
+#Check Content: From the vSphere client select "Administration >> vCenter Server Settings >> Advanced Settings". Verify "config.nfc.useSSL" is set to true.
+
+#If "config.nfc.useSSL" is set to false, this is a finding.
+
+
+#Fix Text: From the vSphere client select "Administration >> vCenter Server Settings >> Advanced Settings". Set "config.nfc.useSSL = true".
+#
+echo "Has to be checked via vSphere"
+echo "Fix Text: From the vSphere client select 'Administration - vCenter Server Settings - Advanced Settings'." >> /var/log/hardened.log
+echo "Set "config.nfc.useSSL = true"." >> /var/log/hardened.log
+echo "" >> /var/log/hardened.log
+
+
+

@@ -1,0 +1,31 @@
+#!/bin/sh
+
+#Group ID: V-39431
+#Group Title: GEN007700
+#Version: GEN007700-ESXI5-000116
+#Severity: medium
+#Description: IPv6 is the next version of the Internet protocol. Binding this protocol to the network stack increases the attack surface of the host.
+#Rule Title: The IPv6 protocol handler must not be bound to the network stack unless needed.
+#Version: GEN007700-ESXI5-000116
+#Check Content: If the system uses IPv6, this is not applicable.
+#To check IPv6 on VMware ESXi, from the vSphere Client/vCenter Server Home page, click Datacenter, Hosts and Clusters.
+#Select the host and click the Configuration tab.
+#Click the Networking link under Hardware.
+#In the vSphere Standard Switch view, click the Properties link.
+#Verify that IPv6 support on this host is disabled and click Cancel.
+#If IPv6 support is enabled and the system does not use IPv6, this is a finding.
+#Fix Text: By default, IPv6 is disabled for the management VMkernel port.
+#To disable IPv6 on VMware ESXi, from the vSphere Client/vCenter Server Home page, click Datacenter, Hosts and Clusters.
+#Select the host and click the Configuration tab.
+#Click the Networking link under Hardware.
+#In the vSphere Standard Switch view, click the Properties link.
+#Select Disable IPv6 support on this host and click OK.
+#Reboot the host.
+
+if grep 'options = "ipv6=1 "' /etc/vmware/esx.conf; then
+echo "IPv6 is on, needs to be turned off"
+sed -i 's@/vmkernel/module/tcpip3/options = "ipv6=1 "@/vmkernel/module/tcpip3/options = "ipv6=0 "@g' /etc/vmware/esx.conf
+echo "IPv6 has been turned off"
+else
+echo "IPv6 is off"
+fi

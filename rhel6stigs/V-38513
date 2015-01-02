@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38513
+#Group Title: SRG-OS-000231
+#Version: RHEL-06-000120
+#Severity: medium
+#Description: In "iptables" the default policy is applied only after all the applicable rules in the table are examined for a match. Setting the default policy to "DROP" implements proper design for a firewall, i.e., any packets which are not explicitly permitted should not be accepted.
+#Rule Title: The systems local IPv4 firewall must implement a deny-all, allow-by-exception policy for inbound packets.
+#Version: RHEL-06-000120
+
+#Check Content: Inspect the file "/etc/sysconfig/iptables" to determine the default policy for the INPUT chain. It should be set to DROP. 
+
+# grep ":INPUT" /etc/sysconfig/iptables
+
+#If the default policy for the INPUT chain is not set to DROP, this is a finding.
+
+
+#Fix Text: To set the default policy to DROP (instead of ACCEPT) for the built-in INPUT chain which processes incoming packets, add or correct the following line in "/etc/sysconfig/iptables": 
+
+#:INPUT DROP [0:0]
+if grep ":INPUT" /etc/sysconfig/iptables |grep "DROP"; then
+echo "This machine is RHEL-06-000120 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000120 Compliant"
+else
+echo "This machine isn't RHEL-06-000120 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000120 Compliant"
+sed -i 's@INPUT ACCEPT@INPUT DROP@g' /etc/sysconfig/iptables
+fi

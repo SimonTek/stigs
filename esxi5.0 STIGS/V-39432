@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39432
+#Group Title: GEN007740
+#Version: GEN007740-ESXI5-000118
+#Severity: medium
+#Description: IPv6 is the next generation of the Internet protocol. Binding this protocol to the network stack increases the attack surface of the host. Unprivileged local processes may be able to cause the kernel to dynamically load a protocol handler by opening a socket using the protocol.
+#Rule Title: The IPv6 protocol handler must not be installed unless needed.
+#Version: GEN007740-ESXI5-000118
+
+#Check Content: If the system uses IPv6, this is not applicable.
+
+#By default, IPv6 is disabled for the management VMkernel port used to manage ESXi. End users of the VMware ESXi infrastructure don't directly connect to the hosts. If vCenter Server is used for management tasks, configure IPv6 on vCenter instead of the ESXi hosts. The only time it is required to configure IPv6 on ESXi hosts is if the vSphere Client connects directly to manage hosts from an IPv6-only device. vSphere Client direct connections are not allowed per this STIG. All vSphere Client traffic must connect thru the vCenter Server. Ask the SA if IPv6 is enabled on the host.
+
+#If the IPv6 protocol handler is enabled and the system does not use IPv6, this is a finding.
+
+
+#Fix Text: To disable IPv6, click the arrow next to the Inventory button in the navigation bar and select Hosts and Clusters. Select the host and click the Configuration tab. Click the Networking link under Hardware. In the Virtual Switch view, click the Properties link. De-select "Enable IPv6 support on this host" and click OK. Reboot the host in order for the change(s) to take effect.
+#Fixed by #V-39431 aka GEN007700-ESXI5-000116

@@ -1,0 +1,40 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38464
+#Group Title: SRG-OS-005117
+#Version: RHEL-06-000511
+#Severity: medium
+#Description: Taking appropriate action in case of disk errors will minimize the possibility of losing audit records.
+#Rule Title: The audit system must take appropriate action when there are disk errors on the audit storage volume.
+#Version: RHEL-06-000511
+#Check Content: Inspect "/etc/audit/auditd.conf" and locate the following line to determine if the system is configured to take appropriate action when disk errors occur:
+# grep disk_error_action /etc/audit/auditd.conf
+#disk_error_action = [ACTION]
+#If the system is configured to "suspend" when disk errors occur or "ignore" them, this is a finding.
+
+
+#Fix Text: Edit the file "/etc/audit/auditd.conf". Modify the following line, substituting [ACTION] appropriately: 
+
+#disk_error_action = [ACTION]
+
+#Possible values for [ACTION] are described in the "auditd.conf" man page. These include: 
+
+#"ignore"
+#"syslog"
+#"exec"
+#"suspend"
+#"single"
+#"halt"
+
+
+#Set this to "syslog", "exec", "single", or "halt".
+
+if grep "disk_error" /etc/audit/auditd.conf |grep -v "SUSPEND"; then
+echo "This machine is RHEL-06-000511 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000511 Compliant"
+else
+echo "This machine isn't RHEL-06-000511 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000511 Compliant"
+sed -e 's@disk_error_action = SUSPEND@disk_error_action = SINGLE@g' /etc/audit/auditd.conf
+fi

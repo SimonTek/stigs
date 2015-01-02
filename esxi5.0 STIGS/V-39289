@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#Group ID: V-39289
+#Group Title: GEN008480
+#Version: GEN008480-ESXI5-000122
+#Severity: low
+#Description: USB is a common computer peripheral interface. USB devices may include storage devices that could be used to install malicious software on a system or exfiltrate data.
+#Rule Title: The system must have USB Mass Storage disabled unless needed.
+#Version: GEN008480-ESXI5-000122
+
+#Check Content: If the system uses USB mass storage, this is not applicable.
+
+#To verify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for USB mass storage connectivity.
+
+#If the system does not require USB mass storage and USB mass storage connectivity is enabled, this is a finding.
+
+
+#Fix Text: To modify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for USB mass storage connectivity.  Disable USB mass storage connectivity.
+
+## Needs to be done in BIOS
+
+echo "If USB is not needed, turn off in BIOS"
+echo "If USB is not needed, turn off in BIOS" >> /tmp/sysadmintodo

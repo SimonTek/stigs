@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38624
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000138
+#Severity: low
+#Description: Log files that are not properly rotated run the risk of growing so large that they fill up the /var/log partition. Valuable logging information could be lost if the /var/log partition becomes full.
+#Rule Title: System logs must be rotated daily.
+#Version: RHEL-06-000138
+
+#Check Content: Run the following commands to determine the current status of the "logrotate" service: 
+
+# grep logrotate /var/log/cron*
+
+#If the logrotate service is not run on a daily basis by cron, this is a finding.
+
+
+#Fix Text: The "logrotate" service should be installed or reinstalled if it is not installed and operating properly, by running the following command:
+
+# yum reinstall logrotate
+
+if grep logrotate /var/log/cron*; then
+echo "This machine is RHEL-06-000138 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000138 Compliant"
+else
+echo "This machine isn't RHEL-06-000138 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000138 Compliant"
+yum reinstall logrotate -y
+fi

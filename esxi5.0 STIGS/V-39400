@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#Group ID: V-39400
+#Group Title: ESXi5-322
+#Version: ESXI5-VMNET-000023
+#Severity: medium
+#Description: A controlled gateway or other controlled method must be configured to access the management network. The management network must be isolated in order to prevent access by internal and external, unauthorized personnel.
+#Rule Title: Access to the management network must be strictly controlled through a network gateway.
+#Version: ESXI5-VMNET-000023
+
+#Check Content: Ask the SA if a controlled gateway or other controlled access method to the management network has been implemented and documented. Ask to see the documentation. Note that this check refers to an entity outside the scope of the ESXi server system.
+#If a controlled gateway or other controlled access method has not been implemented or documented, this is a finding.
+#Fix Text: Implement and document a controlled gateway or other controlled access method to the management network. Note that this check refers to an entity outside the scope of the ESXi server system.
+
+echo "ESXI5-VMNET-000023 has to be done manually" >> /tmp/sysadmintodo

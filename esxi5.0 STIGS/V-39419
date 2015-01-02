@@ -1,0 +1,49 @@
+#!/bin/sh
+
+#Group ID: V-39419
+#Group Title: GEN005521
+#Version: GEN005521-ESXI5-000103
+#Severity: medium
+#Description: Restricting SSH logins to a limited group of users, such as system administrators, prevents password-guessing and other SSH attacks from reaching system accounts and other accounts not authorized for SSH access.
+#Rule Title: The SSH daemon must restrict login ability to specific users and/or groups.
+#Version: GEN005521-ESXI5-000103
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+
+#Check the SSH daemon configuration for the AllowGroups setting.
+# grep -i "^AllowGroups"  /etc/ssh/sshd_config
+
+#If "AllowGroups" is not present in the file, this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell. Edit the SSH daemon configuration and add/modify the "AllowGroups" keyword in the configuration. 
+# vi /etc/ssh/sshd_config
+
+#Re-enable lock down mode.
+
+
+if grep -i "^AllowGroups"  /etc/ssh/sshd_config; then
+echo "AllowGroups is Setup"
+else
+echo "AllowGroups is not setup in sshd_config"
+echo "AllowGroups sshusers" >> /etc/ssh/sshd_config
+fi
+
+if grep -i "^AllowGroups"  /etc/ssh/sshd_config|grep -i "sshusers"; then
+echo "AllowGroups is good"
+else
+echo "sshusers is not set to AllowGroups"
+sed -i 's@AllowGroups@AllowGroups sshusers@g' /etc/ssh/sshd_config
+fi
+
+if grep -i "sshusers" /etc/group |grep "1501"; then
+echo "sshusers is set in group"
+else
+groupadd -g 1501 sshusers
+fi
+
+

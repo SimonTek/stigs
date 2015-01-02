@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38457
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000041
+#Severity: medium
+#Description: If the "/etc/passwd" file is writable by a group-owner or the world the risk of its compromise is increased. The file contains the list of accounts on the system and associated information, and protection of this file is critical for system security.
+#Rule Title: The /etc/passwd file must have mode 0644 or less permissive.
+#Version: RHEL-06-000041
+
+#Check Content: To check the permissions of "/etc/passwd", run the command: 
+
+#$ ls -l /etc/passwd
+
+#If properly configured, the output should indicate the following permissions: "-rw-r--r--" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the permissions of "/etc/passwd", run the command: 
+
+# chmod 0644 /etc/passwd
+
+if ls -l /etc/passwd |grep "rw-r--r--"; then
+echo "This machine is RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000004 Compliant"
+else
+echo "This machine isn't RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000004 Compliant"
+chmod 0644 /etc/passwd
+fi

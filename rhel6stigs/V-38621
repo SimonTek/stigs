@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38621
+#Group Title: SRG-OS-000056
+#Version: RHEL-06-000248
+#Severity: medium
+#Description: Synchronizing with an NTP server makes it possible to collate system logs from multiple sources or correlate computer events with real time events. Using a trusted NTP server provided by your organization is recommended.
+#Rule Title: The system clock must be synchronized to an authoritative DoD time source.
+#Version: RHEL-06-000248
+#Check Content: A remote NTP server should be configured for time synchronization. To verify one is configured, open the following file. 
+#/etc/ntp.conf
+#In the file, there should be a section similar to the following: 
+# --- OUR TIMESERVERS -----
+#server [ntpserver]
+#If this is not the case, this is a finding.
+#Fix Text: To specify a remote NTP server for time synchronization, edit the file "/etc/ntp.conf". Add or correct the following lines, substituting the IP or hostname of a remote NTP server for ntpserver. 
+#server [ntpserver]
+#This instructs the NTP software to contact that remote server to obtain time data.
+#
+# Due to security issues, You will need to fill in your own ntp settings, but I left this as a template.
+#	Matthew M. Conley
+#
+
+if grep server /etc/ntp.conf |grep -v '^#'; then
+echo "This machine is RHEL-06-000248 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000248 Compliant"
+else
+echo "This machine isn't RHEL-06-000248 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000248 Compliant"
+echo "server 0.rhel.pool.ntp.org " >> /etc/ntp.conf
+#echo "restrict rhel.pool.ntp.org mask 255.255.255.255 nomodify notrap noquery" >> /etc/ntp.conf
+#echo "server 1.rhel.pool.ntp.org" >> /etc/ntp.conf
+fi

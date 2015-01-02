@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#Group ID: V-39292
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000131
+#Severity: medium
+#Description: By ensuring that all systems use the same relative time source (including the relevant localization offset), and that the relative time source can be correlated to an agreed-upon time standard (such as Coordinated Universal Time-UTC), it can make it simpler to track and correlate an intruder's actions when reviewing the relevant log files. Incorrect time settings can make it difficult to inspect and correlate log files to detect attacks, and can make auditing inaccurate.
+#Rule Title: NTP time synchronization must be configured.
+#Version: SRG-OS-99999-ESXI5-000131
+# Set NTP up
+
+/sbin/chkconfig ntpd on
+
+
+if grep -i "server /etc/ntp.conf; then
+	echo ntp is setup with servers configured
+else
+	echo "Configuring non-uEITC timeservers"	
+
+echo "Configuration used for non-uEITC timeservers" >> /etc/ntp.conf
+echo "keys /etc/ntp/keys" >> /etc/ntp.conf
+echo "server 205.110.86.2" >> /etc/ntp.conf
+echo "restrict 205.110.86.2 mask 255.255.255.255 notrap" >> /etc/ntp.conf
+echo "server 205.110.86.3" >> /etc/ntp.conf
+echo "restrict 205.110.86.3 mask 255.255.255.255 notrap " >> /etc/ntp.conf
+echo "done"
+/etc/init.d/ntpd restart
+fi

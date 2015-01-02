@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39293
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000132
+#Severity: medium
+#Description: ESXi can be configured to store log files on an in-memory file system. This occurs when the host's "/scratch" directory is linked to "/tmp/scratch". When this is done only a single day's worth of logs are stored at any time, in addition, log files will be reinitialized upon each reboot. This presents a security risk as user activity logged on the host is only stored temporarily and will not persistent across reboots. This can also complicate auditing and make it harder to monitor events and diagnose issues. ESXi host logging should always be configured to a persistent datastore.
+#Rule Title: Persistent logging for all ESXi hosts must be configured.
+#Check Content: Temporarily disable Lockdown Mode. As root, log in to the ESXi Shell and verify "/scratch" is not linked to "/tmp/scratch". 
+#  ls -al / 
+#If "/scratch" is linked to  "/tmp/scratch", this is a finding.
+#Re-enable Lockdown Mode on the host.
+#Fix Text: From the vSphere Client, select the ESXi hosts and click "Configuration >> Advanced Settings >> Syslog >> global" and specify a datastore and directory location, other than /tmp/scratch, for 'Syslog.global.logDir'. 
+
+if ls -al |grep /tmp/scratch;then
+echo "SRG-OS-99999-ESXI5-000132 Failed, From the vSphere Client, select the ESXi hosts and click 'Configuration >> Advanced Settings >> Syslog >> global' and specify a datastore and directory location, other than /tmp/scratch, for 'Syslog.global.logDir'." 
+else 
+echo "scratch is Not linked to /tmp, your set"
+fi

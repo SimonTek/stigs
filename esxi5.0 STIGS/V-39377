@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Group ID: V-39377
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000020
+#Severity: low
+#Description: The number of ports available on a dvSwitch distributed port group must be adjusted to exactly match the number of virtual machine vNICs that need to be assigned to that dvPortgroup. Limiting the number of ports to just what is needed also limits the accidental or malicious potential to move a virtual machine to an unauthorized network.  This is especially relevant if the management network is on a dvPortgroup, because it could help prevent putting a rogue virtual machine on this network. 
+
+#Rule Title: The system must ensure there are no unused ports on a distributed virtual port group.
+#Version: ESXI5-VMNET-000020
+
+#Check Content: As administrator, find all dvSwitches from the vSphere Client/vCenter, Home>> Inventory>> Networking view. For any dvSwitches with dvPortgroups, verify the settings for that dvPortgroup. Compare the number of ports in that port group to the number of allowed VM NICs connecting to that port group. The number of vNICs must match the number of ports in that port group.
+
+#If the number of ports in the port group exceed the number of VM NICs connecting to that port group, this is a finding.
+
+
+#Fix Text: As administrator, find all dvSwitches from the vSphere Client/vCenter:
+#Home>> Inventory>> Networking view.
+
+#For any dvSwitches with dvPortgroups, edit the settings for that dvPortgroup. Limit the number of ports in that port group to the number of allowed VM NICs connecting to that port group.
+echo "ESXI5-VMNET-000020 has to be done manually" >> /tmp/sysadmintodo

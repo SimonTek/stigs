@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38443
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000036
+#Severity: medium
+#Description: The "/etc/gshadow" file contains group password hashes. Protection of this file is critical for system security.
+#Rule Title: The /etc/gshadow file must be owned by root.
+#Version: RHEL-06-000036
+
+#Check Content: To check the ownership of "/etc/gshadow", run the command: 
+
+#$ ls -l /etc/gshadow
+
+#If properly configured, the output should indicate the following owner: "root" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the owner of "/etc/gshadow", run the command: 
+
+# chown root /etc/gshadow
+
+if ls -l /etc/gshadow|grep "root"; then
+echo "This machine is RHEL-06-000036 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000036 Compliant"
+else
+echo "This machine isn't RHEL-06-000036 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000036 Compliant"
+chown root /etc/gshadow
+fi
+
+

@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38578
+#Group Title: SRG-OS-000064
+#Version: RHEL-06-000201
+#Severity: low
+#Description: The actions taken by system administrators should be audited to keep a record of what was executed on the system, as well as, for accountability purposes.
+#Rule Title: The audit system must be configured to audit changes to the /etc/sudoers file.
+#Version: RHEL-06-000201
+
+#Check Content: To verify that auditing is configured for system administrator actions, run the following command: 
+
+# auditctl -l | grep "watch=/etc/sudoers"
+
+
+#If there is no output, this is a finding.
+
+
+#Fix Text: At a minimum, the audit system should collect administrator actions for all users and root. Add the following to "/etc/audit/audit.rules": 
+
+#-w /etc/sudoers -p wa -k actions
+
+if auditctl -l | grep "watch=/etc/sudoers"; then
+echo "This machine is RHEL-06-000201 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000201 Compliant"
+else
+echo "This machine isn't RHEL-06-000201 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000201 Compliant"
+echo "-w /etc/sudoers -p wa -k actions" >> /etc/audit/audit.rules
+fi

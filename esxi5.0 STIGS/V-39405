@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#Group ID: V-39405
+#Group Title: SRG-OS-000163
+#Version: SRG-OS-000163-ESXI5
+#Severity: medium
+#Description: If ESXi Shell is enabled on the host and a user forgets to logout of their SSH session the idle connection will remain indefinitely increasing the potential for someone to gain privileged access to the host
+#Rule Title: The operating system must terminate the network connection associated with a communications session at the end of the session or after an organization-defined time period of inactivity.
+#Version: SRG-OS-000163-ESXI5
+#Check Content: From the vSphere client select the host and click "Configuration >> Advanced Settings". Select "UserVars.ESXiShellTimeOut" parameter and verify it is set to a value not to exceed 15 minutes. A value of 0 disables the ESXi Shell timeout. 
+#If the "UserVars.ESXiShellTimeOut" parameter is set to a value less than 1 or greater than 15, this is a finding.
+
+if esxcfg-advcfg -q -g /UserVars/ESXiShellTimeOut|grep 0; then
+echo "No ESXiShellTime out is set"
+sed -i 's@/adv/UserVars/ESXiShellTimeOut = "0"@/adv/UserVars/ESXiShellTimeOut = "900"@g' /etc/vmware/esx.conf
+else
+echo "Your good"
+fi

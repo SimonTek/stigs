@@ -1,0 +1,50 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38667
+#Group Title: SRG-OS-000196
+#Version: RHEL-06-000285
+#Severity: medium
+#Description: Adding host-based intrusion detection tools can provide the capability to automatically take actions in response to malicious behavior, which can provide additional agility in reacting to network threats. These tools also often include a reporting capability to provide network awareness of system, which may not otherwise exist in an organization's systems management regime.
+#Rule Title: The system must have a host-based intrusion detection tool installed.
+#Version: RHEL-06-000285
+
+#Check Content: Inspect the system to determine if intrusion detection software has been installed. Verify the intrusion detection software is active. 
+#If no host-based intrusion detection tools are installed, this is a finding.
+
+
+#Fix Text: The base Red Hat platform already includes a sophisticated auditing system that can detect intruder activity, as well as SELinux, which provides host-based intrusion prevention capabilities by confining privileged programs and user sessions which may become compromised. 
+
+#Install an additional intrusion detection tool to provide complementary or duplicative monitoring, reporting, and reaction capabilities to those of the base platform. For DoD systems, the McAfee Host-based Security System is provided to fulfill this role.
+# Need to redo this using case/esac at one point, but it gets the job done.
+
+if rpm -qa|grep "MFEhiplsm"; then
+echo "This machine is RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000285 Compliant"
+else
+echo "This machine isn't RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000285 Compliant"
+echo "This machine Does not have McAfee HIPS installed" >> /var/log/Stig
+echo "This machine Does not have McAfee HIPS installed"
+fi
+
+if rpm -qa|grep "aide"; then
+echo "This machine is RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000285 Compliant"
+else
+echo "This machine isn't RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000285 Compliant"
+echo "This machine Does not have AIDE" >> /var/log/Stig
+echo "This machine Does not have AIDE"
+fi
+
+if [ -f /etc/samhainrc ]; then
+echo "This machine isn't RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000285 Compliant"
+echo "This machine is running Samhain, you must replace it with McAfee and AIDE" >> /var/log/Stig
+echo "This machine is running Samhain, you must replace it with McAfee and AIDE"
+else
+echo "This machine is RHEL-06-000285 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000285 Compliant"
+fi
+

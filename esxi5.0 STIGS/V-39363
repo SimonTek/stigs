@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39363
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000046
+#Severity: low
+#Description: Virtual machines might share virtual switches and VLANs with the IP-based storage configurations. IP-based storage includes iSCSI and NFS. This configuration might expose IP-based storage traffic to unauthorized virtual machine users. IP-based storage frequently is not encrypted. It can be viewed by anyone with access to this network. To restrict unauthorized users from viewing the IP-based storage traffic, the IP-based storage network must be logically separated from the production traffic. Configuring the IP-based storage adaptors on separate VLANs or network segments from the VMkernel management and service console network will limit unauthorized users from viewing the traffic.
+#Rule Title: All IP-based storage traffic must be isolated using a vSwitch containing management-only port groups.
+#Version: ESXI5-VMNET-000046
+
+#Check Content: If IP-based storage is not used, this check is not applicable.
+
+#To view the VMkernel Networking configuration, from the vSphere Client/vCenter as administrator: Select the host in the inventory pane.  On the host Configuration tab, click Networking. In the vSphere Standard Switch view, select Properties and ensure the storage port group vSwitch exclusively contains non-management port groups.
+
+#If the storage port group vSwitch does not exclusively contain management-only port groups, this is a finding.
+
+
+#Fix Text: To restrict physical network access to management-only entities, modify the VMkernel Networking configuration. From the vSphere Client/vCenter as administrator: Select the host in the inventory pane. On the host Configuration tab, click Networking. In the vSphere Standard Switch view, and select Properties. Modify the storage port group vSwitch property to ensure the storage port group  vSwitch exclusively contains management-only port groups.
+echo "ESXI5-VMNET-000046 has to be done manually" >> /tmp/sysadmintodo

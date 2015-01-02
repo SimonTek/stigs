@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#Group ID: V-39360
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000005
+#Severity: low
+#Description: VLAN tagging used on a vSwitch must correspond to the IDs on external VLAN-aware upstream switches, if any. If VLAN IDs are not tracked completely, mistaken re-use of IDs could allow for traffic to be allowed between inappropriate physical and virtual machines. Similarly, wrong or missing VLAN IDs may lead to traffic not passing between appropriate physical and virtual machines.
+#Rule Title: All vSwitch and VLAN IDs must be fully documented.
+#Version: ESXI5-VMNET-000005
+#Check Content: From the vSphere Client/vCenter: Go to "Home>> Inventory>> Hosts and Clusters". Select each ESXi host with virtual switches connected to active VMs. Go to "Configuration>> Network>> vSwitch(?)>> Properties>> Ports>> [Portgroup Name]>> VLAN ID". Verify the recorded VLAN IDs in the (site-specific) tracking system. If the system VLAN IDs do not match the external VLAN IDs on record, this is a finding.
+#Fix Text: From the vSphere Client/vCenter: Go to "Home>> Inventory>> Hosts and Clusters". Select each ESXi host with virtual switches connected to active VMs. Go to "Configuration>> Network>> vSwitch(?)>> Properties>> Ports>> [Portgroup Name]>> VLAN ID". Record all VLAN IDs in a (site-specific) tracking system.
+
+echo "ESXI5-VMNET-000005 has to be done manually" >> /tmp/sysadmintodo

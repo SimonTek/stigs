@@ -1,0 +1,41 @@
+#!/bin/sh
+
+#Group ID: V-39273
+#Group Title: GEN000940
+#Version: GEN000940-ESXI5-000042
+#Severity: medium
+#Description: The executable search path (typically the PATH environment variable) contains a list of directories for the shell to search to find executables. If this path includes the current working directory or other relative paths, executables in these directories may be executed instead of system commands. This variable is formatted as a colon-separated list of directories. If there is an empty entry, such as a leading or trailing colon or two consecutive colons, this is interpreted as the current working directory. Entries starting with a slash (/) are absolute paths.
+#Rule Title: The root accounts executable search path must be the vendor default and must contain only absolute paths.
+#Version: GEN000940-ESXI5-000042
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/profile
+#<required_keyword> = PATH
+#<required_keyword_setpoint> = /bin:/sbin
+#Execute the following command(s):
+# grep PATH /etc/profile
+
+#If the "PATH" is not set to "/bin:/sbin", this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/profile
+#<required_keyword> = PATH
+#<required_keyword_setpoint> = /bin:/sbin
+#Execute the following command(s):
+# vi /etc/profile
+
+#Set the "PATH" to "/bin:/sbin".
+
+if echo $PATH |grep "/bin"|grep ":/sbin"; then
+echo "PATH is set"
+else
+echo "PATH is invalid"
+export PATH=$PATH:/bin:/sbin
+export      
+echo "fixed"
+fi

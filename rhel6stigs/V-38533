@@ -1,0 +1,41 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38533
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000091
+#Severity: low
+#Description: This feature of the IPv4 protocol has few legitimate uses. It should be disabled unless it is absolutely required.
+#Rule Title: The system must ignore IPv4 ICMP redirect messages.
+#Version: RHEL-06-000091
+
+#Check Content: The status of the "net.ipv4.conf.default.accept_redirects" kernel parameter can be queried by running the following command: 
+
+#$ sysctl net.ipv4.conf.default.accept_redirects
+
+#The output of the command should indicate a value of "0". If this value is not the default value, investigate how it could have been adjusted at runtime, and verify it is not set improperly in "/etc/sysctl.conf". 
+#If the correct value is not returned, this is a finding.
+
+
+#Fix Text: To set the runtime status of the "net.ipv4.conf.default.accept_redirects" kernel parameter, run the following command: 
+
+# sysctl -w net.ipv4.conf.default.accept_redirects=0
+
+#If this is not the system's default value, add the following line to "/etc/sysctl.conf": 
+
+#net.ipv4.conf.default.accept_redirects = 0
+if grep --silent ^net.ipv4.conf.default.accept_redirects /etc/sysctl.conf ; then
+echo "This machine is RHEL-06-000091 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000091 Compliant"
+else
+echo "This machine isn't RHEL-06-000091 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000091 Compliant"
+sysctl -w net.ipv4.conf.default.accept_redirects=0
+if grep --silent ^net.ipv4.conf.default.accept_redirects /etc/sysctl.conf ; then
+	sed -i 's/^net.ipv4.conf.default.accept_redirects.*/net.ipv4.conf.default.accept_redirects = 0/g' /etc/sysctl.conf
+else
+	echo "" >> /etc/sysctl.conf
+	echo "# Set net.ipv4.conf.default.accept_redirects to 0 per security requirements" >> /etc/sysctl.conf
+	echo "net.ipv4.conf.default.accept_redirects = 0" >> /etc/sysctl.conf
+fi
+fi

@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38660
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000340
+#Severity: medium
+#Description: Earlier versions of SNMP are considered insecure, as they potentially allow unauthorized access to detailed system management information.
+
+#Rule Title: The snmpd service must use only SNMP protocol version 3 or newer.
+#Version: RHEL-06-000340
+#Check Content: To ensure only SNMPv3 or newer is used, run the following command: 
+# grep 'v1\|v2c\|com2sec' /etc/snmp/snmpd.conf | grep -v '^#'
+#There should be no output. 
+#If there is output, this is a finding.
+#Fix Text: Edit "/etc/snmp/snmpd.conf", removing any references to "v1", "v2c", or "com2sec". Upon doing that, restart the SNMP service: 
+# service snmpd restart
+
+
+if grep 'v1\|v2c\|com2sec' /etc/snmp/snmpd.conf | grep -v '^#'; then
+echo "This machine isn't RHEL-06-000340 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000340 Compliant"
+sed -i 's/\(^.*v2c.*$\)/#\1/' /etc/snmp/snmpd.conf
+sed -i 's/\(^.*v1 .*$\)/#\1/' /etc/snmp/snmpd.conf
+sed -i 's/\(^.*com2sec.*$\)/#\1/' /etc/snmp/snmpd.conf
+else
+echo "This machine is RHEL-06-000340 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000340 Compliant"
+fi

@@ -1,0 +1,6 @@
+# ESXI 5.0 STIG scripts created by Matthew M. Conley aka SimonTek 
+#  Last updated 05/06/2014
+#
+# This scripts should be run one at a time, until you know how it will affect your environment on a test system.
+# If all scripts are run, you will lose console login, and ssh login if you did NOT create a ssh key first. 
+#

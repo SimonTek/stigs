@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#Group ID: V-39287
+#Group Title: GEN007840
+#Version: GEN007840-ESXI5-000119
+#Severity: medium
+#Description: DHCP allows for the unauthenticated configuration of network parameters on the system by exchanging information with a DHCP server.
+#Rule Title: The DHCP client must be disabled if not used.
+#Version: GEN007840-ESXI5-000119
+
+#Fix Text: From the vSphere Client/vCenter, click on the "Configuration" tab; click on "Networking"; click on "Standard Switch/Properties";  click on "Management NetworkProperties/Edit/IP Settings"; select "Use the following IP settings"; fill in the IPAddress fields per local site requirements and click "OK".
+#!/bin/sh
+if grep '/net/vmkernelnic/child[0000]/dhcp = "false' /etc/vmware/esx.conf; then
+echo "DHCP is turned off, nothing else"
+else
+echo "DHCP is turn on, need to alert SysAdmin"
+sed -i 's@/net/vmkernelnic/child[0000]/dhcp = "true"@/net/vmkernelnic/child[0000]/dhcp = "false"@g' /etc/vmware.esx.conf
+fi

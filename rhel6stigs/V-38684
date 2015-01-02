@@ -1,0 +1,28 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38684
+#Group Title: SRG-OS-000027
+#Version: RHEL-06-000319
+#Severity: low
+#Description: Limiting simultaneous user logins can insulate the system from denial of service problems caused by excessive logins. Automated login processes operating improperly or maliciously may result in an exceptional number of simultaneous login sessions.
+#Rule Title: The system must limit users to 10 simultaneous system logins, or a site-defined number, in accordance with operational requirements.
+#Version: RHEL-06-000319
+
+#Check Content: Run the following command to ensure the "maxlogins" value is configured for all users on the system: 
+# grep "maxlogins" /etc/security/limits.conf
+#You should receive output similar to the following: 
+#* hard maxlogins 10
+#If it is not set to 10 or a documented site-defined number, this is a finding.
+#Fix Text: Limiting the number of allowed users and sessions per user can limit risks related to denial of service attacks. This addresses concurrent sessions for a single account and does not address concurrent sessions by a single user via multiple accounts. To set the number of concurrent sessions per user add the following line in "/etc/security/limits.conf": 
+#* hard maxlogins 10
+#A documented site-defined number may be substituted for 10 in the above.
+
+if grep "maxlogins" /etc/security/limits.conf|grep -v '^#' ; then
+echo "This machine is RHEL-06-000319 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000319 Compliant"
+else
+echo "This machine isn't RHEL-06-000319 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000319 Compliant"
+echo "* hard maxlogins 10" >> /etc/security/limits.conf
+fi

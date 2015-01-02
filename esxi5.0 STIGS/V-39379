@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39379
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000025
+#Severity: low
+#Description: If an ESXi host guest VM is configured to perform a bridging function, the VM will generate BPDU frames to send out to the VDS. The VDS forwards the BPDU frames through the network adapter to the physical switch port. When the switch port configured with "BPDU guard" receives the BPDU frame, the switch will disable the port and the VM will lose connectivity. To avoid this network failure scenario while running a software-bridging function on an ESXi host, the "portfast" and "BPDU guard" configuration must be disabled on the port and spanning tree protocol must be enabled.
+#Rule Title: Spanning tree protocol must be enabled and BPDU guard and Portfast must be disabled on the upstream physical switch port for virtual machines that route or bridge traffic.
+#Version: ESXI5-VMNET-000025
+
+#Check Content: Organization and vendor specific check. Ask the SA if any ESXi host guest VM is configured to perform a bridging function. If any host VM is configured to perform a bridging function, ask the SA to confirm that port spanning tree protocol is enabled. Note that this check refers to an entity outside the scope of the ESXi server system.
+
+#If a guest VM is configured to perform a bridging function and spanning tree protocol is not enabled, this is a finding.
+
+
+#Fix Text: Organization and vendor specific fix. If a guest VM is configured to perform a bridging function, enable spanning tree protocol for the VMs switch port. Note that this check refers to an entity outside the scope of the ESXi server system.
+
+#
+echo "ESXI5-VMNET-000025 has to be done manually" >> /tmp/sysadmintodo
+echo "ESXI5-VMNET-000025 has to be done manually"

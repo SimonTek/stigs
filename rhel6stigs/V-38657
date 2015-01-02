@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38657
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000273
+#Severity: low
+#Description: Packet signing can prevent man-in-the-middle attacks which modify SMB packets in transit.
+#Rule Title: The system must use SMB client signing for connecting to samba servers using mount.cifs.
+#Version: RHEL-06-000273
+
+#Check Content: To verify that Samba clients using mount.cifs must use packet signing, run the following command: 
+# grep sec /etc/fstab
+#The output should show either "krb5i" or "ntlmv2i" in use. 
+#If it does not, this is a finding.
+#Fix Text: Require packet signing of clients who mount Samba shares using the "mount.cifs" program (e.g., those who specify shares in "/etc/fstab"). To do so, ensure signing options (either "sec=krb5i" or "sec=ntlmv2i") are used. 
+#See the "mount.cifs(8)" man page for more information. A Samba client should only communicate with servers who can support SMB packet signing.
+
+if grep "cifs" /etc/fstab|grep sec=; then
+echo "This machine isn't RHEL-06-000273 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000273 Compliant"
+sed -i 's/rw/rw,sec=krb5i/' /etc/fstab
+else
+echo "This machine is RHEL-06-000273 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000273 Compliant"
+fi
+

@@ -1,0 +1,35 @@
+#!/bin/sh
+
+#Group ID: V-39407
+#Group Title: SRG-OS-000193
+#Version: SRG-OS-000193-ESXI5
+#Severity: high
+#Description: The ESXi Image profile supports four acceptance levels: 
+#(1) VMwareCertified - VIBs created, tested and signed by VMware 
+#(2) VMwareAccepted - VIBs created by a VMware partner but tested and signed by VMware
+#(3) PartnerSupported - VIBs created, tested and signed by a certified VMware partner
+#(4) CommunitySupported - VIBs that have not been tested by VMware or a VMware partner
+Community Supported VIBs are not supported and do not have a digital signature. An unsigned VIB represents untested code installed on an ESXi host. To protect the security and integrity of an ESXi host, unsigned (CommunitySupported) VIBs must not be installed.
+#Rule Title: The Image Profile and VIB Acceptance Levels must be verified.
+#Version: SRG-OS-000193-ESXI5
+#As root, log in to the host and verify the host and VIB acceptance level(s) are not set to "CommunitySupported" by running the command(s): 
+# esxcli software acceptance get
+# esxcli software vib list.
+#If the host or listed VIB acceptance levels allow "CommunitySupported", this is a finding.
+#As root, log in to the host and set the host acceptance level to at least "PartnerSupported" by running the command: 
+# esxcli software acceptance set --<level>
+if esxcli software vib list|grep community; then
+echo "Community is set, need to change to Certified"
+echo "Community is set, need to change to Certified for vib >> /tmp/sysadmintodo
+else
+echo "Your good"
+fi
+
+if esxcli software acceptance get |grep community; then
+echo "Community is set, need to change to Certified"
+esxcli software acceptance set VMwareCertified
+else
+echo "Your good"
+fi
+
+

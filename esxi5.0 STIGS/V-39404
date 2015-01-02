@@ -1,0 +1,42 @@
+#!/bin/sh
+
+#Group ID: V-39404
+#Group Title: SRG-OS-000159
+#Version: SRG-OS-000159-ESXI5
+#Severity: medium
+#Description: DoD information systems are required to use FIPS 140-2 approved ciphers. SSHv2 ciphers meeting this requirement are 3DES and AES.
+#Rule Title: The SSH client must be configured to only use FIPS 140-2 approved ciphers.
+#Version: SRG-OS-000159-ESXI5
+#Check the SSH client configuration for allowed ciphers. # grep -i ciphers /etc/ssh/ssh_config | grep -v '^#' 
+#If no lines are returned, or the returned ciphers list contains any cipher not starting with 3des or aes, this is a finding.
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell.
+#Edit the SSH client configuration and add/modify the "Ciphers" configuration (example: 3des-ctr, aes128-ctr, aes192-ctr, aes256-ctr). # vi /etc/ssh/ssh_config
+touch /etc/ssh/ssh_config
+if grep -i ciphers /etc/ssh/ssh_config ;then
+echo "Ciphers isn't installed"
+echo "Ciphers 3des-ctr, aes128-ctr, aes192-ctr, aes256-ctr" >> /etc/ssh/ssh_config
+echo "Ciphers fixed"
+else
+
+if grep -i ciphers /etc/ssh/ssh_config | grep -v '^#' | grep -i cbc;then
+sed -i 's/,aes128-cbc//g' /etc/ssh/ssh_config
+sed -i 's/aes128-cbc//g' /etc/ssh/ssh_config
+        echo "aes128-cbc has been removed in ssh_config"
+sed -i 's/,aes192-cbc//g' /etc/ssh/ssh_config
+        echo "aes192-cbc has been removed in ssh_config"
+
+sed -i 's/,aaes256-cbc//g' /etc/ssh/ssh_config
+        echo "aes256-cbc has been removed in ssh_config"
+
+sed -i 's/,arcfour256blowfish-cbc//g' /etc/ssh/ssh_config
+        echo "arcfour256blowfish-cbc has been removed in ssh_config"
+
+sed -i 's/,cast128-cbc//g' /etc/ssh/ssh_config
+        echo "cast128-cbc has been removed in ssh_config"
+
+sed -i 's/,3des-cbc//g' /etc/ssh/ssh_config
+        echo "3des-cbc has been removed in ssh_config"
+echo "Ciphers have been fixed"
+fi
+fi

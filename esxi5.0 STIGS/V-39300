@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39300
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000145
+#Severity: medium
+#Description: By default, the vpxuser password will be automatically changed by vCenter every 30 days. Ensure this setting meets your policies; if not, configure to meet password aging policies. 
+
+NOTE: It is very important the password aging policy not be shorter than the default interval that is set to automatically change the vpxuser password, to preclude the possibility that vCenter might get locked out of an ESXi host.
+#Rule Title: The system must ensure the vpxuser auto-password change meets policy. 
+#Version: SRG-OS-99999-ESXI5-000145
+
+#Check Content: From the vSphere client select "Administration >> vCenter Server Settings >> Advanced Settings". Verify that the "VirtualCenter.VimPasswordExpirationInDays" keyword is set to 60 or less. The default keyword value is 30 days and it is strongly recommended that this value not be changed from "30".
+
+#If the "VirtualCenter.VimPasswordExpirationInDays" keyword setting is greater than 60, this is a finding.
+#Fix Text: From the vSphere client select "Administration >> vCenter Server Settings >> Advanced Settings". Set the "VirtualCenter.VimPasswordExpirationInDays" to 60 or less. Note that it is strongly recommended that this value not be changed from "30".
+echo "Has to be checked via vSphere"
+echo "From the vSphere client select 'Administration - vCenter Server Settings - Advanced Settings'." >> /var/log/hardened.log
+echo "Verify that the 'VirtualCenter.VimPasswordExpirationInDays' keyword is set to 60 or less.">> /var/log/hardened.log
+echo "The default keyword value is 30 days and it is strongly recommended that this value not be changed from '30'.">> /var/log/hardened.log

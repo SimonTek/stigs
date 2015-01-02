@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39281
+#Group Title: GEN005526
+#Version: GEN005526-ESXI5-000105
+#Severity: low
+#Description: Kerberos authentication for SSH is often implemented using GSSAPI. If Kerberos is enabled through SSH, the SSH daemon provides a means of access to the system's Kerberos implementation. Vulnerabilities in the system's Kerberos implementation may then be subject to exploitation. To reduce the attack surface of the system, the Kerberos authentication mechanism within SSH must be disabled for systems not using this capability.
+#Rule Title: The SSH daemon must not permit Kerberos authentication unless needed.
+#Version: GEN005526-ESXI5-000105
+#If "KerberosAuthentication"  is set to "yes" or the keyword/line is missing, this is a finding.
+
+if grep -i KerberosAuthentication /etc/ssh/sshd_config | grep no; then
+echo "Kerberos is turned off"
+elif grep -i KerberosAuthentication /etc/ssh/sshd_config | grep yes;then
+sed -i 's/KerberosAuthentication yes/KerberosAuthentication no/g' /etc/ssh/sshd_config
+echo "KerberosAuthentication has been turned off"
+else
+echo "KerberosAuthentication no" >> /etc/ssh/sshd_config
+echo "Added 'KerberosAuthentication no' to sshd_config"
+fi

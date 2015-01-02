@@ -1,0 +1,33 @@
+#!/bin/sh
+
+#Group ID: V-39351
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000158
+#Severity: medium
+#Description: VMware provides digital signatures for kernel modules.  By default the ESXi host does not permit loading of kernel modules that lack a valid digital signature.  However, this behavior can be overridden allowing unauthorized kernel modules to be loaded.  Untested or  malicious kernel modules loaded onto an ESXi host can put the host at risk for instability and/or exploitation. The ESXi host must be monitored for unsigned kernel modules.
+#Rule Title: Unauthorized kernel modules must not be loaded on the host.
+#Version: SRG-OS-99999-ESXI5-000158
+
+#As root, log in to the host and perform the following: 
+#Inspect the host for unsigned kernel modules. To list all the loaded kernel modules run: 
+# esxcli system module list
+
+#For each host module verify the signature by running:
+# esxcli system module get -m <module>"
+#If the host's module list contains any unsigned modules, this is a finding.
+#Re-enable Lockdown Mode on the host.
+#Fix Text: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. 
+#Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. 
+#If connecting to vCenter Server, click on the desired host. 
+#Click the Configuration tab. 
+#Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively.
+#Start the ESXi Shell service, where/as required.
+#As root, log in to the host and perform the following: 
+#Secure the host by individually disabling unsigned modules and removing the offending VIBs from the host. 
+#Note that in order to disable kernel modules, from the vSphere Client, VMs must first be evacuated and the host must then be placed into maintenance mode.
+# esxcli system modules set -e false -m <module>
+
+echo "RG-OS-99999-ESXI5-000158 has to be done manually" >> /tmp/sysadmintodo
+echo "To get a list of modules installed, run: esxcli system module list" >> /tmp/sysadmintodo
+echo "For each module, run this command: esxcli system module get -m <module>" >> /tmp/sysadmintodo
+echo "For each module that is unsigned run: esxcli system modules set -e false -m <module>" >> /tmp/sysadmintodo

@@ -1,0 +1,38 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38549
+#Group Title: SRG-OS-000152
+#Version: RHEL-06-000103
+#Severity: medium
+#Description: The "ip6tables" service provides the system's host-based firewalling capability for IPv6 and ICMPv6.
+#Rule Title: The system must employ a local IPv6 firewall.
+#Version: RHEL-06-000103
+
+#Check Content: If IPv6 is disabled, this is not applicable.
+
+#Run the following command to determine the current status of the "ip6tables" service: 
+
+# service ip6tables status
+
+#If the service is enabled, it should return the following: 
+
+#ip6tables is running...
+
+
+#If the service is not running, this is a finding.
+
+
+#Fix Text: The "ip6tables" service can be enabled with the following command: 
+
+# chkconfig ip6tables on
+
+if service ip6tables status| grep "filter"; then 
+echo "This machine is RHEL-06-000103 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000103 Compliant"
+else
+echo "This machine isn't RHEL-06-000103 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000103 Compliant"
+chkconfig ip6tables on
+/etc/init.d/ip6tables restart
+fi

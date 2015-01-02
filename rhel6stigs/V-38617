@@ -1,0 +1,36 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38617
+#Group Title: SRG-OS-000169
+#Version: RHEL-06-000243
+#Severity: medium
+#Description: Approved algorithms should impart some level of confidence in their implementation. These are also required for compliance.
+#Rule Title: The SSH daemon must be configured to use only FIPS 140-2 approved ciphers.
+#Version: RHEL-06-000243
+
+#Check Content: Only FIPS-approved ciphers should be used. To verify that only FIPS-approved ciphers are in use, run the following command: 
+
+# grep Ciphers /etc/ssh/sshd_config
+
+#The output should contain only those ciphers which are FIPS-approved, namely, the AES and 3DES ciphers. 
+#If that is not the case, this is a finding.
+#Fix Text: Limit the ciphers to those algorithms which are FIPS-approved. Counter (CTR) mode is also preferred over cipher-block chaining (CBC) mode. The following line in "/etc/ssh/sshd_config" demonstrates use of FIPS-approved ciphers: 
+#Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc
+#
+# Doesn't mention it here, BUT cbc based are a stig violations
+#
+#The man page "sshd_config(5)" contains a list of supported ciphers.
+if grep Ciphers /etc/ssh/sshd_config|grep -v '^#'; then
+echo "This machine is RHEL-06-000243 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000243 Compliant"
+else
+echo "This machine isn't RHEL-06-000243 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000243 Compliant"
+grep -q ^Ciphers /etc/ssh/sshd_config && \
+  sed -i "s/Ciphers.*/Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc/g" /etc/ssh/sshd_config
+if ! [ $? -eq 0 ]; then
+    echo "Ciphers aes128-ctr,aes192-ctr,aes256-ctr,aes128-cbc,3des-cbc,aes192-cbc,aes256-cbc" >> /etc/ssh/sshd_config
+fi
+/etc/init.d/sshd restart
+fi

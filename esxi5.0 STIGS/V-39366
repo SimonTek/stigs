@@ -1,0 +1,17 @@
+#!/bin/sh
+
+#Group ID: V-39366
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000009
+#Severity: low
+#Description: Each port group must be identified with a network label/name. Names serve as a functional descriptor for the port group. Without these descriptions, identifying port groups and functions becomes difficult as the network becomes more complex.
+#Rule Title: All port groups must be configured with a clear network label.
+#Version: ESXI5-VMNET-000009
+
+#Check Content: From the vSphere Client/vCenter, navigate to Home>> Inventory>> Networking. Individual port groups must be clearly labeled with a meaningful name. 
+
+#If individual port groups are not clearly labeled with a meaningful name, this is a finding.
+
+
+#Fix Text: From the vSphere Client/vCenter, navigate to Home>> Inventory>> Networking. Clearly label all individual port groups with a meaningful name.
+echo "ESXI5-VMNET-000009 has to be done manually" >> /tmp/sysadmintodo

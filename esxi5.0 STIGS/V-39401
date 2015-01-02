@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39401
+#Group Title: ESXi5-323
+#Version: ESXI5-VMNET-000024
+#Severity: medium
+#Description: Based upon an organization's risk assessment, jump boxes that run vSphere Client and other management clients (e.g., VSphere Management Assistant) must be configured. The management network must be isolated in order to prevent access by internal and external, unauthorized personnel.
+#Rule Title: Access to the management network must be strictly controlled through a network jump box.
+#Version: ESXI5-VMNET-000024
+
+#Check Content: Ask the SA if a management network jump box has been implemented and documented. Ask to see the documentation. Note that this check refers to an entity outside the scope of the ESXi server system.
+
+#If a management network jump box has not been implemented or documented, this is a finding.
+
+
+#Fix Text: Implement and document a management network jump box solution. 
+#Note that this check refers to an entity outside the scope of the ESXi server system.
+echo "ESXI5-VMNET-000024 has to be done manually" >> /tmp/sysadmintodo
+echo "If a management network jump box has not been implemented or documented, this is a finding." >> /tmp/sysadmintodo
+

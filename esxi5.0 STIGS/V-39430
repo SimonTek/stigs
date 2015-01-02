@@ -1,0 +1,12 @@
+#!/bin/sh
+
+#Group ID: V-39430
+#Group Title: GEN000240
+#Version: GEN000240-ESXI5-000058
+#Severity: medium
+#Description: To assure the accuracy of the system clock, it must be synchronized with an authoritative time source within DoD. Many system functions, including time-based login and activity restrictions, automated reports, system logs, and audit records depend on an accurate system clock. If there is no confidence in the correctness of the system clock, time-based functions may not operate as intended and records may be of diminished value.
+#Rule Title: The system clock must be synchronized to an authoritative DoD time source.
+#Version: GEN000240-ESXI5-000058
+#Check Content: From the vSphere Client:  Select the host and click "Configuration >> Time Configuration".  Select the properties link and chose 'Options'.  Select NTP Settings to view configured NTP servers. If NTP is not synchronized with an authoritative time source within DoD, this is a finding.
+#Fix Text: From the vSphere Client:  Select the host and click "Configuration >> Time Configuration".  Select the properties link and chose 'Options'.  From the General tab start the NTP service and select "Start and stop with host".  From the NTP Settings tab click the ' Add' button to add the organization defined, authoritative time source within DoD NTP servers.
+#fixed with SRG-OS-99999-ESXI5-000131

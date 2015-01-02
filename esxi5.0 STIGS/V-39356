@@ -1,0 +1,13 @@
+#!/bin/sh
+
+#Group ID: V-39356
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000001
+#Severity: low
+#Description: If using VLAN tagging on a dvPortgroup, tags must correspond to the IDs on external VLAN-aware upstream switches if any. If VLAN IDs are not tracked completely, mistaken re-use of IDs could allow for traffic to be allowed between inappropriate physical and virtual machines. Similarly, wrong or missing VLAN IDs may lead to traffic not passing between appropriate physical and virtual machines.
+#Rule Title: All dvPortgroup VLAN IDs must be fully documented.
+#Version: ESXI5-VMNET-000001
+#Check Content: From the vSphere Client log into vCS. Home>> Inventory>> Networking. Select dvSwitch and dvPortgroup and "Edit Settings>> Policies>> VLAN>> VLAN ID". The dvPortGroup VLAN tags must be documented to match the IDs on external VLAN-aware upstream switches. Verify that VLAN IDs are documented and matched in an (organization-specific) tracking system. If the VLAN tagging on a dvPortgroup does not correspond to the IDs on external VLAN-aware upstream switches, this is a finding.
+#Fix Text: From the vSphere Client log into vCS. Home>> Inventory>> Networking. Select dvSwitch and dvPortgroup and "Edit Settings>> Policies>> VLAN>> VLAN ID". Record all VLAN IDs in an organization defined tracking system.
+
+echo "ESXI5-VMNET-000001 has to be done manually" >> /tmp/sysadmintodo

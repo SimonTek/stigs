@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38544
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000097
+#Severity: medium
+#Description: Enabling reverse path filtering drops packets with source addresses that should not have been able to be received on the interface they were received on. It should not be used on systems which are routers for complicated networks, but is helpful for end hosts and routers serving small networks.
+#Rule Title: The system must use a reverse-path filter for IPv4 network traffic when possible by default.
+#Version: RHEL-06-000097
+
+#Check Content: The status of the "net.ipv4.conf.default.rp_filter" kernel parameter can be queried by running the following command: 
+
+#$ sysctl net.ipv4.conf.default.rp_filter
+
+#The output of the command should indicate a value of "1". If this value is not the default value, investigate how it could have been adjusted at runtime, and verify it is not set improperly in "/etc/sysctl.conf". 
+#If the correct value is not returned, this is a finding.
+
+
+#Fix Text: To set the runtime status of the "net.ipv4.conf.default.rp_filter" kernel parameter, run the following command: 
+
+# sysctl -w net.ipv4.conf.default.rp_filter=1
+
+#If this is not the system's default value, add the following line to "/etc/sysctl.conf": 
+
+#net.ipv4.conf.default.rp_filter = 1
+if sysctl net.ipv4.conf.default.rp_filter|grep "= 1"; then
+echo "This machine is RHEL-06-000097 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000097 Compliant"
+else
+echo "This machine isn't RHEL-06-000097 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000097 Compliant"
+sysctl -w net.ipv4.conf.default.rp_filter=1
+fi

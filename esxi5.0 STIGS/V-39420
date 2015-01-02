@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#Group ID: V-39420
+#Group Title: GEN005536
+#Version: GEN005536-ESXI5-000110
+#Severity: medium
+#Description: If other users have access to modify user-specific SSH configuration files, they may be able to log into the system as another user.
+#Rule Title: The SSH daemon must perform strict mode checking of home directory configuration files.
+#Version: GEN005536-ESXI5-000110
+# grep StrictModes /etc/ssh/sshd_config
+#If "StrictModes" is set to "no" or the keyword/line is missing, this is a finding.
+# vi /etc/ssh/sshd_config
+#Add/modify the "StrictModes" keyword to "yes", i.e.; StrictModes= yes
+
+if grep -i "StrictModes"  /etc/ssh/sshd_config|grep '^#'; then
+sed -i 's@#StrictModes @StrictModes @g' /etc/ssh/sshd_config
+sed -i 's@StrictModes no@StrictModes yes@g' /etc/ssh/sshd_config
+echo "StrictModes on sshd"
+else
+echo "StrictModes is setup already"
+sed -i 's@StrictModes no@StrictModes yes@g' /etc/ssh/sshd_config
+fi
+
+if grep -i "StrictModes" /etc/ssh/sshd_config; then
+echo "StrictModes is set"
+else
+echo "StrictModes yes" >> /etc/ssh/sshd_config
+fi

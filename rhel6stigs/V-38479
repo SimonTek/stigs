@@ -1,0 +1,39 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38479
+#Group Title: SRG-OS-000076
+#Version: RHEL-06-000053
+#Severity: medium
+#Description: Setting the password maximum age ensures users are required to periodically change their passwords. This could possibly decrease the utility of a stolen password. Requiring shorter password lifetimes increases the risk of users writing down the password in a convenient location subject to physical compromise.
+#Rule Title: User passwords must be changed at least every 60 days.
+#Version: RHEL-06-000053
+
+#Check Content: To check the maximum password age, run the command: 
+
+#$ grep PASS_MAX_DAYS /etc/login.defs
+
+#The DoD requirement is 60. 
+#If it is not set to the required value, this is a finding.
+
+
+#Fix Text: To specify password maximum age for new accounts, edit the file "/etc/login.defs" and add or correct the following line, replacing [DAYS] appropriately: 
+
+#PASS_MAX_DAYS [DAYS]
+
+#The DoD requirement is 60.
+
+if grep PASS_MAX_DAYS /etc/login.defs|grep "60"; then
+echo "This machine is RHEL-06-000053 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000053 Compliant"
+else
+echo "This machine isn't RHEL-06-000053 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000053 Compliant"
+var_accounts_maximum_age_login_defs="60"
+grep -q ^PASS_MAX_DAYS /etc/login.defs && \
+  sed -i "s/PASS_MAX_DAYS.*/PASS_MAX_DAYS     $var_accounts_maximum_age_login_defs/g" /etc/login.defs
+if ! [ $? -eq 0 ]; then
+    echo "PASS_MAX_DAYS      $var_accounts_maximum_age_login_defs" >> /etc/login.defs
+fi
+
+fi

@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38619
+#Group Title: SRG-OS-000073
+#Version: RHEL-06-000347
+#Severity: medium
+#Description: Unencrypted passwords for remote FTP servers may be stored in ".netrc" files. DoD policy requires passwords be encrypted in storage and not used in access scripts.
+#Rule Title: There must be no .netrc files on the system.
+#Version: RHEL-06-000347
+
+#Check Content: To check the system for the existence of any ".netrc" files, run the following command: 
+
+# find /home -xdev -name .netrc
+
+
+#If any .netrc files exist, this is a finding.
+
+
+#Fix Text: The ".netrc" files contain login information used to auto-login into FTP servers and reside in the user's home directory. These files may contain unencrypted passwords to remote FTP servers making them susceptible to access by unauthorized users and should not be used. Any ".netrc" files should be removed.
+
+if find /home -xdev -name .netrc; then
+echo "This machine is RHEL-06-000347 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000347 Compliant"
+else
+echo "This machine isn't RHEL-06-000347 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000347 Compliant"
+find /home -xdev -name ".netrc" -exec rm -rf {} \;
+fi

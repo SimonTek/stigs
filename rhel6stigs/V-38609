@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38609
+#Group Title: SRG-OS-000248
+#Version: RHEL-06-000223
+#Severity: medium
+#Description: Disabling the "tftp" service ensures the system is not acting as a tftp server, which does not provide encryption or authentication.
+#Rule Title: The TFTP service must not be running.
+#Version: RHEL-06-000223
+
+#Check Content: To check that the "tftp" service is disabled in system boot configuration, run the following command: 
+# chkconfig "tftp" --list
+#Output should indicate the "tftp" service has either not been installed, or has been disabled at all runlevels, as shown in the example below: 
+# chkconfig "tftp" --list
+#"tftp" 0:off 1:off 2:off 3:off 4:off 5:off 6:off
+#Run the following command to verify "tftp" is disabled through current runtime configuration: 
+# service tftp status
+#If the service is disabled the command will return the following output: 
+#tftp is stopped
+#If the service is running, this is a finding.
+#Fix Text: The "tftp" service should be disabled. The "tftp" service can be disabled with the following command: 
+# chkconfig tftp off
+
+if chkconfig --list |grep "tftp"; then
+echo "This machine isn't RHEL-06-000223 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000223 Compliant"
+chkconfig tftp off
+/etc/init.d/tftp stop
+else
+echo "This machine is RHEL-06-000223 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000223 Compliant"
+fi

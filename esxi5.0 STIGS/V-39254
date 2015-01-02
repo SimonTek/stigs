@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#Group ID: V-39254
+#Group Title: SRG-OS-000056
+#Version: SRG-OS-000056-ESXI5
+#Severity: medium
+#Description: A synchronized system clock is critical for the enforcement of time-based policies and the correlation of logs and audit records with other systems. The network architecture should provide multiple time servers (at least two) within an enclave providing local service to the enclave and synchronize with time sources outside of the enclave.
+#Rule Title: The system must use time sources local to the enclave.
+#Version: SRG-OS-000056-ESXI5
+
+#Check Content: From the vSphere Client:  Select the host and click Configuration >> Time Configuration". Select the properties link and chose 'Options'. Select NTP Settings to view configured NTP servers. If NTP is not configured to use NTP server(s) local to the enclave, this is a finding.
+#Fix Text: From the vSphere Client:  Select the host and click Configuration >> Time Configuration".  Select the properties link and chose 'Options'.  From the General tab start the NTP service and select "Start and stop with host". From the NTP Settings tab click the 'Add' button to add NTP server(s) local to the enclave.
+echo "SRG-OS-000056 fixed by SRG-OS-99999-ESXI5-000131"
+echo "SRG-OS-000056 fixed by SRG-OS-99999-ESXI5-000131" >> /tmp/sysadmintodo

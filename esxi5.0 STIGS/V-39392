@@ -1,0 +1,39 @@
+#!/bin/sh
+
+#Group ID: V-39392
+#Group Title: SRG-OS-000126
+#Version: SRG-OS-000126-ESXI5
+#Severity: medium
+#Description: If ESXi Shell is enabled on the host and a user forgets to logout of their SSH session the idle connection will remain indefinitely increasing the potential for someone to gain privileged access to the host
+
+#Rule Title: The system must set a timeout for the ESXi Shell to automatically disable idle sessions after a predetermined period.
+#Version: SRG-OS-000126-ESXI5
+
+#Check Content: 
+#From the vSphere client select the host and click "Configuration >> Advanced Settings". Select "UserVars.ESXiShellTimeOut" parameter and verify it is set to a value not to exceed 15 minutes. A value of 0 disables the ESXi Shell timeout. 
+
+#If the "UserVars.ESXiShellTimeOut" parameter is set to a value less than 1 or greater than 15, this is a finding.
+
+#
+
+
+#Fix Text: From the vSphere client select the host and click "Configuration >> Advanced Settings". Select UserVars.ESXiShellTimeOut parameter and configure it to a value not to exceed 15 minutes. A value of 0 disables the ESXi Shell timeout.
+if grep -i TCPKeepAlive /etc/ssh/sshd_config | grep no; then
+echo "TCPKeepAlive is turned off"
+elif grep -i TCPKeepAlive /etc/ssh/sshd_config | grep yes;then
+sed -i 's/TCPKeepAlive yes/TCPKeepAlive no/g' /etc/ssh/sshd_config
+echo "TCPKeepAlive has been turned off"
+else
+echo "TCPKeepAlive no" >> /etc/ssh/sshd_config
+echo "Added 'TCPKeepAlive no' to sshd_config"
+fi
+
+if grep -i ClientAliveCountMax /etc/ssh/sshd_config | grep 0; then
+echo "ClientAliveCountMax is set to 0"
+elif grep -i ClientAliveCountMax /etc/ssh/sshd_config |grep -v ":[1-9]";then
+sed -i 's/ClientAliveCountMax [1-9]/ClientAliveCountMax 0/g' /etc/ssh/sshd_config
+echo "ClientAliveCountMax has been turned off"
+else
+echo "ClientAliveCountMax 0" >> /etc/ssh/sshd_config
+echo "Added 'ClientAliveCountMax ' to sshd_config"
+fi

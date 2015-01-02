@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38591
+#Group Title: SRG-OS-000095
+#Version: RHEL-06-000213
+#Severity: high
+#Description: The "rsh-server" package provides several obsolete and insecure network services. Removing it decreases the risk of those services' accidental (or intentional) activation.
+#Rule Title: The rsh-server package must not be installed.
+#Version: RHEL-06-000213
+
+#Check Content: Run the following command to determine if the "rsh-server" package is installed: 
+
+# rpm -q rsh-server
+
+
+#If the package is installed, this is a finding.
+
+
+#Fix Text: The "rsh-server" package can be uninstalled with the following command: 
+
+# yum erase rsh-server
+if rpm -qa |grep rsh-server; then
+echo "This machine isn't RHEL-06-000213 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000213 Compliant"
+yum erase rsh-server -y
+else
+echo "This machine is RHEL-06-000213 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000213 Compliant"
+fi

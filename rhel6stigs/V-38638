@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38638
+#Group Title: SRG-OS-000029
+#Version: RHEL-06-000259
+#Severity: medium
+#Description: Enabling the activation of the screen lock after an idle period ensures password entry will be required in order to access the system, preventing access by passersby.
+#Rule Title: The graphical desktop environment must have automatic lock enabled.
+#Version: RHEL-06-000259
+
+#Check Content: To check the status of the idle screen lock activation, run the following command: 
+
+#$ gconftool-2 -g /apps/gnome-screensaver/lock_enabled
+
+#If properly configured, the output should be "true". 
+#If it is not, this is a finding.
+
+
+#Fix Text: Run the following command to activate locking of the screensaver in the GNOME desktop when it is activated: 
+
+# gconftool-2 --direct \
+#--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+#--type bool \
+#--set /apps/gnome-screensaver/lock_enabled true
+
+if gconftool-2 -g /apps/gnome-screensaver/lock_enabled|grep true; then
+echo "This machine is RHEL-06-000259 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000259 Compliant"
+else
+echo "This machine isn't RHEL-06-000259 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000259 Compliant"
+gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gnome-screensaver/lock_enabled true
+fi

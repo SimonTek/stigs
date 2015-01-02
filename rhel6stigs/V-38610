@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38610
+#Group Title: SRG-OS-000126
+#Version: RHEL-06-000231
+#Severity: low
+#Description: This ensures a user login will be terminated as soon as the "ClientAliveCountMax" is reached.
+#Rule Title: The SSH daemon must set a timeout count on idle sessions.
+#Version: RHEL-06-000231
+
+#Check Content: To ensure the SSH idle timeout will occur when the "ClientAliveCountMax" is set, run the following command: 
+# grep ClientAliveCountMax /etc/ssh/sshd_config
+#If properly configured, output should be: 
+#ClientAliveCountMax 0
+#If it is not, this is a finding.
+#Fix Text: To ensure the SSH idle timeout occurs precisely when the "ClientAliveCountMax" is set, edit "/etc/ssh/sshd_config" as follows: 
+#ClientAliveCountMax 0
+
+if grep ClientAliveCountMax /etc/ssh/sshd_config| grep -v '^#'; then
+echo "This machine is RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000004 Compliant"
+else
+echo "This machine isn't RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000004 Compliant"
+echo "ClientAliveCountMax 0" >> /etc/ssh/sshd_config
+fi

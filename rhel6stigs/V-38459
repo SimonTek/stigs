@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38459
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000043
+#Severity: medium
+#Description: The "/etc/group" file contains information regarding groups that are configured on the system. Protection of this file is important for system security.
+#Rule Title: The /etc/group file must be group-owned by root.
+#Version: RHEL-06-000043
+
+#Check Content: To check the group ownership of "/etc/group", run the command: 
+
+#$ ls -l /etc/group
+
+#If properly configured, the output should indicate the following group-owner. "root" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the group owner of "/etc/group", run the command: 
+
+# chgrp root /etc/group
+
+if ls -l /etc/group|grep "root root" ; then
+echo "This machine is RHEL-06-000043 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000043 Compliant"
+else
+echo "This machine isn't RHEL-06-000043 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000043 Compliant"
+chgrp root /etc/group
+fi

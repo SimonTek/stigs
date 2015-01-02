@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#Group ID: V-39425
+#Group Title: GEN002400
+#Version: GEN002400-ESXI5-10047
+#Severity: medium
+#Description: Files with the setuid bit set will allow anyone running these files to be temporarily assigned the UID of the file. While many system files depend on these attributes for proper operation, security problems can result if setuid is assigned to programs that allow reading and writing of files, or shell escapes.
+#Rule Title: The system must be checked weekly for unauthorized setuid files, as well as, unauthorized modification to authorized setuid files.
+#Version: GEN002400-ESXI5-10047
+
+#Check Content: Ask the SA if the system is checked for unauthorized setuid files on a weekly basis. If no automated or manual process is in place, this is a finding.
+
+
+#Fix Text: Configure the system to check for unauthorized setuid files on a weekly basis.
+echo "GEN002400-ESXI5-10047 has to be done manually" >> /tmp/sysadmintodo

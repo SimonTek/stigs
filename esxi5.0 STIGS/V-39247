@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39247
+#Group Title: GEN005300
+#Version: GEN005300-ESXI5-000099
+#Severity: medium
+#Description: Whether active or inactive, default communities, users, and passwords must be changed to maintain security. A service running with default authenticators allows acquisition of data about the system and the network to potentially compromise the integrity of the system or network(s).
+#Rule Title: SNMP communities, users, and passphrases must be changed from the default.
+#Version: GEN005300-ESXI5-000099
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Login as root and check the snmp configuration file for default(s):
+# egrep -i "community|communities" /etc/vmware/snmp.xml
+#If any community name or password is set to a default value such as public, private or password, this is a finding.
+#Fix Text: From the Power/v CLI, run the (below example) command: >
+# vicfg-snmp.pl --server <hostname|IP address> --username <username> --password <password> -E -c <community_name>
+#In the above example, -E enables the VMware SNMP agent, and -c sets communities to the provided name.
+
+echo "SGEN005300-ESXI5-000099 has to be done manually" >> /tmp/sysadmintodo

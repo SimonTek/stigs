@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38681
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000294
+#Severity: low
+#Description: Inconsistency in GIDs between /etc/passwd and /etc/group could lead to a user having unintended rights.
+#Rule Title: All GIDs referenced in /etc/passwd must be defined in /etc/group
+#Version: RHEL-06-000294
+
+#Check Content: To ensure all GIDs referenced in /etc/passwd are defined in /etc/group, run the following command: 
+
+# pwck -rq
+
+#There should be no output. 
+#If there is output, this is a finding.
+
+
+#Fix Text: Add a group to the system for each GID referenced without a corresponding group.
+
+if pwck -rq; then
+echo "This machine is RHEL-06-000294 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000294 Compliant"
+else
+echo "This machine isn't RHEL-06-000294 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000294 Compliant"
+echo "run pwck -rq, Add a group to the system for each GID referenced without a corresponding group" >> /var/log/Stig
+echo "run pwck -rq, Add a group to the system for each GID referenced without a corresponding group"
+fi

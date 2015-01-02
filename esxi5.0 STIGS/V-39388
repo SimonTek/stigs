@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#Group ID: V-39388
+#Group Title: SRG-OS-000121
+#Version: SRG-OS-000121-ESXI5
+#Severity: medium
+#Description: A unique user name is the first part of the identification and authentication process. If user names are not unique, there can be no accountability on the system for auditing purposes. Multiple accounts sharing the same name could result in the Denial-of-Service to one or both of the accounts or unauthorized access to files or privileges.
+#Rule Title: All accounts on the system must have unique user or account names.
+#Version: SRG-OS-000121-ESXI5
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Execute the following command(s): 
+# cat /etc/passwd 
+
+#If any non-unique user name is found (example: multiple root user name entries), this is a finding. 
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Change user account names, or delete accounts, so each account has a unique name.  From the vSphere Client/vCenter:  Click on the "Users and Groups" tab.  Click on the "Users" button.  Right click and select "Add". Specify the desired User Name, Password, etc and Click "OK".
+if grep ":x:0:" /etc/passwd |grep -v root; then
+echo "An account that is not root, has root UID assigned to it. "
+echo "An account that is not root, has root UID assigned to it. " >> /tmp/sysadmintodo
+#passwd $ -l
+else
+echo "passwd is good"
+fi

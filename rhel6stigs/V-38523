@@ -1,0 +1,41 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38523
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000083
+#Severity: medium
+#Description: Accepting source-routed packets in the IPv4 protocol has few legitimate uses. It should be disabled unless it is absolutely required.
+#Rule Title: The system must not accept IPv4 source-routed packets on any interface.
+#Version: RHEL-06-000083
+
+#Check Content: The status of the "net.ipv4.conf.all.accept_source_route" kernel parameter can be queried by running the following command: 
+
+#$ sysctl net.ipv4.conf.all.accept_source_route
+
+#The output of the command should indicate a value of "0". If this value is not the default value, investigate how it could have been adjusted at runtime, and verify it is not set improperly in "/etc/sysctl.conf". 
+#If the correct value is not returned, this is a finding.
+
+
+#Fix Text: To set the runtime status of the "net.ipv4.conf.all.accept_source_route" kernel parameter, run the following command: 
+
+# sysctl -w net.ipv4.conf.all.accept_source_route=0
+
+#If this is not the system's default value, add the following line to "/etc/sysctl.conf": 
+
+#net.ipv4.conf.all.accept_source_route = 0
+
+if sysctl net.ipv4.conf.all.accept_source_route|grep "= 0"; then
+echo "This machine is RHEL-06-000083 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000083 Compliant"
+else
+echo "This machine isn't RHEL-06-000083 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000083 Compliant"
+if grep --silent ^net.ipv4.conf.all.accept_source_route /etc/sysctl.conf ; then
+	sed -i 's/^net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g' /etc/sysctl.conf
+else
+	echo "" >> /etc/sysctl.conf
+	echo "# Set net.ipv4.conf.all.accept_source_route to 0 per security requirements" >> /etc/sysctl.conf
+	echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
+fi
+fi

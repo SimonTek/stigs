@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38616
+#Group Title: SRG-OS-000242
+#Version: RHEL-06-000241
+#Severity: low
+#Description: SSH environment options potentially allow users to bypass access restriction in some configurations.
+#Rule Title: The SSH daemon must not permit user environment settings.
+#Version: RHEL-06-000241
+
+#Check Content: To ensure users are not able to present environment daemons, run the following command: 
+
+# grep PermitUserEnvironment /etc/ssh/sshd_config
+
+#If properly configured, output should be: 
+
+#PermitUserEnvironment no
+#If it is not, this is a finding.
+#Fix Text: To ensure users are not able to present environment options to the SSH daemon, add or correct the following line in "/etc/ssh/sshd_config": 
+#PermitUserEnvironment no
+
+if grep PermitUserEnvironment /etc/ssh/sshd_config|grep -v '^#'|grep no; then
+echo "This machine is RHEL-06-000242 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000242 Compliant"
+else
+echo "This machine isn't RHEL-06-000242 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000242 Compliant"
+echo "PermitUserEnvironment no" >> /etc/ssh/sshd_config
+/etc/init.d/sshd restart
+fi

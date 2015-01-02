@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Group ID: V-39283
+#Group Title: GEN005538
+#Version: GEN005538-ESXI5-000112
+#Severity: medium
+#Description: If SSH permits rhosts RSA authentication, a user may be able to log in based on the keys of the host originating the request and not any user-specific authentication.
+#Rule Title: The SSH daemon must not allow rhosts RSA authentication.
+#Version: GEN005538-ESXI5-000112
+# grep RhostsRSAAuthentication /etc/ssh/sshd_config
+#If "RhostsRSAAuthentication" is set to "yes" or the keyword/line is missing, this is a finding.
+
+if grep -i RhostsRSAAuthentication /etc/ssh/sshd_config | grep no; then
+echo "RhostsRSAAuthentication is turned off"
+elif grep -i RhostsRSAAuthentication /etc/ssh/sshd_config | grep yes;then
+sed -i 's/RhostsRSAAuthentication yes/RhostsRSAAuthentication no/g' /etc/ssh/sshd_config
+echo "RhostsRSAAuthentication has been turned off"
+else
+echo "RhostsRSAAuthentication no" >> /etc/ssh/sshd_config
+echo "Added 'RhostsRSAAuthentication no' to sshd_config"
+fi

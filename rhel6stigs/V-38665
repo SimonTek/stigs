@@ -1,0 +1,24 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38665
+#Group Title: SRG-OS-000258
+#Version: RHEL-06-000280
+#Severity: medium
+#Description: Group-ownership of audit binaries and configuration files that is incorrect could allow an unauthorized user to gain privileges that they should not have. The group-ownership set by the vendor should be maintained. Any deviations from this baseline should be investigated.
+#Rule Title: The system package management tool must verify group-ownership on all files and directories associated with the audit package.
+#Version: RHEL-06-000280
+#Check Content: The following command will list which audit files on the system have group-ownership different from what is expected by the RPM database: 
+# rpm -V audit | grep '^......G'
+#If there is output, this is a finding.
+#Fix Text: The RPM package management system can restore file group-ownership of the audit package files and directories. The following command will update audit files with group-ownership different from what is expected by the RPM database: 
+# rpm --setugids audit
+
+if rpm -V audit | grep '^......G'; then
+echo "This machine isn't RHEL-06-000280 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000280 Compliant"
+rpm --setugids audit
+else
+echo "This machine is RHEL-06-000280 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000280 Compliant"
+fi

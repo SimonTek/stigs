@@ -1,0 +1,25 @@
+#!/bin/sh
+
+#Group ID: V-39408
+#Group Title: SRG-OS-000197
+#Version: SRG-OS-000197-ESXI5
+#Severity: medium
+#Description: Remote logging to a central log host provides a secure, centralized store for ESXi logs. By gathering host log files onto a central host it can more easily monitor all hosts with a single tool. It can also do aggregate analysis and searching to look for such things as coordinated attacks on multiple hosts. Logging to a secure, centralized log server also helps prevent log tampering and also provides a long-term audit record.
+#Rule Title: Remote logging for ESXi hosts must be configured.
+#Version: SRG-OS-000197-ESXI5
+
+#Check Content: Verify the vSphere Syslog Collector syslog host has been configured. From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >> Global". Verify the 'Syslog.global.logHost' is set to the (site-specific) syslog server hostname.
+
+#If the 'Syslog.global.logHost' is unconfigured, this is a finding.
+
+
+#Fix Text: Step 1:  Verify the vSphere Syslog Collector syslog host has been configured. If not, install/enable the vSphere Syslog Collector.
+#Step 2:  From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >> Global".  
+#Step 3: Set 'Syslog.global.logHost' to the syslog server hostname.
+
+if esxcli system syslog config get|grep -i "remote host"|grep none; then
+echo "No remote host is set"
+esxcli system syslog config set --loghost=127.0.0.1
+else
+echo "Your good"
+fi

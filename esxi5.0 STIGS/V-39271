@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#Group ID: V-39271
+#Group Title: GEN005520
+#Version: GEN005520-ESXI5-705
+#Severity: medium
+#Description: X11 forwarding over SSH allows for the secure remote execution of X11-based applications. This feature can increase the attack surface of an SSH connection and should not be enabled unless needed.
+#Rule Title: The SSH client must be configured to not allow X11 forwarding.
+#Version: GEN005520-ESXI5-705
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Check the SSH client configuration for the X11 forwarding setting. # grep -i "^ForwardX11"  /etc/ssh/ssh_config
+#If "ForwardX11" is set to "yes", this is a finding. 
+
+if grep ForwardX11 /etc/ssh/ssh_config|grep -i yes; then
+        sed -i 's/ForwardX11 yes/ForwardX11 no/g' /etc/ssh/ssh_config
+        echo "ForwardX11 has been removed in sshd_config"
+else
+if grep ForwardX11 /etc/ssh/ssh_config; then
+echo "ForwardX11 is set"
+else
+echo "ForwardX11 no" >> /etc/ssh/ssh_config
+echo "ForwardX11 no has been set in sshd_config"
+
+fi
+fi

@@ -1,0 +1,26 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38491
+#Group Title: SRG-OS-000248
+#Version: RHEL-06-000019
+#Severity: high
+#Description: Trust files are convenient, but when used in conjunction with the R-services, they can allow unauthenticated access to a system.
+#Rule Title: There must be no .rhosts or hosts.equiv files on the system.
+#Version: RHEL-06-000019
+#Check Content: The existence of the file "/etc/hosts.equiv" or a file named ".rhosts" inside a user home directory indicates the presence of an Rsh trust relationship. 
+#If these files exist, this is a finding.
+#Fix Text: The files "/etc/hosts.equiv" and "~/.rhosts" (in each user's home directory) list remote hosts and users that are trusted by the local system when using the rshd daemon. To remove these files, run the following command to delete them from any location. 
+# rm /etc/hosts.equiv
+#$ rm ~/.rhosts
+
+if grep -r ".rhosts" /etc/host*; then
+echo "This machine isn't RHEL-06-000019 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000019 Compliant"
+rm /etc/hosts.quiv -f
+rm ~/.rhosts -f
+else
+echo "This machine is RHEL-06-000019 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000019 Compliant"
+fi
+

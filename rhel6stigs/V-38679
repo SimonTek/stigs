@@ -1,0 +1,87 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+# Matthew M. Conley SimonTek
+#Group ID: V-38679
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000292
+#Severity: medium
+#Description: DHCP relies on trusting the local network. If the local network is not trusted, then it should not be used. However, the automatic configuration provided by DHCP is commonly used and the alternative, manual configuration, presents an unacceptable burden in many circumstances.
+#Rule Title: The DHCP client must be disabled if not needed.
+#Version: RHEL-06-000292
+
+#Check Content: To verify that DHCP is not being used, examine the following file for each interface. 
+
+# /etc/sysconfig/network-scripts/ifcfg-[IFACE]
+#If there is any network interface without a associated "ifcfg" file, this is a finding.
+#Look for the following:
+#BOOTPROTO=static
+#Also verify the following, substituting the appropriate values based on your site's addressing scheme:
+#NETMASK=[local LAN netmask]
+#IPADDR=[assigned IP address]
+#GATEWAY=[local LAN default gateway]
+#If it does not, this is a finding.
+#Fix Text: For each interface [IFACE] on the system (e.g. eth0), edit "/etc/sysconfig/network-scripts/ifcfg-[IFACE]" and make the following changes. 
+#Correct the BOOTPROTO line to read:
+#BOOTPROTO=static
+#Add or correct the following lines, substituting the appropriate values based on your site's addressing scheme:
+#NETMASK=[local LAN netmask]
+#IPADDR=[assigned IP address]
+#GATEWAY=[local LAN default gateway]
+
+#
+# You will have to fill in your data. For security reasons I left it as examples.
+
+if grep -i BOOTPROTO /etc/sysconfig/network-scripts/ifcfg-eth*|grep none then
+echo "This machine is RHEL-06-000292 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000292 Compliant"
+else
+echo "This machine isn't RHEL-06-000292 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000292 Compliant"
+
+if grep -i "BOOTPROTO=dhcp" /etc/sysconfig/network-scripts/ifcfg-eth*; then
+echo "System is using dhcp, switching to static"
+sed -i 's@BOOTPROTO=dhcp@BOOTPROTO=none@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+else
+echo "System is using static ip's"
+fi
+
+if grep -i "NETMASK=" /etc/sysconfig/network-scripts/ifcfg-eth*; then
+echo "Netmask is here, changing"
+sed -i 's@NETMASK=.*@NETMASK=255.255.255.0@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+else
+echo "Adding Netmask"
+echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "NETMASK=255.255.255.0" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+fi
+
+if grep -i "DNS1=" /etc/sysconfig/network-scripts/ifcfg-eth*; then
+echo "Changing DNS"
+sed -i 's@DNS1=.*@DNS1=8.8.8.8@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+sed -i 's@DNS2=.*@DNS2=4.2.2.2@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+else
+echo "Adding DNS"
+echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "DNS1=8.8.8.8" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+echo "DNS2=4.2.2.2" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "DNS2=4.2.2.2" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+fi
+
+if grep -i "DOMAIN=" /etc/sysconfig/network-scripts/ifcfg-eth*; then
+echo "Domain is here, changing"
+sed -i 's@DOMAIN=.*@DOMAIN=anydomain.mil@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+else
+echo "Adding Domain"
+echo "DOMAIN=anydomain.mil" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "DOMAIN=anydomain.mil" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+fi
+
+if grep -i "GATEWAY=" /etc/sysconfig/network-scripts/ifcfg-eth*; then
+echo "Gateway is here, changing"
+sed -i 's@GATEWAY=.*@GATEWAY=192.168.1.1@g' /etc/sysconfig/network-scripts/ifcfg-eth*
+else
+echo "Adding Gateway"
+echo "GATEWAY=192.168.1.1" >> /etc/sysconfig/network-scripts/ifcfg-eth0
+echo "GATEWAY=192.168.1.1" >> /etc/sysconfig/network-scripts/ifcfg-eth1
+fi
+
+fi

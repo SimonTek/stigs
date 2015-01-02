@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38503
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000034
+#Severity: medium
+#Description: The "/etc/shadow" file stores password hashes. Protection of this file is critical for system security.
+#Rule Title: The /etc/shadow file must be group-owned by root.
+#Version: RHEL-06-000034
+
+#Check Content: To check the group ownership of "/etc/shadow", run the command: 
+
+#$ ls -l /etc/shadow
+
+#If properly configured, the output should indicate the following group-owner. "root" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the group owner of "/etc/shadow", run the command: 
+
+# chgrp root /etc/shadow
+
+if  ls -l /etc/shadow|grep " root "; then
+echo "This machine is RHEL-06-000034 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000034 Compliant"
+else
+echo "This machine isn't RHEL-06-000034 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000034 Compliant"
+chgrp root /etc/shadow
+fi

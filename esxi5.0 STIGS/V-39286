@@ -1,0 +1,28 @@
+#!/bin/sh
+
+#Group ID: V-39286
+#Group Title: GEN005570
+#Version: GEN005570-ESXI5-000115
+#Severity: medium
+#Description: If a system has no default gateway defined, the system is at increased risk of man-in-the-middle, monitoring, and Denial-of-Service attacks. NOTE that IPv6 is not enabled by default.
+#Rule Title: The system must be configured with a default gateway for IPv6 if the system uses IPv6, unless the system is a router.
+#Version: GEN005570-ESXI5-000115
+
+#Check Content: If the system does not use IPv6, this check is not applicable. From the vSphere Client/vCenter; click on the "Configuration" tab, click on "Networking"; click on "Standard Switch/Properties"; click on "Management NetworkProperties/Edit/IP Settings" and click "Cancel".  If the "VMkernel Default Gateway" field is not initialized (valid IP address is required), this is a finding.
+
+
+#Fix Text: The following fix text applies only if the system uses IPv6. From the vSphere Client/vCenter; click on the "Configuration" tab; click on "Networking"; click on "Standard Switch/Properties"; click on "Management NetworkProperties/Edit/IP Settings". Select "Use the following IP settings"; fill in the field(s) (at a minimum, the default gateway IP Address is required) per the local site requirements and click "OK".
+
+#!/bin/sh
+if grep '/vmkernel/module/tcpip3/options = "ipv6=1' /etc/vmware/esx.conf; then
+echo "IPv6 is turned on, nothing else"
+else
+echo "IPv6 is turned off, need to check gateway"
+if grep -i "gateway" /etc/vmware/esx.conf; then
+echo "Gateway configured"
+else 
+echo "Gateway is Not Configured, See SysAdmin"
+fi
+fi
+
+

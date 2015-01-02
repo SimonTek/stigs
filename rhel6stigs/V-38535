@@ -1,0 +1,40 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38535
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000092
+#Severity: low
+#Description: Ignoring ICMP echo requests (pings) sent to broadcast or multicast addresses makes the system slightly more difficult to enumerate on the network.
+#Rule Title: The system must not respond to ICMPv4 sent to a broadcast address.
+#Version: RHEL-06-000092
+
+#Check Content: The status of the "net.ipv4.icmp_echo_ignore_broadcasts" kernel parameter can be queried by running the following command: 
+
+#$ sysctl net.ipv4.icmp_echo_ignore_broadcasts
+
+#The output of the command should indicate a value of "1". If this value is not the default value, investigate how it could have been adjusted at runtime, and verify it is not set improperly in "/etc/sysctl.conf". 
+#If the correct value is not returned, this is a finding.
+
+
+#Fix Text: To set the runtime status of the "net.ipv4.icmp_echo_ignore_broadcasts" kernel parameter, run the following command: 
+
+# sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=1
+
+#If this is not the system's default value, add the following line to "/etc/sysctl.conf": 
+
+#net.ipv4.icmp_echo_ignore_broadcasts = 1
+if grep ^net.ipv4.icmp_echo_ignore_broadcasts /etc/sysctl.conf |grep 1; then
+echo "This machine is RHEL-06-000092 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000092 Compliant"
+else
+echo "This machine isn't RHEL-06-000092 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000092 Compliant"
+if grep --silent ^net.ipv4.icmp_echo_ignore_broadcasts /etc/sysctl.conf ; then
+	sed -i 's/^net.ipv4.icmp_echo_ignore_broadcasts.*/net.ipv4.icmp_echo_ignore_broadcasts = 1/g' /etc/sysctl.conf
+else
+	echo "" >> /etc/sysctl.conf
+	echo "# Set net.ipv4.icmp_echo_ignore_broadcasts to 1 per security requirements" >> /etc/sysctl.conf
+	echo "net.ipv4.icmp_echo_ignore_broadcasts = 1" >> /etc/sysctl.conf
+fi
+fi

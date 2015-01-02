@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38489
+#Group Title: SRG-OS-000232
+#Version: RHEL-06-000016
+#Severity: medium
+#Description: The AIDE package must be installed if it is to be available for integrity checking.
+#Rule Title: A file integrity tool must be installed.
+#Version: RHEL-06-000016
+
+#Check Content: If another file integrity tool is installed, this is not a finding.
+
+#Run the following command to determine if the "aide" package is installed: 
+
+# rpm -q aide
+
+
+#If the package is not installed, this is a finding.
+
+
+#Fix Text: Install the AIDE package with the command: 
+
+# yum install aide
+
+if rpm -q aide; then
+echo "This machine is RHEL-06-000016 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000016 Compliant"
+else
+echo "This machine isn't RHEL-06-000016 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000016 Compliant"
+yum install aide -y
+fi

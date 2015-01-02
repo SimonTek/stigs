@@ -1,0 +1,55 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38466
+#Group Title: SRG-OS-000259
+#Version: RHEL-06-000046
+#Severity: medium
+#Description: Files from shared library directories are loaded into the address space of processes (including privileged ones) or of the kernel itself at runtime. Proper ownership is necessary to protect the integrity of the system.
+#Rule Title: Library files must be owned by root.
+#Version: RHEL-06-000046
+
+#Check Content: System-wide shared library files, which are linked to executables during process load time or run time, are stored in the following directories by default: 
+
+#/lib
+#/lib64
+#/usr/lib
+#/usr/lib64
+
+
+#Kernel modules, which can be added to the kernel during runtime, are stored in "/lib/modules". All files in these directories should not be group-writable or world-writable.  To find shared libraries that are not owned by "root", run the following command for each directory [DIR] which contains shared libraries: 
+
+#$ find -L [DIR] \! -user root
+
+
+#If any of these files are not owned by root, this is a finding.
+
+
+#Fix Text: System-wide shared library files, which are linked to executables during process load time or run time, are stored in the following directories by default: 
+
+#/lib
+#/lib64
+#/usr/lib
+#/usr/lib64
+
+#If any file in these directories is found to be owned by a user other than root, correct its ownership with the following command: 
+
+# chown root [FILE]
+# NOT WORKING YET. TEST the idea first
+if find -L /usr/lib \! -user root; then
+echo "This machine is RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000004 Compliant"
+
+else
+echo "This machine isn't RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000004 Compliant"
+for LIBDIR in /usr/lib /usr/lib64 /lib /lib64
+do
+  if [ -d $LIBDIR ]
+  then
+    find -L $LIBDIR \! -user root -exec chown root {} \; 
+  fi
+done
+
+fi
+

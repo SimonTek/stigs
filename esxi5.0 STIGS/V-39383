@@ -1,0 +1,143 @@
+#!/bin/sh
+
+#Group ID: V-39383
+#Group Title: GEN000950
+#Version: GEN000950-ESXI5-444
+#Severity: medium
+#Description: The library preload list environment variable contains a list of libraries for the dynamic linker to load before loading the libraries required by the binary. If this list contains paths to libraries relative to the current working directory, unintended libraries may be preloaded. This variable is formatted as a space-separated list of libraries. Paths starting with (/) are absolute paths.
+#Rule Title: The root accounts list of preloaded libraries must be empty.
+#Version: GEN000950-ESXI5-444
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/profile
+#<required_keyword> = LD_PRELOAD
+#<required_keyword_setpoint> = "" (Note: must either be empty or explicitly set to an empty string)
+#Execute the following command(s):
+# grep libdir /etc/vmware/config
+
+#If the LD_PRELOAD is set to anything other than an empty string, this is a finding.
+
+#If the LD_PRELOAD is not set or is set to an empty string, this is not a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell.
+#<file> = /etc/profile
+#<required_keyword> = LD_PRELOAD
+#<required_keyword_setpoint> = ""
+#Execute the following command(s):
+# vi  /etc/profile
+
+#Set the LD_PRELOAD to "".
+
+#Re-enable lock down mode.
+
+for INITFILE in /etc/profile /etc/bashrc /etc/csh.login /etc/csh.cshrc /etc/environment /etc/.login /etc/security/environ `ls /etc/profile.d/*` /etc/ksh.kshrc /etc/suid_profile /etc/csh.logout
+do
+
+  if [ -e $INITFILE ]
+  then
+
+    ## Check bash style settings
+
+    # Remove leading colons
+    egrep 'LD_PRELOAD=:' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e 's/LD_PRELOAD=:/LD_PRELOAD=/g' $INITFILE
+    fi
+
+    # remove trailing colons
+    egrep 'LD_PRELOAD=.*:\s*$' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e 's/\(LD_PRELOAD=.*\):\(\s*$\)/\1\2/g' $INITFILE
+    fi
+
+    # remove trailing colons
+    egrep 'LD_PRELOAD=.*:\"*\s*$' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e 's/\(LD_PRELOAD=.*\):\(\"*\s*$\)/\1\2/g' $INITFILE
+    fi
+
+    # remove begin/end colons with no data
+    egrep 'LD_PRELOAD=.*::.*' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e '/LD_PRELOAD=/s/::/:/g' $INITFILE
+    fi
+
+
+    # remove anything that doesn't start with a $ or /
+    egrep 'LD_PRELOAD="' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+
+      egrep 'LD_PRELOAD="[^$/]' $INITFILE > /dev/null
+      if [ $? -eq 0 ]
+      then
+        sed -i -e '/LD_PRELOAD/s/="[^$/][^:]*:*/="/g' $INITFILE
+      fi
+
+    else
+
+      # remove anything that doesn't start with a $ or /
+      egrep 'LD_PRELOAD=[^$/]' $INITFILE > /dev/null
+      if [ $? -eq 0 ]
+      then
+        sed -i -e '/LD_PRELOAD/s/=[^$/][^:]*:*/=/g' $INITFILE
+      fi
+
+
+    fi
+    egrep 'LD_PRELOAD=.*:[^$/:][^:]*\s*' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e '/LD_PRELOAD=/s/:[^$/:][^:]*//g' $INITFILE
+    fi
+
+
+    ## Check csh style settings
+
+    # Remove leading colons
+    egrep 'setenv LD_PRELOAD ":' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e 's/setenv LD_PRELOAD ":/setenv LD_PRELOAD "/g' $INITFILE
+    fi
+
+    # remove trailing colons
+    egrep 'setenv LD_PRELOAD ".*:"' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e 's/\(setenv LD_PRELOAD ".*\):\("\)/\1\2/g' $INITFILE
+    fi
+
+    # remove begin/end colons with no data
+    egrep 'setenv LD_PRELOAD ".*::.*' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e '/setenv LD_PRELOAD/s/::/:/g' $INITFILE
+    fi
+
+    # remove anything that doesn't start with a $ or /
+    egrep 'setenv LD_PRELOAD ".*:[^$/:][^:]*\s*' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e '/setenv LD_PRELOAD/s/:[^$/:][^:"]*//g' $INITFILE
+    fi
+
+    egrep 'setenv LD_PRELOAD "[^$/]' $INITFILE > /dev/null
+    if [ $? -eq 0 ]
+    then
+      sed -i -e '/setenv LD_PRELOAD/s/"[^$/][^:"]*:*/"/g' $INITFILE
+    fi
+
+
+  fi
+
+done

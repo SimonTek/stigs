@@ -1,0 +1,32 @@
+#!/bin/sh
+
+#Group ID: V-39266
+#Group Title: GEN005528-ESXI5-000106
+#Version: GEN005528-ESXI5-000106
+#Severity: medium
+#Description: Environment variables can be used to change the behavior of remote sessions and should be limited. Locale environment variables that specify the language, character set, and other features modifying the operation of software to match the user's preferences.
+#Rule Title: The SSH daemon must not accept environment variables from the client or must only accept those pertaining to locale.
+#Version: GEN005528-ESXI5-000106
+
+#Check Content: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+
+# grep AcceptEnv /etc/ssh/sshd_config
+
+#If "AcceptEnv" is not set to  "LOCALE"  or the keyword/line is missing, this is a finding.
+
+#Re-enable lock down mode.
+#
+
+
+#Fix Text: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# vi /etc/ssh/sshd_config
+
+#Add/modify the "AcceptEnv" keyword to "LOCALE", i.e.; AcceptEnv = LOCALE
+
+#Re-enable lock down mode.
+if grep "AcceptEnv" /etc/ssh/sshd_config |grep -i "LOCALE"; then
+echo "Locale set in sshd"
+else
+echo "AcceptEnv = LOCALE" >> /etc/ssh/sshd_config
+echo "Locale has been fixed in sshd"
+fi

@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#Group ID: V-39386
+#Group Title: SRG-OS-000095
+#Version: SRG-OS-000095-ESXI5
+#Severity: high
+#Description: Unnecessary services should be disabled to decrease the attack surface of the system.
+#Rule Title: Inetd and xinetd must be disabled or removed if no network services utilizing them are enabled.
+#Version: SRG-OS-000095-ESXI5
+
+#Check Content: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively. Start the ESXi Shell service, where/as required. As root, log in to the ESXi Shell and execute the following:
+# grep inetd /var/log/syslog.log 
+# cat /var/run/inetd.conf
+# ps | grep <service(s) found in /var/run/inetd.conf>
+#If inetd is running and no active services are found (i.e., /var/run/inetd.conf does not exist, is empty or is completely commented out), this is a finding.
+#If inetd is not running and /var/run/inetd.conf does not exist, is empty or is completely commented out, this is not a finding.
+#If inetd is running and active services are found via the ps command and are also in the inetd.conf file, this is not a finding.
+#Fix Text: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively. Start the ESXi Shell service, where/as required.
+#As root, log in to the ESXi Shell and view the syslog.log entries.
+# grep inetd /var/log/syslog.log 
+#Delete or zero the  /var/run/inetd.conf file if inetd is not running.
+
+if grep inetd /var/log/syslog.log |grep -v authd|grep -v ssh; then
+echo "inetd processes are running that haven't been defined."
+echo "inetd processes are running that haven't been defined." >> /tmp/sysadmintodo
+echo "run 'grep inetd /var/log/syslog.log |grep -v authd|grep -v ssh' to find out what's running" >> /tmp/sysadmintodo
+else
+echo "Only defined inetd processes are running"
+fi

@@ -1,0 +1,25 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38577
+#Group Title: SRG-OS-000120
+#Version: RHEL-06-000064
+#Severity: medium
+#Description: Using a stronger hashing algorithm makes password cracking attacks more difficult.
+#Rule Title: The system must use a FIPS 140-2 approved cryptographic hashing algorithm for generating account password hashes (libuser.conf).
+#Version: RHEL-06-000064
+
+#Check Content: Inspect "/etc/libuser.conf" and ensure the following line appears in the "[default]" section: 
+#crypt_style = sha512
+#If it does not, this is a finding.
+#Fix Text: In "/etc/libuser.conf", add or correct the following line in its "[defaults]" section to ensure the system will use the SHA-512 algorithm for password hashing: 
+#crypt_style = sha512
+
+if grep crypt_style /etc/libuser.conf|grep "sha512"; then
+echo "This machine is RHEL-06-000064 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000064 Compliant"
+else
+echo "This machine isn't RHEL-06-000064 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000064 Compliant"
+echo "crypt_style = sha512" >> /etc/libuser.conf
+fi

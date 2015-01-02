@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#Group ID: V-39268
+#Group Title: GEN005531
+#Version: GEN005531-ESXI5-000108
+#Severity: medium
+#Description: OpenSSH has the ability to create network tunnels (layer-2 and layer-3) over an SSH connection. This function can provide similar convenience to a Virtual Private Network (VPN) with the similar risk of providing a path to circumvent firewalls and network ACLs.
+#Rule Title: The SSH daemon must not permit tunnels.
+#Version: GEN005531-ESXI5-000108
+
+#Check Content: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# grep PermitTunnel /etc/ssh/sshd_config
+
+#If "PermitTunnel" is set to "yes" or the keyword/line is missing, this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# vi /etc/ssh/sshd_config
+
+#Add/modify the "PermitTunnel" keyword to "no", i.e.; PermitTunnel= no
+
+#Re-enable lock down mode.
+if grep PermitTunnel /etc/ssh/sshd_config|grep -i yes; then
+        sed -i 's/PermitTunnel yes/PermitTunnel no/g' /etc/ssh/sshd_config
+        echo "PermitTunnel has been removed in sshd_config"
+else
+if grep PermitTunnel /etc/ssh/sshd_config; then
+echo "Permit Tunnel is set"
+else
+echo "PermitTunnel no" >> /etc/ssh/sshd_config
+echo "PermitTunnel no has been set in sshd_config"
+
+fi
+fi

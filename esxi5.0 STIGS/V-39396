@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Group ID: V-39396
+#Group Title: SRG-OS-000152
+#Version: SRG-OS-000152-ESXI5
+#Severity: medium
+#Description: Unrestricted access to services running on an ESXi host can exposes a host to outside attacks and unauthorized access. Reduce the risk by configuring the ESXi firewall to allow access from authorized networks only.
+
+#Rule Title: The operating system must implement host-based boundary protection mechanisms for servers, workstations, and mobile devices.
+#Version: SRG-OS-000152-ESXI5
+
+#Check Content: From the vSphere client, select the host, then select "Configuration >> Security Profile".  In the "Firewall" section select "Properties".  
+
+#For each enabled service, (e.g., ssh, vSphere Web Access, http client), select "Firewall", and verify "Only allow connections from the following networks" is selected and a range of authorized IP addresses is listed.
+
+#If any enabled service's firewall entry is not configured for "Only allow connections from the following networks" with a range of authorized IP addresses listed, this is a finding.
+
+
+#Fix Text: For each host, from the vSphere client, select the host and go to "Configuration >> Security Profile".  In the "Firewall" section select "Properties".  For each enabled service, (e.g., ssh, vSphere Web Access, http client), select "Firewall", select "Only allow connections from the following networks", and provide a range of authorized IP addresses.
+#Fixed in "SRG-OS-000147-ESXI5" has to be done manually" >> /tmp/sysadmintodo
+echo "Fixed SRG-OS-000152 in SRG-OS-000147-ESXI5 has to be done manually" >> /tmp/sysadmintodo

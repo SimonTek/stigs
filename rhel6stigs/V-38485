@@ -1,0 +1,28 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38485
+#Group Title: SRG-OS-000025
+#Version: RHEL-06-000506
+#Severity: medium
+#Description: Users need to be aware of activity that occurs regarding their accounts. Providing users with information regarding the date and time of their last successful login allows the user to determine if any unauthorized activity has occurred and gives them an opportunity to notify administrators.
+#At console or tty logon, a user must be presented with the last successful login date and time.  The "hushlogin" file determines whether this occurs.
+#Rule Title: The operating system, upon successful logon, must display to the user the date and time of the last logon or access via a local console or tty.
+#Version: RHEL-06-000506
+#Check Content: Verify there are no "hushlogin" files active on the system:
+# ls -l /etc/hushlogins
+#For each home directory stored in "/etc/passwd":
+# ls ~<userid>/.hushlogin
+#If there are any "hushlogin" files on the system, this is a finding.
+#Fix Text: Remove any "hushlogin" files from the system:
+# rm /etc/hushlogins
+# rm ~<userid>/.hushlogin
+
+if [ -f /etc/hushlogins ];then
+echo "This machine isn't RHEL-06-000506 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000506 Compliant"
+rm /etc/hushlogins -f
+else
+echo "This machine is RHEL-06-000506 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000506 Compliant"
+fi

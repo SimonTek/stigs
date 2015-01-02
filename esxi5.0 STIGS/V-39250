@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#Group ID: V-39250
+#Group Title: GEN005517-ESXI5-000101
+#Version: GEN005517-ESXI5-000101
+#Severity: low
+#Description: SSH TCP connection forwarding provides a mechanism to establish TCP connections proxied by the SSH server. This function can provide similar convenience to a Virtual Private Network (VPN) with the similar risk of providing a path to circumvent firewalls and network ACLs. Gateway ports allow remote forwarded ports to bind to non-loopback addresses on the server.
+#Rule Title: The SSH daemon must be configured to not allow gateway ports.
+#Version: GEN005517-ESXI5-000101
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Check the SSH daemon configuration for the gateway ports setting.
+# grep -i GatewayPorts /etc/ssh/sshd_config | grep -v '^#'
+
+#If "GatewayPorts" is set to "yes", this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode.
+#Enable the ESXi Shell. Edit the SSH daemon configuration and add/modify the "GatewayPorts" configuration, setting it to "no".
+# vi /etc/ssh/sshd_config
+#
+if grep -i GatewayPorts /etc/ssh/sshd_config | grep -v '^#'; then
+        sed -i 's/GatewayPorts/#GatewayPorts/g' /etc/ssh/sshd_config
+        echo "GatewayPorts have been fixed in sshd_config"
+else
+echo "Gateway Ports config is fine"
+fi

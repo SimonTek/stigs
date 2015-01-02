@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39303
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000147
+#Severity: low
+#Description: The mutual authentication secret for each host must be different and the secret for each client authenticating to the server must be different as well. This ensures if a single host is compromised, an attacker cannot create another arbitrary host and authenticate to the storage device. With a single shared secret, compromise of one host can allow an attacker to authenticate to the storage device.
+#Rule Title: The system must ensure uniqueness of CHAP authentication secrets.
+#Version: SRG-OS-99999-ESXI5-000147
+#Check Content: From the vSphere Client, select the host, and then choose: Configuration - Storage Adaptors - iSCSI Initiator Properties - CHAP - CHAP 
+#(Target Authenticates Host) - determine if a different authentication secret is configured for each ESXi host.
+#If a different authentication secret is not configured for each ESXi host, this is a finding.
+#If iSCSI is not used, this is not a finding.
+
+#Fix Text: From the vSphere Client, select the host, and then choose: Configuration - Storage Adaptors - iSCSI Initiator Properties - CHAP - CHAP 
+#(Target Authenticates Host) - configure the authentication secret.
+
+if esxcli iscsi adapter list|grep Adapter; then
+echo "iSCSI adapter found,needs to be configured by the Systems Admin"
+echo "From the vSphere Client, select the host, and then choose:" >> /var/log/hardened
+echo "Configuration - Storage Adaptors - iSCSI Initiator Properties - CHAP - CHAP" >> /var/log/hardened.log
+else
+echo "no iSCSI adapter installed"
+fi 

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39413
+#Group Title: SRG-OS-000113
+#Version: SRG-OS-000113-ESXI5
+#Severity: high
+#Description: An authentication process resists replay attacks if it is impractical to achieve a successful authentication by recording and replaying a previous authentication message. 
+#Techniques used to address this include protocols using challenges (e.g., TLS, WS_Security), time synchronous, or challenge-response one-time authenticators.
+#Rule Title: The operating system must use organization-defined replay-resistant authentication mechanisms for network access to non-privileged accounts.
+#Version: SRG-OS-000113-ESXI5
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#Check the SSH client configuration for required protocol. # grep -i "Protocol 2" /etc/ssh/ssh_config | grep -v '^#' 
+#If no lines are returned, or the returned protocol list contains anything except 2, this is a finding.
+#Edit the SSH client  configuration and add/modify the "Protocol" configuration for Protocol 2 only. 
+
+if grep -i "Protocol 2" /etc/ssh/ssh_config | grep -v '^#' 
+echo "sshd is set to only use Protocol 2"
+else
+echo "Protocol 2" >> /etc/ssh/ssh_config
+fi
+if grep -i "Protocol 2,1" /etc/ssh/ssh_config then;
+sed -i 's@Protocol 2,1@Protocol 2@g' /etc/ssh/ssh_config
+fi

@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38498
+#Group Title: SRG-OS-000058
+#Version: RHEL-06-000383
+#Severity: medium
+#Description: If users can write to audit logs, audit trails can be modified or destroyed.
+#Rule Title: Audit log files must have mode 0640 or less permissive.
+#Version: RHEL-06-000383
+
+#Check Content: Run the following command to check the mode of the system audit logs: 
+
+#grep "^log_file" /etc/audit/auditd.conf|sed s/^[^\/]*//|xargs stat -c %a:%n
+
+#Audit logs must be mode 0640 or less permissive. 
+#If any are more permissive, this is a finding.
+
+
+#Fix Text: Change the mode of the audit log files with the following command: 
+
+# chmod 0640 [audit_file]
+
+if grep "^log_file" /etc/audit/auditd.conf|sed s/^[^\/]*//|xargs stat -c %a:%n|grep 7; then
+echo "This machine isn't RHEL-06-000383 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000383 Compliant"
+chmod 0640 /var/log/audit/audit.log
+else
+echo "This machine is RHEL-06-000383 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000383 Compliant"
+fi

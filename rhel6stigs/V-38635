@@ -1,0 +1,35 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38635
+#Group Title: SRG-OS-000062
+#Version: RHEL-06-000165
+#Severity: low
+#Description: Arbitrary changes to the system time can be used to obfuscate nefarious activities in log files, as well as to confuse network services that are highly dependent upon an accurate system time (such as sshd). All changes to the system time should be audited.
+#Rule Title: The audit system must be configured to audit all attempts to alter system time through adjtimex.
+#Version: RHEL-06-000165
+
+#Check Content: To determine if the system is configured to audit calls to the "adjtimex" system call, run the following command: 
+
+# auditctl -l | grep syscall | grep adjtimex
+
+#If the system is configured to audit this activity, it will return a line. 
+#If the system is not configured to audit time changes, this is a finding.
+#Fix Text: On a 64-bit system, add the following to "/etc/audit/audit.rules": 
+# audit_time_rules
+#-a always,exit -F arch=b64 -S adjtimex -k audit_time_rules
+
+#The -k option allows for the specification of a key in string form that can be used for better reporting capability through ausearch and aureport. Multiple system calls can be defined on the same line to save space if desired, but is not required. See an example of multiple combined syscalls: 
+
+#-a always,exit -F arch=b64 -S adjtimex -S settimeofday -S clock_settime 
+#-k audit_time_rules
+
+if auditctl -l | grep syscall | grep adjtimex; then
+echo "This machine is RHEL-06-000165 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000165 Compliant"
+else
+echo "This machine isn't RHEL-06-000165 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000165 Compliant"
+echo "audit_time_rules" >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b64 -S adjtimex -k audit_time_rules" >> /etc/audit/audit.rules
+fi

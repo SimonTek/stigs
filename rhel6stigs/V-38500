@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38500
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000032
+#Severity: medium
+#Description: An account has root authority if it has a UID of 0. Multiple accounts with a UID of 0 afford more opportunity for potential intruders to guess a password for a privileged account. Proper configuration of sudo is recommended to afford multiple system administrators access to root privileges in an accountable manner.
+#Rule Title: The root account must be the only account having a UID of 0.
+#Version: RHEL-06-000032
+
+#Check Content: To list all password file entries for accounts with UID 0, run the following command: 
+
+# awk -F: '($3 == "0") {print}' /etc/passwd
+
+#This should print only one line, for the user root. 
+#If any account other than root has a UID of 0, this is a finding.
+#Fix Text: If any account other than root has a UID of 0, this misconfiguration should be investigated and the accounts other than root should be removed or have their UID changed.
+
+if awk -F: '($3 == "0") {print}' /etc/passwd |grep -v root; then
+echo "This machine isn't RHEL-06-000032 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000032 Compliant"
+echo "This machine has non-root uid 0 accounts" >> /var/log/Stig
+else
+echo "This machine is RHEL-06-000032 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000032 Compliant"
+fi

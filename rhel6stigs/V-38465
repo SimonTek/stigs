@@ -1,0 +1,37 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38465
+#Group Title: SRG-OS-000259
+#Version: RHEL-06-000045
+#Severity: medium
+#Description: Files from shared library directories are loaded into the address space of processes (including privileged ones) or of the kernel itself at runtime. Restrictive permissions are necessary to protect the integrity of the system.
+#Rule Title: Library files must have mode 0755 or less permissive.
+#Version: RHEL-06-000045
+
+#Check Content: System-wide shared library files, which are linked to executables during process load time or run time, are stored in the following directories by default: 
+#/lib
+#/lib64
+#/usr/lib
+#/usr/lib64
+
+#Kernel modules, which can be added to the kernel during runtime, are stored in "/lib/modules". All files in these directories should not be group-writable or world-writable. To find shared libraries that are group-writable or world-writable, run the following command for each directory [DIR] which contains shared libraries: 
+#$ find -L [DIR] -perm /022
+
+#If any of these files are group-writable or world-writable, this is a finding.
+#Fix Text: System-wide shared library files, which are linked to executables during process load time or run time, are stored in the following directories by default: 
+
+#/lib
+#/lib64
+#/usr/lib
+#/usr/lib64
+#If any file in these directories is found to be group-writable or world-writeable correct its permission with the following command: 
+
+# chmod go-w [FILE]
+# will use case/esac for this
+echo "Checking to make sure there are no world writable files"
+  DIRS="/lib /lib64 /usr/lib /usr/lib64"
+for dirPath in $DIRS; do
+	find $dirPath -perm -022 -type f -exec chmod go-w '{}' \;
+echo "Done"
+done

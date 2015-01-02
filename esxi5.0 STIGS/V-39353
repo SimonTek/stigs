@@ -1,0 +1,18 @@
+#!/bin/sh
+
+#Group ID: V-39353
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000161
+#Severity: medium
+#Description: The virtual disk must be zeroed prior to deletion in order to prevent sensitive data in VMDK files from being recovered.
+#Rule Title: The system must zero out VMDK files prior to deletion.
+#Version: SRG-OS-99999-ESXI5-000161
+
+#Check Content: Ask the SA if a documented procedure is used to overwrite sensitive data in vmdk flat files prior to deletion. The procedure must include a command to zero data and the file must then be deleted. See some examples directly below.
+#vmkfstools --writezeroes <path+vmdk_flat_file>
+#or
+#dd if=/dev/zero of=<path+vmdk_flat_file>
+#If a documented procedure to overwrite sensitive data in vmdk flat files prior to deletion does not exist, this is a finding.
+#Fix Text: Create and document a procedure to zero sensitive data prior to removal of the vmdk file. Command line interface commands such as vmkfstools, dd and rm must be used. Alternatively, from the vSphere Client, select the ESX host>> Configuration tab - Storage >> Add storage >>
+#Select the LUN ID to be destroyed.
+echo "SRG-OS-99999-ESXI5-000161 has to be done manually" >> /tmp/sysadmintodo

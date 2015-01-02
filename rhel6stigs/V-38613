@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38613
+#Group Title: SRG-OS-000109
+#Version: RHEL-06-000237
+#Severity: medium
+#Description: Permitting direct root login reduces auditable information about who ran privileged commands on the system and also allows direct attack attempts on root's password.
+#Rule Title: The system must not permit root logins using remote access programs such as ssh.
+#Version: RHEL-06-000237
+
+#Check Content: To determine how the SSH daemon's "PermitRootLogin" option is set, run the following command: 
+
+# grep -i PermitRootLogin /etc/ssh/sshd_config
+
+#If a line indicating "no" is returned, then the required value is set. 
+#If the required value is not set, this is a finding.
+#Fix Text: The root user should never be allowed to log in to a system directly over a network. To disable root login via SSH, add or correct the following line in "/etc/ssh/sshd_config": 
+
+#PermitRootLogin no
+if grep -i PermitRootLogin /etc/ssh/sshd_config |grep -v '^#'|grep no; then
+echo "This machine is RHEL-06-000237 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000237 Compliant"
+else
+echo "This machine isn't RHEL-06-000237 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000237 Compliant"
+echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+/etc/init.d/sshd restart
+fi

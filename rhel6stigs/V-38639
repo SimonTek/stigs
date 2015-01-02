@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38639
+#Group Title: SRG-OS-000031
+#Version: RHEL-06-000260
+#Severity: low
+#Description: Setting the screensaver mode to blank-only conceals the contents of the display from passersby.
+#Rule Title: The system must display a publicly-viewable pattern during a graphical desktop environment session lock.
+#Version: RHEL-06-000260
+
+#Check Content: To ensure the screensaver is configured to be blank, run the following command: 
+
+#$ gconftool-2 -g /apps/gnome-screensaver/mode
+
+#If properly configured, the output should be "blank-only" 
+#If it is not, this is a finding.
+#Fix Text: Run the following command to set the screensaver mode in the GNOME desktop to a blank screen: 
+
+# gconftool-2
+#--direct \
+#--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+#--type string \
+#--set /apps/gnome-screensaver/mode blank-only
+
+if gconftool-2 -g /apps/gnome-screensaver/mode|grep "blank-only"; then
+echo "This machine is RHEL-06-000260 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000260 Compliant"
+else
+echo "This machine isn't RHEL-06-000260 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000260 Compliant"
+gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type string --set /apps/gnome-screensaver/mode blank-only
+fi

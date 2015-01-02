@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#Group ID: V-39376
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000019
+#Severity: medium
+#Description: When promiscuous mode is enabled for a dvPortgroup, all virtual machines connected to the dvPortgroup have the potential of reading all packets across that network, meaning only the virtual machines connected to that  dvPortgroup. Promiscuous mode is disabled by default on the ESXi Server, and this is the recommended setting. However, there might be a legitimate reason to enable it for debugging, monitoring or troubleshooting reasons. Security devices might require the ability to see all packets on a vSwitch.  An exception should be made for the dvPortgroups that these applications are connected to, in order to allow for full-time visibility to the traffic on that dvPortgroup.
+#Rule Title: The system must ensure the dvPortgroup Promiscuous Mode policy is set to reject.
+#Version: ESXI5-VMNET-000019
+
+#Check Content: If the dvPortgroup contains only security devices that continuously monitor all dvPortgroup traffic switch packets, this check is not a finding.
+
+#From the vSphere Client/vCenter Server as administrator: 
+
+#Go to "Home>> Inventory>> Hosts and clusters". 
+#Select each ESXi host with active virtual switches connected to active VMs requiring securing. 
+#Go to tab "Home>> Inventory>>Networking". Individually select each dvPortgroup, then go to tab "Summary>>Edit Settings>>Policies>> Security". 
+#Verify "Promiscuous Mode" = "Reject".
+
+#If the "Promiscuous Mode" parameter is not set to "Reject", this is a finding.
+
+
+#Fix Text: From the vSphere Client/vCenter Server as administrator: 
+
+#Go to "Home>> Inventory>> Hosts and clusters". 
+#Select each ESXi host with active virtual switches connected to active VMs requiring securing. 
+#Go to tab "Home>> Inventory>> Networking". Individually select each dvPortgroup, then go to tab "Summary>> Edit Settings>>Policies>> Security". 
+#Set the "Promiscuous Mode" keyword to "Reject".
+echo "ESXI5-VMNET-000019 has to be done manually" >> /tmp/sysadmintodo

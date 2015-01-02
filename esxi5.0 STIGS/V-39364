@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39364
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000007
+#Severity: low
+#Description: This control mitigates the risk of misconfiguration, whether accidental or malicious, and enforces key security concepts of separation of duties and least privilege. It is important to leverage the role-based access controls within vSphere to ensure that only authorized administrators have access to the different virtual networking components. For example, VM administrators should have access only to port groups in which their VMs reside. Network administrators should have permissions to all virtual networking components but not have access to VMs. These controls will depend very much on the organization's policy on separation of duties, least privilege, and the responsibilities of the administrators within the organization.
+#Rule Title: Only authorized administrators must have access to virtual networking components.
+#Version: ESXI5-VMNET-000007
+
+#Check Content: vSphere permissions to specific port groups must be granted only to individuals who need it. From the vSphere Client/vCenter as a user with full Administrator Role rights to the Inventory object to be checked:
+#Select "[Inventory Object]>> Permissions". Verify that users assigned to the selected Inventory object have the appropriate role.
+
+#If any user assigned to the selected Inventory object have an inappropriate role, this is a finding.
+
+
+#Fix Text: vSphere permissions to specific port groups must be granted only to individuals who need it. From the vSphere Client/vCenter as a user with full Administrator Role rights to the Inventory object to be checked:
+#(1) Select "[Inventory Object]>> Permissions". Assign users with the appropriate Role to the all Inventory object(s).
+
+echo "ESXI5-VMNET-000007 has to be done manually" >> /tmp/sysadmintodo

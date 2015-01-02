@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38614
+#Group Title: SRG-OS-000106
+#Version: RHEL-06-000239
+#Severity: high
+#Description: Configuring this setting for the SSH daemon provides additional assurance that remote login via SSH will require a password, even in the event of misconfiguration elsewhere.
+#Rule Title: The SSH daemon must not allow authentication using an empty password.
+#Version: RHEL-06-000239
+
+#Check Content: To determine how the SSH daemon's "PermitEmptyPasswords" option is set, run the following command: 
+
+# grep -i PermitEmptyPasswords /etc/ssh/sshd_config
+
+#If no line, a commented line, or a line indicating the value "no" is returned, then the required value is set. 
+#If the required value is not set, this is a finding.
+#Fix Text: To explicitly disallow remote login from accounts with empty passwords, add or correct the following line in "/etc/ssh/sshd_config": 
+#PermitEmptyPasswords no
+#Any accounts with empty passwords should be disabled immediately, and PAM configuration should prevent users from being able to assign themselves empty passwords.
+
+if grep -i PermitEmptyPasswords /etc/ssh/sshd_config |grep -v '^#'|grep no; then
+echo "This machine is RHEL-06-000239 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000239 Compliant"
+else
+echo "This machine isn't RHEL-06-000239 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000239 Compliant"
+echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config
+fi

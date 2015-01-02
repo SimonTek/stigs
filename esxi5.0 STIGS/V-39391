@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39391
+#Group Title: SRG-OS-000109
+#Version: SRG-OS-000109-ESXI5
+#Severity: medium
+#Description: Even though communications are encrypted, an additional layer of security may be gained by extending the policy of not logging directly on as root. In addition, logging in with a user-specific account preserves the audit trail.
+#Rule Title: The system must not permit root logins using remote access programs, such as SSH.
+#Version: SRG-OS-000109-ESXI5
+
+if grep -i PermitRootLogin /etc/ssh/sshd_config | grep no; then
+echo "PermitRootLogin is turned off"
+elif grep -i PermitRootLogin /etc/ssh/sshd_config | grep yes;then
+sed -i 's/PermitRootLogin yes/PermitRootLogin no/g' /etc/ssh/sshd_config
+echo "PermitRootLogin has been turned off"
+else
+echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+echo "Added 'PermitRootLogin no' to sshd_config"
+fi

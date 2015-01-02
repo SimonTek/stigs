@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Group ID: V-39291
+#Group Title: GEN008500
+#Version: GEN008500-ESXI5-000123
+#Severity: low
+#Description: Firewire is a common computer peripheral interface. Firewire devices may include storage devices that could be used to install malicious software on a system or exfiltrate data.
+#Rule Title: The system must have IEEE 1394 (Firewire) disabled unless needed.
+#Version: GEN008500-ESXI5-000123
+
+#Check Content: If the system uses IEEE 1394, this is not applicable.
+
+#To verify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu.  Inspect the menu option for IEEE 1394 device connectivity.
+
+#If the system does not use IEEE 1394 and IEEE 1394 is enabled, this is a finding.
+
+
+#Fix Text: To modify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for IEEE 1394 device connectivity.  Disable IEEE 1394.
+#Has to be done manually
+echo "Must have Systems Admin turn off Firewire aka IEEE 1394"
+echo "Must have Systems Admin turn off Firewire aka IEEE 1394" >> /tmp/sysadmintodo

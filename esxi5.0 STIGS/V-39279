@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#Group ID: V-39279
+#Group Title: GEN005440
+#Version: GEN005440-ESXI5-000078
+#Severity: medium
+#Description: Syslog messages are typically unencrypted and may contain sensitive information and are, therefore, restricted to the enclave.
+#Rule Title: The system must not be used as a syslog server (log host) for systems external to the enclave.
+#Version: GEN005440-ESXI5-000078
+
+#Check Content: Verify that the vSphere Syslog Collector syslog host has been justified and documented with the IAO.
+#From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >> Global".  
+#Verify that the 'Syslog.global.logHost' is set to the (site-specific) syslog server hostname.
+
+#If the 'Syslog.global.logHost' is not restricted to the enclave, this is a finding.
+
+
+#Fix Text: Step 1:  Verify that the vSphere Syslog Collector syslog host has been configured. If not, install/enable the vSphere Syslog Collector.
+#Step 2:  From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >> Global".  
+#Step 3: Set 'Syslog.global.logHost' to the syslog server hostname restricted to the enclave.
+
+echo "GEN005440-ESXI5-000078 has to be done manually" >> /tmp/sysadmintodo 

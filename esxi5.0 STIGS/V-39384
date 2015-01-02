@@ -1,0 +1,14 @@
+#!/bin/sh
+
+#Group ID: V-39384
+#Group Title: GEN008600
+#Version: GEN008600-ESXI5-000050
+#Severity: high
+#Description: The ability to boot from removable media is the same as being able to boot into single user or maintenance mode without a password. This ability could allow a malicious user to boot the system and perform changes possibly compromising or damaging the system. It could also allow the system to be used for malicious purposes by a malicious anonymous user.
+#Rule Title: The system must be configured to only boot from the system boot device.
+#Version: GEN008600-ESXI5-000050
+#Check Content: Note: Checking a system's BIOS is vendor and hardware dependent. To verify media boot options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for boot order.
+#If any media other than the ESXi boot disk is listed as a boot option, this is a finding.
+#Fix Text: Note: Checking a system's BIOS is vendor and hardware dependent. To ensure media boot options: Interrupt the host computer's boot process and enter the BIOS menu.  Inspect the menu option for boot order. Remove all boot media options except for ESXi.  Save the change and exit to verify the boot cycle.
+echo "GEN008600-ESXI5-000050 has to be done manually" >> /tmp/sysadmintodo
+echo "Can not change BIOS settings, must be done manually."

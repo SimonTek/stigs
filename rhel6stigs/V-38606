@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38606
+#Group Title: SRG-OS-000095
+#Version: RHEL-06-000222
+#Severity: medium
+#Description: Removing the "tftp-server" package decreases the risk of the accidental (or intentional) activation of tftp services.
+#Rule Title: The tftp-server package must not be installed.
+#Version: RHEL-06-000222
+
+#Check Content: Run the following command to determine if the "tftp-server" package is installed: 
+
+# rpm -q tftp-server
+
+#If the package is installed, this is a finding.
+
+#Fix Text: The "tftp-server" package can be removed with the following command: 
+
+# yum erase tftp-server
+
+if rpm -q tftp-server; then
+echo "This machine isn't RHEL-06-000222 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000222 Compliant"
+yum erase tftp-server -y
+else
+echo "This machine is RHEL-06-000222 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000222 Compliant"
+fi

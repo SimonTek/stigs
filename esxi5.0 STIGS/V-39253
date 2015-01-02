@@ -1,0 +1,26 @@
+#!/bin/sh
+
+#Group ID: V-39253
+#Group Title: SRG-OS-000027
+#Version: SRG-OS-000027-ESXI5
+#Severity: medium
+#Description: The SSH protocol has the ability to provide multiple sessions over a single connection without reauthentication. A compromised client could use this feature to establish additional sessions to a system without consent or knowledge of the user.
+#Rule Title: The SSH daemon must limit connections to a single session.
+#Version: SRG-OS-000027-ESXI5
+
+#Check Content: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# grep MaxSessions /etc/ssh/sshd_config
+
+#If "MaxSessions" is not set to "1" or the keyword/line is missing, this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# vi /etc/ssh/sshd_config
+
+#Add/modify the "MaxSessions" keyword to "1", i.e.; MaxSessions= 1
+
+#Re-enable lock down mode.
+echo "SRG-OS-000027-ESXI5 is fixed by GEN005517-ESXI5-000101"
+echo "SRG-OS-000027-ESXI5 is fixed by GEN005517-ESXI5-000101" >> /tmp/sysadmintodo

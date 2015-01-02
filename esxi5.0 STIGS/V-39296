@@ -1,0 +1,29 @@
+#!/bin/sh
+
+#Group ID: V-39296
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000137
+#Severity: medium
+#Description: The Managed Object Browser (MOB) provides a way to explore the object model used by the VMkernel to manage the host and enables configurations to be changed as well. This interface is meant to be used primarily for debugging the vSphere SDK, but because there are no access controls it could also be used as a method obtain information about a host being targeted for unauthorized access.
+#Rule Title: The system must disable the Managed Object Browser (MOB).
+#Version: SRG-OS-99999-ESXI5-000137
+#Check Content: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. 
+#Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. 
+#When you hose the box:
+#http://kb.vmware.com/selfservice/microsites/search.do?language=en_US&cmd=displayKC&externalId=1016039
+#If connecting to vCenter Server, click on the desired host. 
+#Click the Configuration tab. 
+#Click Software, Security Profile, Services, Properties, ESXi Shell, and Options, respectively.
+#Start the ESXi Shell service, where/as required.
+#As root, log in to the ESXi Shell and determine if the MOB is enabled.
+# vim-cmd proxysvc/service_list | grep proxy-mob
+
+#If the command return lists "proxy-mob", this is a finding.
+#Fix Text: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. 
+
+if vim-cmd proxysvc/service_list | grep proxy-mob; then
+echo "This is a Finding, must fix"
+vim-cmd proxysvc/remove_service "/mob" "httpsWithRedirect
+else
+echo "No issues to report"
+fi

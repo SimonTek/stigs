@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38458
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-004222
+#Severity: medium
+#Description: The "/etc/group" file contains information regarding groups that are configured on the system. Protection of this file is important for system security.
+#Rule Title: The /etc/group file must be owned by root.
+#Version: RHEL-06-004222
+
+#Check Content: To check the ownership of "/etc/group", run the command: 
+
+#$ ls -l /etc/group
+
+#If properly configured, the output should indicate the following owner: "root" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the owner of "/etc/group", run the command: 
+
+# chown root /etc/group
+
+if ls -l /etc/group|grep "root root" ; then
+echo "This machine is RHEL-06-000422 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000422 Compliant"
+else
+echo "This machine isn't RHEL-06-000422 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000422 Compliant"
+chown root /etc/group
+fi

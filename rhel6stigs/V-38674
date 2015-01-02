@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38674
+#Group Title: SRG-OS-000248
+#Version: RHEL-06-000290
+#Severity: medium
+#Description: Unnecessary services should be disabled to decrease the attack surface of the system.
+#Rule Title: X Windows must not be enabled unless required.
+#Version: RHEL-06-000290
+
+#Check Content: To verify the default runlevel is 3, run the following command: 
+# grep initdefault /etc/inittab
+#The output should show the following: 
+#id:3:initdefault:
+#If it does not, this is a finding.
+#Fix Text: Setting the system's runlevel to 3 will prevent automatic startup of the X server. To do so, ensure the following line in "/etc/inittab" features a "3" as shown: 
+#id:3:initdefault:
+
+if grep initdefault /etc/inittab|grep 3; then
+echo "This machine is RHEL-06-000290 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000290 Compliant"
+else
+echo "This machine isn't RHEL-06-000290 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000290 Compliant"
+sed -i 's/id:5/id:3/g' /etc/inittab
+fi

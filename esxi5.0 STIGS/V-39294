@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39294
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000135
+#Severity: medium
+#Description: The DCUI allows for low-level host configuration, such as configuring IP address, hostname, and root password, as well as diagnostic capabilities, such as enabling the ESXi shell, viewing log files, restarting agents, and resetting configurations. Actions performed from the DCUI are not tracked by vCenter Server. Even if Lockdown Mode is enabled, someone with the root password can perform administrative tasks in the DCUI bypassing RBAC and auditing controls provided through vCenter. DCUI access can be disabled. Disabling it prevents all local activity and thus forces actions to be performed in vCenter Server where they can be centrally audited and monitored.
+#Rule Title: The system must disable DCUI to prevent local administrative control.
+#Version: SRG-OS-99999-ESXI5-000135
+
+#If the DCUI service startup policy is not set to "Start and stop manually", this is a finding.
+#Fix Text: From the vSphere Client, select the host and select "Configuration >> Security Profile". In the services section select "Properties". Select "Direct Console UI" and click "Options". From the pop-up stop the DCUI service and set the startup policy to "start and stop manually".
+
+if /etc/init.d/DCUI status|grep "enabled"; then
+echo "DCUI is enabled, We will disable it now"
+/sbin/chkconfig DCUI off 
+/etc/init.d/DCUI stop
+else
+echo "DCUI is Disabled"
+fi
+
+# Config files for future reference
+#/etc/init.d/DCUI
+#/etc/pam.d/dcui

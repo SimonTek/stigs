@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39278
+#Group Title: GEN005460
+#Version: GEN005460-ESXI5-000060
+#Severity: medium
+#Description: If a remote log host is in use and it has not been justified and documented with the IAO, sensitive information could be obtained by unauthorized users without the SA's knowledge. A remote log host is any host to which the system is sending syslog messages over a network.
+#Rule Title: The system must only use remote syslog servers (log hosts) justified and documented using site-defined procedures.
+#Version: GEN005460-ESXI5-000060
+
+#Check Content: Verify that the vSphere Syslog Collector syslog host has been justified and documented with the IAO. From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >>  Global". Verify that the 'Syslog.global.logHost' is set to the (site-specific) syslog server hostname. If the 'Syslog.global.logHost' is not justified and documented with the IAO, this is a finding.
+
+
+#Fix Text: Step 1:  Verify that the vSphere Syslog Collector syslog host has been configured. If not, install/enable the vSphere Syslog Collector. Step 2:  From the vSphere Client:  Select the host and click "Configuration >> Advanced Settings >> Syslog >> Global". Step 3: Set 'Syslog.global.logHost' to the syslog server hostname justified and documented with the IAO.
+#Places to check
+# /var/spool/cron/crontabs/root 
+# /etc/vmsyslog.conf.d
+echo "GEN005460-ESXI5-000060 has to be done manually" >> /tmp/sysadmintodo
+#Can be automated, but do to it being allowed via the IAO, I chose to be simple. Ironic cause there is a STIG that requires me to set up a remote log server

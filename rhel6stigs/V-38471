@@ -1,0 +1,29 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38471
+#Group Title: SRG-OS-005093
+#Version: RHEL-06-000509
+#Severity: low
+#Description: The auditd service does not include the ability to send audit records to a centralized server for management directly.  It does, however, include an audit event multiplexor plugin (audispd) to pass audit records to the local syslog server.
+#Rule Title: The system must forward audit records to the syslog service.
+#Version: RHEL-06-000509
+
+#Check Content: Verify the audispd plugin is active:
+
+# grep active /etc/audisp/plugins.d/syslog.conf
+
+#If the "active" setting is missing or set to "no", this is a finding.
+
+
+#Fix Text: Set the "active" line in "/etc/audisp/plugins.d/syslog.conf" to "yes".  Restart the auditd process.
+
+# service auditd restart
+if grep active /etc/audisp/plugins.d/syslog.conf|grep no; then
+echo "This machine is RHEL-06-000509 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000509 Compliant"
+else
+echo "This machine isn't RHEL-06-000509 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000509 Compliant"
+sed -i 's@active = no@active = yes@g' /etc/audisp/plugins.d/syslog.conf
+fi

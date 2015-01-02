@@ -1,0 +1,25 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38449
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000038
+#Severity: medium
+#Description: The /etc/gshadow file contains group password hashes. Protection of this file is critical for system security.
+#Rule Title: The /etc/gshadow file must have mode 0000.
+#Version: RHEL-06-000038
+#Check Content: To check the permissions of "/etc/gshadow", run the command: 
+#$ ls -l /etc/gshadow
+#If properly configured, the output should indicate the following permissions: "----------" 
+#If it does not, this is a finding.
+#Fix Text: To properly set the permissions of "/etc/gshadow", run the command: 
+# chmod 0000 /etc/gshadow
+
+if ls -l /etc/gshadow |grep -v "-"; then
+echo "This machine isn't RHEL-06-000038 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000038 Compliant"
+chmod 0000 /etc/gshadow
+else
+echo "This machine is RHEL-06-000038 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000038 Compliant"
+fi

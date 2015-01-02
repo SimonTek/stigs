@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38543
+#Group Title: SRG-OS-000064
+#Version: RHEL-06-000184
+#Severity: low
+#Description: The changing of file permissions could indicate that a user is attempting to gain access to information that would otherwise be disallowed. Auditing DAC modifications can facilitate the identification of patterns of abuse among both authorized and unauthorized users.
+#Rule Title: The audit system must be configured to audit all discretionary access control permission modifications using chmod.
+#Version: RHEL-06-000184
+#Check Content: To determine if the system is configured to audit calls to the "chmod" system call, run the following command: 
+
+# auditctl -l | grep syscall | grep chmod
+
+#If the system is configured to audit this activity, it will return several lines. 
+#If no lines are returned, this is a finding.
+#Fix Text: At a minimum, the audit system should collect file permission changes for all users and root. Add the following to "/etc/audit/audit.rules": 
+
+#If the system is 64-bit, then also add the following: 
+
+#-a always,exit -F arch=b64 -S chmod -F auid>=500 -F auid!=4294967295 \
+#-k perm_mod
+#-a always,exit -F arch=b64 -S chmod -F auid==0 -k perm_mod
+
+if auditctl -l | grep syscall | grep chmod; then
+echo "This machine is RHEL-06-000184 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000184 Compliant"
+else
+echo "This machine isn't RHEL-06-000184 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000184 Compliant"
+echo "-a always,exit -F arch=b64 -S chmod -F auid>=500 -F auid!=4294967295 \ " >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b32 -S chmod -F auid>=500 -F auid!=4294967295 \ " >> /etc/audit/audit.rules
+fi

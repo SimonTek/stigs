@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38605
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000224
+#Severity: medium
+#Description: Due to its usage for maintenance and security-supporting tasks, enabling the cron daemon is essential.
+#Rule Title: The cron service must be running.
+#Version: RHEL-06-000224
+
+#Check Content: Run the following command to determine the current status of the "crond" service: 
+
+# service crond status
+
+#If the service is enabled, it should return the following: 
+#crond is running...
+#If the service is not running, this is a finding.
+#Fix Text: The "crond" service is used to execute commands at preconfigured times. It is required by almost all systems to perform necessary maintenance tasks, such as notifying root of system activity. The "crond" service can be enabled with the following command: 
+# chkconfig crond on
+
+if service crond status|grep "crond is running"; then
+echo "This machine isn't RHEL-06-000224 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000224 Compliant"
+chkconfig crond on
+/etc/init.d/crond restart
+else
+echo "This machine is RHEL-06-000224 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000224 Compliant"
+fi

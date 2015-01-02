@@ -1,0 +1,30 @@
+#!/bin/sh
+
+#Group ID: V-39275
+#Group Title: GEN002120
+#Version: GEN002120-ESXI5-000045
+#Severity: medium
+#Description: The shells file (or equivalent) lists approved default shells. It helps provide layered defense to the security approach by ensuring users cannot change their default shell to an unauthorized shell that may not be secure.
+#Rule Title: The /etc/shells (or equivalent) file must exist.
+#Version: GEN002120-ESXI5-000045
+
+#Check Content: Disable lock down mode. Enable the ESXi Shell.
+#<file> = /etc/shells
+#Execute the following command(s):
+# ls -l /etc/shells
+
+#If /etc/shells does not exist, this is a finding.
+
+#!/bin/sh
+
+e=/etc/shells
+
+if [ -f $e ];then
+echo "Found shells"
+else
+
+echo "No Shells Found, creating the file now"
+echo "/bin/ash" > $e
+echo "/bin/sh" >> $e
+chmod 0644 $e
+fi

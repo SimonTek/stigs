@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38555
+#Group Title: SRG-OS-000152
+#Version: RHEL-06-000113
+#Severity: medium
+#Description: The "iptables" service provides the system's host-based firewalling capability for IPv4 and ICMP.
+#Rule Title: The system must employ a local IPv4 firewall.
+#Version: RHEL-06-000113
+
+#Check Content: If the system is a cross-domain system, this is not applicable.
+
+#Run the following command to determine the current status of the "iptables" service: 
+
+# service iptables status
+
+#If the service is enabled, it should return the following: 
+
+#iptables is running...
+#If the service is not running, this is a finding.
+#Fix Text: The "iptables" service can be enabled with the following command: 
+# chkconfig iptables on
+
+if service iptables status| grep "filter"; then 
+echo "This machine is RHEL-06-000113 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000113 Compliant"
+else
+echo "This machine isn't RHEL-06-000113 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000113 Compliant"
+chkconfig iptables on
+/etc/init.d/iptables restart
+fi

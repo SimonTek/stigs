@@ -1,0 +1,35 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38492
+#Group Title: SRG-OS-000109
+#Version: RHEL-06-000027
+#Severity: medium
+#Description: Preventing direct root login to virtual console devices helps ensure accountability for actions taken on the system using the root account. 
+#Rule Title: The system must prevent the root account from logging in from virtual consoles.
+#Version: RHEL-06-000027
+
+#Check Content: To check for virtual console entries which permit root login, run the following command: 
+
+# grep '^vc/[0-9]' /etc/securetty
+
+#If any output is returned, then root logins over virtual console devices is permitted. 
+#If root login over virtual console devices is permitted, this is a finding.
+
+
+#Fix Text: To restrict root logins through the (deprecated) virtual console devices, ensure lines of this form do not appear in "/etc/securetty": 
+
+#vc/1
+#vc/2
+#vc/3
+#vc/4
+
+#Note:  Virtual console entries are not limited to those listed above.  Any lines starting with "vc/" followed by numerals should be removed.
+if grep '^vc/[0-9]' /etc/securetty; then
+echo "This machine isn't RHEL-06-000027 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000027 Compliant"
+sed -i 's@^vc@#vc@g' /etc/securetty
+else
+echo "This machine is RHEL-06-000027 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000027 Compliant"
+fi

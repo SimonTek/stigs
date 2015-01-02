@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38645
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000345
+#Severity: low
+#Description: The umask value influences the permissions assigned to files when they are created. A misconfigured umask value could result in files with excessive permissions that can be read and/or written to by unauthorized users.
+#Rule Title: The system default umask in /etc/login.defs must be 077.
+#Version: RHEL-06-000345
+
+#Check Content: Verify the "umask" setting is configured correctly in the "/etc/login.defs" file by running the following command: 
+
+# grep -i "umask" /etc/login.defs
+
+#All output must show the value of "umask" set to 077, as shown in the below: 
+
+# grep -i "umask" /etc/login.defs
+#UMASK 077
+#If the above command returns no output, or if the umask is configured incorrectly, this is a finding.
+#Fix Text: To ensure the default umask controlled by "/etc/login.defs" is set properly, add or correct the "umask" setting in "/etc/login.defs" to read as follows: 
+#UMASK 077
+
+if grep -i "umask" /etc/login.defs|grep 077; then
+echo "This machine is RHEL-06-000345 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000345 Compliant"
+else
+echo "This machine isn't RHEL-06-000345 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000345 Compliant"
+sed -i 's@022@077@g' /etc/login.defs
+sed -i 's@027@077@g' /etc/login.defs
+fi

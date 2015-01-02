@@ -1,0 +1,28 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38686
+#Group Title: SRG-OS-000147
+#Version: RHEL-06-000320
+#Severity: medium
+#Description: In "iptables" the default policy is applied only after all the applicable rules in the table are examined for a match. Setting the default policy to "DROP" implements proper design for a firewall, i.e., any packets which are not explicitly permitted should not be accepted.
+#Rule Title: The systems local firewall must implement a deny-all, allow-by-exception policy for forwarded packets.
+#Version: RHEL-06-000320
+
+#Check Content: Run the following command to ensure the default "FORWARD" policy is "DROP": 
+#grep ":FORWARD" /etc/sysconfig/iptables
+#The output must be the following: 
+# grep ":FORWARD" /etc/sysconfig/iptables
+#:FORWARD DROP [0:0]
+#If it is not, this is a finding.
+#Fix Text: To set the default policy to DROP (instead of ACCEPT) for the built-in FORWARD chain which processes packets that will be forwarded from one interface to another, add or correct the following line in "/etc/sysconfig/iptables": 
+#:FORWARD DROP [0:0]
+
+if grep ":FORWARD" /etc/sysconfig/iptables | grep -i drop; then
+echo "This machine is RHEL-06-000320 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000320 Compliant"
+else
+echo "This machine isn't RHEL-06-000320 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000320 Compliant"
+sed -i 's@:FORWARD.*@:FORWARD DROP [0:0]@g' /etc/sysconfig/iptables
+fi

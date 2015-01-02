@@ -1,0 +1,40 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38470
+#Group Title: SRG-OS-000045
+#Version: RHEL-06-000005
+#Severity: medium
+#Description: Notifying administrators of an impending disk space problem may allow them to take corrective action prior to any disruption.
+#Rule Title: The audit system must alert designated staff members when the audit storage volume approaches capacity.
+#Version: RHEL-06-000005
+
+#Check Content: Inspect "/etc/audit/auditd.conf" and locate the following line to determine if the system is configured to email the administrator when disk space is starting to run low: 
+
+# grep space_left_action /etc/audit/auditd.conf
+#space_left_action = email
+#If the system is not configured to send an email to the system administrator when disk space is starting to run low, this is a finding.
+#Fix Text: The "auditd" service can be configured to take an action when disk space starts to run low. Edit the file "/etc/audit/auditd.conf". Modify the following line, substituting [ACTION] appropriately: 
+#space_left_action = [ACTION]
+#Possible values for [ACTION] are described in the "auditd.conf" man page. These include: 
+
+#"ignore"
+#"syslog"
+#"email"
+#"exec"
+#"suspend"
+#"single"
+#"halt"
+
+
+#Set this to "email" (instead of the default, which is "suspend") as it is more likely to get prompt attention.
+
+#RHEL-06-000521 ensures that the email generated through the operation "space_left_action" will be sent to an administrator.
+if grep space_left_action /etc/audit/auditd.conf|grep -i EMAIL; then
+echo "This machine is RHEL-06-000005 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000005 Compliant"
+else
+echo "This machine isn't RHEL-06-000005 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000005 Compliant"
+sed -i 's@^space_left_action.*@^space_left_action = EMAIL@g' /etc/audit/auditd.conf
+fi

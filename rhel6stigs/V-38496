@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38496
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000029
+#Severity: medium
+#Description: Disabling authentication for default system accounts makes it more difficult for attackers to make use of them to compromise a system.
+#Rule Title: Default system accounts, other than root, must be locked.
+#Version: RHEL-06-000029
+
+#Check Content: To obtain a listing of all users and the contents of their shadow password field, run the command: 
+
+#$ awk -F: '{print $1 ":" $2}' /etc/shadow
+
+#Identify the system accounts from this listing. These will primarily be the accounts with UID numbers less than 500, other than root. 
+#If any system account (other than root) has a valid password hash, this is a finding.
+
+
+#Fix Text: Some accounts are not associated with a human user of the system, and exist to perform some administrative function. An attacker should not be able to log into these accounts. 
+
+#Disable login access to these accounts with the command: 
+
+# passwd -l [SYSACCT]
+
+if grep -F ":$" /etc/shadow|grep -v root|tee /var/log/users ; then
+echo "This machine is RHEL-06-000029 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000029 Compliant"
+else
+echo "This machine isn't RHEL-06-000029 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000029 Compliant"
+
+fi

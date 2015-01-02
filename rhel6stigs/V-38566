@@ -1,0 +1,43 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38566
+#Group Title: SRG-OS-000064
+#Version: RHEL-06-000197
+#Severity: low
+#Description: Unsuccessful attempts to access files could be an indicator of malicious activity on a system. Auditing these events could serve as evidence of potential system compromise.
+#Rule Title: The audit system must be configured to audit failed attempts to access files and programs.
+#Version: RHEL-06-000197
+
+#Check Content: To verify that the audit system collects unauthorized file accesses, run the following commands: 
+
+# grep EACCES /etc/audit/audit.rules
+# grep EPERM /etc/audit/audit.rules
+
+#If either command lacks output, this is a finding.
+#Fix Text: At a minimum, the audit system should collect unauthorized file accesses for all users and root. Add the following to "/etc/audit/audit.rules", setting b64 to either b32 or b64 as appropriate for your system: 
+
+#-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \
+#-S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access
+#-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \
+#-S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access
+#-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \
+#-S ftruncate -F exit=-EACCES -F auid==0 -k access
+#-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \
+#-S ftruncate -F exit=-EPERM -F auid==0 -k access
+
+if grep EACCES /etc/audit/audit.rules; then
+echo "This machine is RHEL-06-000197 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000197 Compliant"
+else
+echo "This machine isn't RHEL-06-000197 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000197 Compliant"
+echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \" >> /etc/audit/audit.rules
+echo "-S ftruncate -F exit=-EACCES -F auid>=500 -F auid!=4294967295 -k access" >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \" >> /etc/audit/audit.rules
+echo "-S ftruncate -F exit=-EPERM -F auid>=500 -F auid!=4294967295 -k access" >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \" >> /etc/audit/audit.rules
+echo "-S ftruncate -F exit=-EACCES -F auid==0 -k access" >> /etc/audit/audit.rules
+echo "-a always,exit -F arch=b64 -S creat -S open -S openat -S truncate \" >> /etc/audit/audit.rules
+echo "-S ftruncate -F exit=-EPERM -F auid==0 -k access" >> /etc/audit/audit.rules
+fi

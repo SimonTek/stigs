@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#Group ID: V-39412
+#Group Title: SRG-OS-000112
+#Version: SRG-OS-000112-ESXI5
+#Severity: high
+#Description: SSHv1 is not a DoD-approved protocol and has many well-known vulnerability exploits. Exploits of the SSH daemon could provide immediate root access to the system.
+#Rule Title: The SSH daemon must be configured to only use the SSHv2 protocol.
+#Version: SRG-OS-000112-ESXI5
+#Check the SSH daemon configuration for required protocol. # grep -i "Protocol 2" /etc/ssh/sshd_config | grep -v '^#' 
+#If no lines are returned, or the returned protocol list contains anything except 2, this is a finding.
+#Edit the SSH daemon configuration and add/modify the "Protocol" configuration for Protocol 2 only. 
+
+if grep -i "Protocol 2" /etc/ssh/sshd_config | grep -v '^#' 
+echo "sshd is set to only use Protocol 2"
+else
+echo "Protocol 2" >> /etc/ssh/sshd_config
+fi
+
+if grep -i "Protocol 2,1" /etc/ssh/ssdh_config then;
+sed -i 's@Protocol 2,1@Protocol 2@g' /etc/ssh/sshd_config
+fi

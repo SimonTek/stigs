@@ -1,0 +1,21 @@
+#!/bin/sh
+
+#Group ID: V-39357
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000002
+#Severity: low
+#Description: dvSwitch Private VLANs (PVLANs) require primary and secondary VLAN IDs. The IDs must correspond to the IDs on external PVLAN-aware upstream switches, if any. If VLAN IDs are not tracked completely, mistaken re-use of IDs could allow for traffic to be allowed between inappropriate physical and virtual machines. Similarly, wrong or missing PVLAN IDs may lead to traffic not passing between appropriate physical and virtual machines.
+#Rule Title: All dvSwitch Private VLAN IDs must be fully documented.
+#Version: ESXI5-VMNET-000002
+
+#Check Content: Verify by using the vSphere Client to connect to the vCenter Server and as administrator 
+#go to "Home>> Inventory>> Hosts and Clusters". 
+#Select each ESXi host with virtual switches connected to active VMs requiring securing. 
+#Go to "Configuration>> Network>> vSwitch(?)>> Properties>> Ports>> [Portgroup Name]>> VLAN ID". 
+#The dvSwitch Private VLAN tags must be documented to match the IDs on external PVLAN-aware upstream switches. Verify that Private VLAN IDs are documented and matched in an (organization-specific) tracking system. 
+
+#If any PVLAN IDs do not correspond to the IDs on external PVLAN-aware upstream switches, this is a finding.
+
+
+#Fix Text: From the vSphere Client connect to the vCenter Server and as administrator go to "Home>> Inventory>> Hosts and Clusters". Select each ESXi host with virtual switches connected to active VMs requiring securing. Go to "Configuration>> Network>> vSwitch(?)>> Properties>> Ports>> [Portgroup Name]>> VLAN ID". Record all configured VLAN IDs in an organization defined tracking system.
+echo "ESXI5-VMNET-000002 has to be done manually" >> /tmp/sysadmintodo

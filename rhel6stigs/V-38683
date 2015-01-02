@@ -1,0 +1,25 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38683
+#Group Title: SRG-OS-000121
+#Version: RHEL-06-000296
+#Severity: low
+#Description: Unique usernames allow for accountability on the system.
+#Rule Title: All accounts on the system must have unique user or account names
+#Version: RHEL-06-000296
+#Check Content: Run the following command to check for duplicate account names: 
+# pwck -rq
+#If there are no duplicate names, no line will be returned. 
+#If a line is returned, this is a finding.
+#Fix Text: Change usernames, or delete accounts, so each has a unique name.
+
+if pwck -rq; then
+echo "This machine is RHEL-06-000296 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000296 Compliant"
+else
+echo "This machine isn't RHEL-06-000296 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000296 Compliant"
+echo "run pwck -rq, Add a group to the system for each GID referenced without a corresponding group" >> /var/log/Stig
+echo "run pwck -rq, Add a group to the system for each GID referenced without a corresponding group"
+fi

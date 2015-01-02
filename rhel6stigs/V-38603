@@ -1,0 +1,26 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38603
+#Group Title: SRG-OS-000095
+#Version: RHEL-06-000220
+#Severity: medium
+#Description: Removing the "ypserv" package decreases the risk of the accidental (or intentional) activation of NIS or NIS+ services.
+#Rule Title: The ypserv package must not be installed.
+#Version: RHEL-06-000220
+
+#Check Content: Run the following command to determine if the "ypserv" package is installed: 
+
+# rpm -q ypserv
+#If the package is installed, this is a finding.
+#Fix Text: The "ypserv" package can be uninstalled with the following command: 
+# yum erase ypserv
+
+if rpm -q ypserv|grep "not installed"; then
+echo "This machine is RHEL-06-000220 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000220 Compliant"
+else
+echo "This machine isn't RHEL-06-000220 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000220 Compliant"
+yum erase ypserv -y
+fi

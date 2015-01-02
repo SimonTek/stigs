@@ -1,0 +1,22 @@
+#!/bin/sh
+
+#Group ID: V-39288
+#Group Title: GEN008460
+#Version: GEN008460-ESXI5-000121
+#Severity: low
+#Description: USB is a common computer peripheral interface. USB devices may include storage devices that could be used to install malicious software on a system or exfiltrate data.
+#Rule Title: The system must have USB disabled unless needed.
+#Version: GEN008460-ESXI5-000121
+
+#Check Content: If the system uses USB, this is not applicable.
+
+#To verify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for USB device connectivity. 
+
+#If the system does not require USB and USB is enabled, this is a finding.
+
+
+#Fix Text: To modify hardware enabled options: Interrupt the host computer's boot process and enter the BIOS menu. Inspect the menu option for USB device connectivity. Disable USB.
+# Needs to be done in BIOS
+
+echo "If USB is not needed, turn off in BIOS"
+echo "GEN008460-ESXI5-000121 has to be done manually" >> /tmp/sysadmintodo 

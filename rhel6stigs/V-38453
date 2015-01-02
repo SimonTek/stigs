@@ -1,0 +1,23 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38453
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000517
+#Severity: low
+#Description: Group-ownership of system binaries and configuration files that is incorrect could allow an unauthorized user to gain privileges that they should not have. The group-ownership set by the vendor should be maintained. Any deviations from this baseline should be investigated.
+#Rule Title: The system package management tool must verify group-ownership on all files and directories associated with packages.
+#Version: RHEL-06-000517
+
+#Check Content: The following command will list which files on the system have group-ownership different from what is expected by the RPM database: 
+
+# rpm -Va | grep '^......G'
+
+
+#If there is output, this is a finding.
+
+
+#Fix Text: The RPM package management system can restore group-ownership of the package files and directories. The following command will update files and directories with group-ownership different from what is expected by the RPM database: 
+
+# rpm -qf [file or directory name]
+# rpm --setugids [package]

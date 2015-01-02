@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38583
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000067
+#Severity: medium
+#Description: Proper permissions ensure that only the root user can modify important boot parameters.
+#Rule Title: The system boot loader configuration file(s) must have mode 0600 or less permissive.
+#Version: RHEL-06-000067
+
+#Check Content: To check the permissions of "/etc/grub.conf", run the command: 
+
+#$ ls -lL /etc/grub.conf
+
+#If properly configured, the output should indicate the following permissions: "-rw-------" 
+#If it does not, this is a finding.
+
+
+#Fix Text: File permissions for "/etc/grub.conf" should be set to 600, which is the default. To properly set the permissions of "/etc/grub.conf", run the command: 
+
+# chmod 600 /etc/grub.conf
+
+if ls -lL /etc/grub.conf| grep "rw-------"; then
+echo "This machine is RHEL-06-000067 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000067 Compliant"
+else
+echo "This machine isn't RHEL-06-000067 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000067 Compliant"
+chmod 600 /etc/grub.conf
+fi
+

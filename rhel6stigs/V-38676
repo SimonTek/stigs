@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38676
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000291
+#Severity: low
+#Description: Unnecessary packages should not be installed to decrease the attack surface of the system.
+#Rule Title: The xorg-x11-server-common (X Windows) package must not be installed, unless required.
+#Version: RHEL-06-000291
+
+#Check Content: To ensure the X Windows package group is removed, run the following command: 
+#$ rpm -qi xorg-x11-server-common
+#The output should be: 
+#package xorg-x11-server-common is not installed
+#If it is not, this is a finding.
+#Fix Text: Removing all packages which constitute the X Window System ensures users or malicious software cannot start X. To do so, run the following command: 
+
+# yum groupremove "X Window System"
+
+if rpm -qa |grep gnome-session; then
+echo "Workstation installed, will not remove Xorg" >> /var/log/Stig
+echo "Workstation installed, will not remove Xorg"
+else
+if rpm -qi xorg-x11-server-common|grep "not installed"; then
+echo "This machine is RHEL-06-000291 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000291 Compliant"
+else
+echo "This machine isn't RHEL-06-000291 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000291 Compliant"
+#yum groupremove "X Window System" -y
+fi
+fi

@@ -1,0 +1,23 @@
+#!/bin/sh
+
+#Group ID: V-39249
+#Group Title: GEN005516
+#Version: GEN005516-ESXI5-703
+#Severity: low
+#Description: SSH TCP connection forwarding provides a mechanism to establish TCP connections proxied by the SSH server. This function can provide similar convenience to a Virtual Private Network (VPN) with the similar risk of providing a path to circumvent firewalls and network ACLs. 
+#Rule Title: The SSH client must be configured to not allow TCP forwarding.
+#Version: GEN005516-ESXI5-703
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#Check the SSH client configuration for allowed MACs. # grep Forward /etc/ssh/ssh_config | grep -v '^#' 
+#If any forward list exists, this is a finding.
+#Enable the ESXi Shell.
+#Edit the SSH client configuration and delete any/all existing Forward lists in the client configuration. 
+# vi /etc/ssh/ssh_config
+if grep Forward /etc/ssh/ssh_config | grep -v '^#'; then
+        echo "TCP Forwarding needs to be turned off on the client"
+        sed -i 's/ForwardX11Trusted yes/#ForwardX11Trusted no/gI' /etc/ssh/ssh_config
+else
+        echo "TCP forward is off on the client"
+

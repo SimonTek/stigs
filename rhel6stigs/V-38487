@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38487
+#Group Title: SRG-OS-000103
+#Version: RHEL-06-000015
+#Severity: low
+#Description: Ensuring all packages' cryptographic signatures are valid prior to installation ensures the provenance of the software and protects against malicious tampering.
+#Rule Title: The system package management tool must cryptographically verify the authenticity of all software packages during installation.
+#Version: RHEL-06-000015
+
+#Check Content: To determine whether "yum" has been configured to disable "gpgcheck" for any repos, inspect all files in "/etc/yum.repos.d" and ensure the following does not appear in any sections: 
+
+#gpgcheck=0
+
+#A value of "0" indicates that "gpgcheck" has been disabled for that repo. 
+#If GPG checking is disabled, this is a finding.
+
+#If the "yum" system package management tool is not used to update the system, verify with the SA that installed packages are cryptographically signed.
+
+
+#Fix Text: To ensure signature checking is not disabled for any repos, remove any lines from files in "/etc/yum.repos.d" of the form: 
+
+#gpgcheck=0
+
+if grep -ir "gpgcheck=0" /etc/yum.repos.d/ ; then
+echo "This machine isn't RHEL-06-000015 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000015 Compliant"
+sed -i 's@gpgcheck=0@gpgcheck=1@g' /etc/yum.repos.d/*
+else
+echo "This machine is RHEL-06-000015 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000015 Compliant"
+fi
+

@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#Group ID: V-39369
+#Group Title: ESXI5-VMNET
+#Version: ESXI5-VMNET-000012
+#Severity: medium
+#Description: Physical vendor-specific switches reserve certain VLAN IDs for internal purposes and often disallow traffic configured to these values. Use of reserved VLAN IDs can result in a network denial-of-service.
+#Rule Title: All port groups must not be configured to VLAN values reserved by upstream physical switches.
+#Version: ESXI5-VMNET-000012
+
+#Check Content: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively. Start the ESXi Shell service, where/as required. Determine the site-specific switch reserved VLAN, configuration requirements via vendor documentation. For example, Cisco Catalyst switches typically reserve VLANs 1001-1024 and 4094 and Nexus switches typically reserve 3968-4047 and 4094. As root, log in to the ESXi Shell and run the command:
+# esxcli network vswitch standard portgroup list
+
+#If the VLAN ID is set to a vendor-reserved value, this is a finding.
+
+#Re-enable Lockdown Mode on the host.
+#
+
+
+#Fix Text: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell, and Options, respectively. Start the ESXi Shell service, where/as required.
+
+#As root, log in to the ESXi Shell and run the command to set the value to something other than the vendor-specific reserved value.
+#esxcli network vswitch standard portgroup set --portgroup-name=<name> --vlan-id=<non-default_id_number>;
+
+#Re-enable Lockdown Mode on the host.
+
+echo "ESXI5-VMNET-000012 has to be done manually" >> /tmp/sysadmintodo

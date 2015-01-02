@@ -1,0 +1,20 @@
+#!/bin/sh
+
+#Group ID: V-39277
+#Group Title: GEN008640
+#Version: GEN008640-ESXI5-000055
+#Severity: high
+#Description: Malicious users with removable boot media can gain access to a system configured to use removable media as the boot loader.
+#Rule Title: The system must not use removable media as the boot loader.
+#Version: GEN008640-ESXI5-000055
+
+#Check Content: Note: Checking a system's BIOS is vendor and hardware dependent. To verify media boot options: Interrupt the host computer's boot process and enter the BIOS menu.  Inspect the menu option for boot order. If any media other than the ESXi boot disk is listed as a boot option, this is a finding.
+
+
+#Fix Text: Note: Checking a system's BIOS is vendor and hardware dependent. To ensure media boot options: Interrupt the host computer's boot process and enter the BIOS menu. 
+# Inspect the menu option for boot order. Remove all boot media options except for ESXi. Save the change and exit to verify the boot cycle.
+
+echo "Must be configured manually by the Systems Administrator"
+
+#if dmidecode is on the machine, that can be used for part of this
+echo "GEN008640-ESXI5-000055 has to be done manually" >> /tmp/sysadmintodo

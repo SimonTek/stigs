@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39302
+#Group Title: SRG-OS-99999-ESXI5
+#Version: SRG-OS-99999-ESXI5-000146
+#Severity: medium
+#Description: The vpxuser password default length is 32 characters. Ensure this setting meets site policies; if not, configure to meet password length policies. Longer passwords make brute-force password attacks more difficult. The vpxuser password is added by vCenter, meaning no manual intervention is normally required. The vpxuser password length must never be modified to less than the default length of 32 characters.
+#Rule Title: The system must ensure the vpxuser password meets length policy.
+#Version: SRG-OS-99999-ESXI5-000146
+
+#Check Content: The default minimum length for passwords is 14. The vpxuser password default length is 32 characters. The vpxuser password length must never be modified to less than the default length of 32 characters. From the vSphere client select "Administration >> vCenter Server Settings >> Advanced Settings". Verify the "config.vpxd.hostPasswordLength" is set to 32 or greater.  Default is 32 characters.  
+
+#If the "config.vpxd.hostPasswordLength" setting is less than 32, this is a finding.
+
+echo "Has to be checked via vSphere"
+echo "From the vSphere client select 'Administration - vCenter Server Settings - Advanced Settings'." >> /var/log/hardened.log
+echo "Set the 'config.vpxd.hostPasswordLength' to comply with site requirements.  Default is 32 characters." >> /var/log/hardened.log
+echo "Note that the vpxuser password is added by vCenter, meaning no manual intervention is required." >> /var/log/hardened.log
+echo "The vpxuser password length must never be modified to less than the default length of 32 characters." >> /var/log/hardened.log

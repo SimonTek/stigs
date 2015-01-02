@@ -1,0 +1,39 @@
+#!/bin/sh
+
+#Group ID: V-39259
+#Group Title: SRG-OS-000072
+#Version: SRG-OS-000072-ESXI5
+#Severity: medium
+#Description: To ensure password changes are effective in their goals, the system must ensure old and new passwords have significant differences. Without significant changes, new passwords may be easily guessed based on the value of a previously compromised password.
+#Rule Title: The system must require at least four characters be changed between the old and new passwords during a password change.
+#Version: SRG-OS-000072-ESXI5
+
+#Check Content: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively. Start the ESXi Shell service, where/as required.
+
+#As root, log in to the host and verify the expected settings are configured in the /etc/pam.d/passwd file. An example line format is:
+
+#"password requisite /lib/security/pam_passwdqc.so similar=deny retry=N min=N0,N1,N2,N3,N4" 
+
+# grep "^password" /etc/pam.d/passwd | grep requisite | grep "similar=deny"
+
+#If "similar" is not set to "deny", this is a finding.
+
+#Re-enable Lockdown Mode on the host.
+
+
+#Fix Text: Temporarily disable Lockdown Mode and enable the ESXi Shell via the vSphere Client. Open the vSphere/VMware Infrastructure (VI) Client and log in with appropriate credentials. If connecting to vCenter Server, click on the desired host. Click the Configuration tab. Click Software, Security Profile, Services, Properties, ESXi Shell and Options, respectively. Start the ESXi Shell service, where/as required.
+
+#As root, log in to the host and ensure the expected settings of the "min" keyword are configured in the  /etc/pam.d/passwd file. 
+
+# vi /etc/pam.d/passwd
+
+#Set the "similar" keyword complexity field to "deny", i.e., similar=deny
+
+if grep "^password" /etc/pam.d/passwd | grep requisite | grep "similar=deny"; then
+	sed -i 's/pam_passwdqc.so/pam_passwdqc.so similar=deny/g' /etc/pam.d/passwd
+	echo "pam.d/password has been fixed"
+else
+	echo "pam.d/password is correctly setup"
+fi
+
+#Re-enable Lockdown Mode on the host.

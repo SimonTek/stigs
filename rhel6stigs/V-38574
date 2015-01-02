@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38574
+#Group Title: SRG-OS-000120
+#Version: RHEL-06-000062
+#Severity: medium
+#Description: Using a stronger hashing algorithm makes password cracking attacks more difficult.
+#Rule Title: The system must use a FIPS 140-2 approved cryptographic hashing algorithm for generating account password hashes (system-auth).
+#Version: RHEL-06-000062
+
+#Check Content: Inspect the "password" section of "/etc/pam.d/system-auth" and ensure that the "pam_unix.so" module includes the argument "sha512".
+
+#$ grep sha512 /etc/pam.d/system-auth" 
+
+#If it does not, this is a finding.
+
+
+#Fix Text: In "/etc/pam.d/system-auth", the "password" section of the file controls which PAM modules execute during a password change. Set the "pam_unix.so" module in the "password" section to include the argument "sha512", as shown below: 
+
+#password sufficient pam_unix.so sha512 [other arguments...]
+
+#This will help ensure when local users change their passwords, hashes for the new passwords will be generated using the SHA-512 algorithm. This is the default.
+
+#Note that any updates made to "/etc/pam.d/system-auth" will be overwritten by the "authconfig" program.  The "authconfig" program should not be used.
+
+if grep sha512 /etc/pam.d/system-auth; then
+echo "This machine is RHEL-06-000062 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000062 Compliant"
+else
+echo "This machine isn't RHEL-06-000062 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000062 Compliant"
+sed -i '/^password    sufficient/ s/$/ sha512/' /etc/pam.d/system-auth
+fi

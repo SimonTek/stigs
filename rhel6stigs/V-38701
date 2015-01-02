@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38701
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000338
+#Severity: high
+#Description: Using the "-s" option causes the TFTP service to only serve files from the given directory. Serving files from an intentionally specified directory reduces the risk of sharing files which should remain private.
+#Rule Title: The TFTP daemon must operate in secure mode which provides access only to a single directory on the host file system.
+#Version: RHEL-06-000338
+
+#Check Content: Verify "tftp" is configured by with the "-s" option by running the following command: 
+#grep "server_args" /etc/xinetd.d/tftp
+#The output should indicate the "server_args" variable is configured with the "-s" flag, matching the example below:
+# grep "server_args" /etc/xinetd.d/tftp
+#server_args = -s /var/lib/tftpboot
+#If it does not, this is a finding.
+#Fix Text: If running the "tftp" service is necessary, it should be configured to change its root directory at startup. To do so, ensure "/etc/xinetd.d/tftp" includes "-s" as a command line argument, as shown in the following example (which is also the default): 
+#server_args = -s /var/lib/tftpboot
+
+if grep "server_args" /etc/xinetd.d/tftp| grep "/var/lib/tftpboot"|grep -v '^#'; then
+echo "This machine is RHEL-06-000338 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000338 Compliant"
+else
+echo "This machine isn't RHEL-06-000338 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000338 Compliant"
+grep -q ^server_args /etc/xinetd.d/tftp && \
+  sed -i "s@server_args.*@server_args = -s /var/lib/tftpboot@g" /etc/xinetd.d/tftp
+if ! [ $? -eq 0 ]; then
+    echo "server_args = -s /var/lib/tftpboot" >> /etc/xinetd.d/tftp
+fi
+fi

@@ -1,0 +1,24 @@
+#!/bin/sh
+
+#Group ID: V-39387
+#Group Title: SRG-OS-000090
+#Version: SRG-OS-000090-ESXI5
+#Severity: high
+#Description: Any changes to the hardware, software, and/or firmware components of the information system and/or application can potentially have significant effects on the overall security of the system. 
+
+Accordingly, software defined by the organization as critical software must be signed with a certificate that is recognized and approved by the organization.
+#Rule Title: The system must verify the integrity of the installation media before installing ESXi.
+#Version: SRG-OS-000090-ESXI5
+
+#Check Content: The downloaded ISO, offline bundle, or patch hash must be verified against the vendor's checksum to ensure the integrity and authenticity of the files. 
+#See some typical command line example(s) for both the md5 and sha1 hash check(s) directly below.
+# md5sum <filename>.iso
+# sha1sum <filename>.iso
+
+#If any of the system's downloaded ISO, offline bundle, or system patch hashes cannot be verified against the vendor's checksum, this is a finding.
+
+
+#Fix Text: If the hash returned from the md5sum or sha1sum commands do not match the vendor's hash, the downloaded software must be discarded. 
+#If the physical media is obtained from VMware and the security seal is broken, the software must be returned to VMware for replacement.
+
+#

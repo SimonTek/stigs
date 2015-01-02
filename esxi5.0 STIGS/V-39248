@@ -1,0 +1,19 @@
+#!/bin/sh
+
+#Group ID: V-39248
+#Group Title: GEN005515
+#Version: GEN005515-ESXI5-000100
+#Severity: low
+#Description: SSH TCP connection forwarding provides a mechanism to establish TCP connections proxied by the SSH server. This function can provide similar convenience to a Virtual Private Network (VPN) with the similar risk of providing a path to circumvent firewalls and network ACLs.
+#Rule Title: The SSH daemon must be configured to not allow TCP connection forwarding.
+#Version: GEN005515-ESXI5-000100
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell. Check the SSH daemon configuration for the TCP connection forwarding setting. # grep -i AllowTCPForwarding /etc/ssh/sshd_config | grep -v '^#'
+#If "AllowTCPForwarding" is set  to "yes", this is a finding.
+#Enable the ESXi Shell.
+#Edit the SSH daemon configuration and add/modify the "AllowTCPForwarding" configuration setting it to "no".
+# vi /etc/ssh/sshd_config
+
+echo "GEN005515-ESXI5-000100 is fixed by GEN005517-ESXI5-000101"
+echo "GEN005515-ESXI5-000100 is fixed by GEN005517-ESXI5-000101" >> /tmp/sysadmintodo

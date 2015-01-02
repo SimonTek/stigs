@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38445
+#Group Title: SRG-OS-000057
+#Version: RHEL-06-000522
+#Severity: medium
+#Description: If non-privileged users can write to audit logs, audit trails can be modified or destroyed.
+#Rule Title: Audit log files must be group-owned by root.
+#Version: RHEL-06-000522
+
+#Check Content: Run the following command to check the group owner of the system audit logs: 
+
+#grep "^log_file" /etc/audit/auditd.conf|sed s/^[^\/]*//|xargs stat -c %G:%n
+
+#Audit logs must be group-owned by root. 
+#If they are not, this is a finding.
+
+
+#Fix Text: Change the group owner of the audit log files with the following command: 
+
+# chgrp root [audit_file]
+
+if grep "^log_file" /etc/audit/auditd.conf|sed s/^[^\/]*//|xargs stat -c %G:%n|grep root; then
+echo "This machine is RHEL-06-000522 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000522 Compliant"
+else
+echo "This machine isn't RHEL-06-000522 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000522 Compliant"
+chgrp root /var/log/audit/audit.log
+fi
+

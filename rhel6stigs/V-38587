@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38587
+#Group Title: SRG-OS-000095
+#Version: RHEL-06-000206
+#Severity: high
+#Description: Removing the "telnet-server" package decreases the risk of the unencrypted telnet service's accidental (or intentional) activation.
+
+Mitigation:  If the telnet-server package is configured to only allow encrypted sessions, such as with Kerberos or the use of encrypted network tunnels, the risk of exposing sensitive information is mitigated.
+#Rule Title: The telnet-server package must not be installed.
+#Version: RHEL-06-000206
+
+#Check Content: Run the following command to determine if the "telnet-server" package is installed: 
+
+# rpm -q telnet-server
+
+
+#If the package is installed, this is a finding.
+
+
+#Fix Text: The "telnet-server" package can be uninstalled with the following command: 
+
+# yum erase telnet-server
+if rpm -q telnet-server|grep "not installed"; then
+echo "This machine is RHEL-06-000206 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000206 Compliant"
+else
+echo "This machine isn't RHEL-06-000206 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000206 Compliant"
+yum erase telnet-server -y
+fi

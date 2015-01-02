@@ -1,0 +1,27 @@
+#!/bin/sh
+
+#Group ID: V-39285
+#Group Title: GEN005539
+#Version: GEN005539-ESXI5-000113
+#Severity: medium
+#Description: If compression is allowed in an SSH connection prior to authentication, vulnerabilities in the compression software could result in compromise of the system from an unauthenticated connection, potentially with root privileges.
+#Rule Title: The SSH daemon must not allow compression or must only allow compression after successful authentication.
+#Version: GEN005539-ESXI5-000113
+# grep Compression /etc/ssh/sshd_config
+
+#If the "Compression" is set to "yes" or "delayed", or the keyword/line is missing, this is a finding.
+#Fix Text: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+#Add/modify the "Compression" keyword to "no", i.e.; Compression=no
+
+if grep -i Compression /etc/ssh/sshd_config | grep no; then
+echo "Compression is turned off"
+elif grep -i Compression /etc/ssh/sshd_config | grep yes;then
+sed -i 's/Compression yes/Compression no/g' /etc/ssh/sshd_config
+echo "Compression has been turned off"
+elif grep -i Compression /etc/ssh/sshd_config | grep delayed;then
+sed -i 's/Compression delayed/Compression no/g' /etc/ssh/sshd_config
+echo "Compression delayed changed to Compression off"
+else
+echo "Compression no" >> /etc/ssh/sshd_config
+echo "Added 'Compression no' to sshd_config"
+fi

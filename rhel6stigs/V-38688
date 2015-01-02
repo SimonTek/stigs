@@ -1,0 +1,30 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38688
+#Group Title: SRG-OS-000024
+#Version: RHEL-06-000324
+#Severity: medium
+#Description: An appropriate warning message reinforces policy awareness during the logon process and facilitates possible legal action against attackers.
+#Rule Title: A login banner must be displayed immediately prior to, or as part of, graphical desktop environment login prompts.
+#Version: RHEL-06-000324
+
+#Check Content: To ensure a login warning banner is enabled, run the following: 
+#$ gconftool-2 -g /apps/gdm/simple-greeter/banner_message_enable
+#Search for the "banner_message_enable" schema. If properly configured, the "default" value should be "true". 
+#If it is not, this is a finding.
+#Fix Text: To enable displaying a login warning banner in the GNOME Display Manager's login screen, run the following command: 
+#sudo -u gdm gconftool-2 \
+#--type bool \
+#--set /apps/gdm/simple-greeter/banner_message_enable true
+
+#To display a banner, this setting must be enabled and then banner text must also be set.
+
+if gconftool-2 -g /apps/gdm/simple-greeter/banner_message_enable|grep true; then
+echo "This machine is RHEL-06-000324 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000324 Compliant"
+else
+echo "This machine isn't RHEL-06-000324 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000324 Compliant"
+gconftool-2 --type bool --set /apps/gdm/simple-greeter/banner_message_enable true
+fi

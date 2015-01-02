@@ -1,0 +1,32 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38607
+#Group Title: SRG-OS-000112
+#Version: RHEL-06-000227
+#Severity: high
+#Description: SSH protocol version 1 suffers from design flaws that result in security vulnerabilities and should not be used.
+#Rule Title: The SSH daemon must be configured to use only the SSHv2 protocol.
+#Version: RHEL-06-000227
+
+#Check Content: To check which SSH protocol version is allowed, run the following command: 
+
+# grep Protocol /etc/ssh/sshd_config
+#If configured properly, output should be 
+#Protocol 2
+#If it is not, this is a finding.
+#Fix Text: Only SSH protocol version 2 connections should be permitted. The default setting in "/etc/ssh/sshd_config" is correct, and can be verified by ensuring that the following line appears: 
+#Protocol 2
+
+if grep Protocol /etc/ssh/sshd_config|grep -v "^#"|grep 2; then
+echo "This machine is RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000004 Compliant"
+else
+echo "This machine isn't RHEL-06-000004 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000004 Compliant"
+ grep -q ^Protocol /etc/ssh/sshd_config && \
+  sed -i "s/Protocol.*/Protocol 2/g" /etc/ssh/sshd_config
+if ! [ $? -eq 0 ]; then
+    echo "Protocol 2" >> /etc/ssh/sshd_config
+fi
+fi

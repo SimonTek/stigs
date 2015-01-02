@@ -1,0 +1,72 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38623
+#Group Title: SRG-OS-000206
+#Version: RHEL-06-000135
+#Severity: medium
+#Description: Log files can contain valuable information regarding system configuration. If the system log files are not protected, unauthorized users could change the logged data, eliminating their forensic value.
+#Rule Title: All rsyslog-generated log files must have mode 0600 or less permissive.
+#Version: RHEL-06-000135
+
+#Check Content: The file permissions for all log files written by rsyslog should be set to 600, or more restrictive. These log files are determined by the second part of each Rule line in "/etc/rsyslog.conf" and typically all appear in "/var/log". For each log file [LOGFILE] referenced in "/etc/rsyslog.conf", run the following command to inspect the file's permissions: 
+#$ ls -l [LOGFILE]
+#The permissions should be 600, or more restrictive. 
+#If the permissions are not correct, this is a finding.
+#Fix Text: The file permissions for all log files written by rsyslog should be set to 600, or more restrictive. These log files are determined by the second part of each Rule line in "/etc/rsyslog.conf" and typically all appear in "/var/log". For each log file [LOGFILE] referenced in "/etc/rsyslog.conf", run the following command to inspect the file's permissions:
+#$ ls -l [LOGFILE]
+#If the permissions are not 600 or more restrictive, run the following command to correct this:
+# chmod 0600 [LOGFILE]
+
+if ls -l /var/log/messages|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/messages
+fi
+
+if ls -l /var/log/secure|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/secure
+fi
+
+if ls -l /var/log/maillog|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/maillog
+fi
+
+if ls -l /var/log/cron|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/cron
+fi
+
+if ls -l /var/log/spooler|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/spooler
+fi
+if ls -l /var/log/boot.log|grep "rw-------"; then
+echo "This machine is RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000135 Compliant"
+else
+echo "This machine isn't RHEL-06-000135 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000135 Compliant"
+chmod 600 /var/log/boot.log
+fi

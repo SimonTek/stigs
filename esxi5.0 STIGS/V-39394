@@ -1,0 +1,68 @@
+#!/bin/sh
+
+#Group ID: V-39394
+#Group Title: SRG-OS-000023
+#Version: SRG-OS-000023-ESXI5
+#Severity: medium
+#Description: Failure to display the DoD logon banner prior to a log in attempt will negate legal proceedings resulting from unauthorized access to system resources.
+#Rule Title: The SSH daemon must be configured with the Department of Defense (DoD) logon banner.
+#Version: SRG-OS-000023-ESXI5
+
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#Execute the following command(s):
+# cat /etc/banner
+
+#Access the system console and make a logon attempt. Check for either of the following login banners based on the character limitations imposed by the system. An exact match is required. If one of these banners is not displayed, this is a finding. "You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: -The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations. -At any time, the USG may inspect and seize data stored on this IS. -Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose. -This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy. -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details. " OR "I've read & consent to terms in IS user agreem't."
+
+#If /etc/banner does not contain one of the two login banners exactly as shown above, this is a finding.
+
+#Re-enable lock down mode.
+
+
+#Fix Text: Configure the system's /etc/banner file in order to display one of the DoD login banners (based on the character limitations imposed by the system) prior to any local login attempt. DoD Login Banners: You are accessing a U.S. Government (USG) Information System (IS) that is provided for USG-authorized use only. By using this IS (which includes any device attached to this IS), you consent to the following conditions: -The USG routinely intercepts and monitors communications on this IS for purposes including, but not limited to, penetration testing, COMSEC monitoring, network operations and defense, personnel misconduct (PM), law enforcement (LE), and counterintelligence (CI) investigations. -At any time, the USG may inspect and seize data stored on this IS. -Communications using, or data stored on, this IS are not private, are subject to routine monitoring, interception, and search, and may be disclosed or used for any USG-authorized purpose. -This IS includes security measures (e.g., authentication and access controls) to protect USG interests--not for your personal benefit or privacy. -Notwithstanding the above, using this IS does not constitute consent to PM, LE or CI investigative searching or monitoring of the content of privileged communications, or work product, related to personal representation or services by attorneys, psychotherapists, or clergy, and their assistants. Such communications and work product are private and confidential. See User Agreement for details. OR I've read & consent to terms in IS user agreem't.
+
+#!/bin/sh
+#
+#
+# Create the file /etc/issue banner if it doesn't already exists
+
+
+ if grep "USG" /etc/issue; then
+	echo "Banner is setup"
+else
+
+touch /etc/issue
+echo -n > /etc/issue
+
+echo "">> /etc/issue 
+echo "********************************************************************************">> /etc/issue 
+echo "">> /etc/issue 
+echo "   YOU ARE ACCESSING A U.S. GOVERNMENT (USG) INFORMATION SYSTEM (IS) THAT IS">> /etc/issue 
+echo "                      PROVIDED FOR USG-AUTHORIZED USE ONLY.">> /etc/issue 
+echo "">> /etc/issue 
+echo " By using this IS (which includes any device attached to this IS), you consent">> /etc/issue 
+echo " to the following conditions:">> /etc/issue 
+echo "">> /etc/issue 
+echo " - The USG routinely intercepts and monitors communications on this IS for">> /etc/issue 
+echo " purposes including, but not limited to, penetration testing, COMSEC monitoring,">> /etc/issue 
+echo " network operations and defense, personnel misconduct (PM), law enforcement">> /etc/issue 
+echo " (LE), and counterintelligence (CI) investigations.">> /etc/issue 
+echo " - At any time, the USG may inspect and seize data stored on this IS.">> /etc/issue 
+echo " - Communications using, or data stored on, this IS are not private, are">> /etc/issue 
+echo " subject to routine monitoring, interception, and search, and may be disclosed">> /etc/issue 
+echo " or used for any USG authorized purpose.">> /etc/issue 
+echo " - This IS includes security measures (e.g., authentication and access controls)">> /etc/issue 
+echo " to protect USG interests--not for your personal benefit or privacy.">> /etc/issue 
+echo " - Notwithstanding the above, using this IS does not constitute consent to">> /etc/issue 
+echo " PM, LE or CI investigative searching or monitoring of the content of privileged">> /etc/issue 
+echo " communications, or work product, related to personal representation or services">> /etc/issue 
+echo " by attorneys, psychotherapists, or clergy, and their assistants.  Such">> /etc/issue 
+echo " communications and work product are private and confidential.">> /etc/issue 
+echo " See User Agreement for details.">> /etc/issue 
+echo "">> /etc/issue 
+echo "********************************************************************************">> /etc/issue 
+echo "">> /etc/issue 
+
+
+fi

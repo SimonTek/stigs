@@ -1,0 +1,16 @@
+#!/bin/sh
+
+#Group ID: V-39395
+#Group Title: SRG-OS-000145
+#Version: SRG-OS-000145-ESXI5
+#Severity: medium
+#Description: If a system has no default gateway defined, the system is at increased risk of man-in-the-middle, monitoring, and Denial-of-Service attacks.
+#Rule Title: The system must be configured with a default gateway for IPv4 if the system uses IPv4, unless the system is a router.
+#Version: SRG-OS-000145-ESXI5
+
+#Check Content: From the vSphere Client/vCenter:  Click on the Configuration tab, Click on the DNS and Routing tabs, and verify that the default gateway information is entered and Click "Cancel". If the default gateway field has not been initialized (IP address is required), this is a finding.
+
+
+#Fix Text: From the vSphere Client/vCenter, click on the Configuration tab; click on DNS and Routing; click on Properties/DNS and Routing, Configuration/Routing. Add a default gateway (IP address is required). Click "OK"
+echo "Fixed SRG-OS-000145-ESXI5 in GEN005570-ESXI5-000115" >> /tmp/sysadmintodo
+echo "Fixed SRG-OS-000145-ESXI5 in GEN005570-ESXI5-000115"

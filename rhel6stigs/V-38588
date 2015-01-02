@@ -1,0 +1,37 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38588
+#Group Title: SRG-OS-000080
+#Version: RHEL-06-000070
+#Severity: medium
+#Description: Using interactive boot, the console user could disable auditing, firewalls, or other services, weakening system security.
+#Rule Title: The system must not permit interactive boot.
+#Version: RHEL-06-000070
+
+#Check Content: To check whether interactive boot is disabled, run the following command: 
+
+#$ grep PROMPT /etc/sysconfig/init
+
+#If interactive boot is disabled, the output will show: 
+
+#PROMPT=no
+
+
+#If it does not, this is a finding.
+
+
+#Fix Text: To disable the ability for users to perform interactive startups, edit the file "/etc/sysconfig/init". Add or correct the line: 
+
+#PROMPT=no
+
+#The "PROMPT" option allows the console user to perform an interactive system startup, in which it is possible to select the set of services which are started on boot.
+
+if grep PROMPT /etc/sysconfig/init|grep "PROMPT=no"; then
+echo "This machine is RHEL-06-000070 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000070 Compliant"
+else
+echo "This machine isn't RHEL-06-000070 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000070 Compliant"
+sed -i 's@PROMPT=yes@PROMPT=no@g' /etc/sysconfig/init
+fi

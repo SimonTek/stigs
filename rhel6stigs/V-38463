@@ -1,0 +1,28 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38463
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000003
+#Severity: low
+#Description: Placing "/var/log" in its own partition enables better separation between log files and other files in "/var/".
+#Rule Title: The system must use a separate file system for /var/log.
+#Version: RHEL-06-000003
+
+#Check Content: Run the following command to determine if "/var/log" is on its own partition or logical volume: 
+
+#$ mount | grep "on /var/log "
+
+#If "/var/log" has its own partition or volume group, a line will be returned. 
+#If no line is returned, this is a finding.
+
+
+#Fix Text: System logs are stored in the "/var/log" directory. Ensure that it has its own partition or logical volume at installation time, or migrate it using LVM.
+
+if mount | grep "on /var/log/ "; then
+echo "This machine isn't RHEL-06-000003 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000003 Compliant"
+else
+echo "This machine is RHEL-06-000003 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000003 Compliant"
+fi

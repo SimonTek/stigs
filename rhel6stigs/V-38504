@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38504
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000035
+#Severity: medium
+#Description: The "/etc/shadow" file contains the list of local system accounts and stores password hashes. Protection of this file is critical for system security. Failure to give ownership of this file to root provides the designated owner with access to sensitive information which could weaken the system security posture.
+#Rule Title: The /etc/shadow file must have mode 0000.
+#Version: RHEL-06-000035
+
+#Check Content: To check the permissions of "/etc/shadow", run the command: 
+
+#$ ls -l /etc/shadow
+
+#If properly configured, the output should indicate the following permissions: "----------" 
+#If it does not, this is a finding.
+
+
+#Fix Text: To properly set the permissions of "/etc/shadow", run the command: 
+
+# chmod 0000 /etc/shadow
+
+if ls -l /etc/shadow | grep  "^----------"; then
+echo "This machine is RHEL-06-000035 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000035 Compliant"
+else
+echo "This machine isn't RHEL-06-000035 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000035 Compliant"
+chmod 0000 /etc/shadow
+fi

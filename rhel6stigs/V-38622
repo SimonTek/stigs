@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38622
+#Group Title: SRG-OS-000096
+#Version: RHEL-06-000249
+#Severity: medium
+#Description: This ensures "postfix" accepts mail messages (such as cron job reports) from the local system only, and not from the network, which protects it from network attack.
+#Rule Title: Mail relaying must be restricted.
+#Version: RHEL-06-000249
+
+#Check Content: Run the following command to ensure postfix accepts mail messages from only the local system: 
+
+#$ grep inet_interfaces /etc/postfix/main.cf
+
+#If properly configured, the output should show only "localhost". 
+#If it does not, this is a finding.
+
+
+#Fix Text: Edit the file "/etc/postfix/main.cf" to ensure that only the following "inet_interfaces" line appears: 
+
+#inet_interfaces = localhost
+if grep inet_interfaces /etc/postfix/main.cf|grep localhost|grep -v '^#'; then
+echo "This machine is RHEL-06-000249 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000249 Compliant"
+else
+echo "This machine isn't RHEL-06-000249 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000249 Compliant"
+sed -i 's@inet_interfaces@#inet_interfaces@g' /etc/postfix/main.cf
+echo "inet_interfaces = localhost" >> /etc/postfix/main.cf
+fi

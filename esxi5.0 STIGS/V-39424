@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#Group ID: V-39424
+#Group Title: GEN002260
+#Version: GEN002260-ESXI5-000047
+#Severity: low
+#Description: If an unauthorized device is allowed to exist on the system, there is the possibility the system may perform unauthorized operations.
+#Rule Title: The system must be checked for extraneous device files at least weekly.
+#Version: GEN002260-ESXI5-000047
+
+#Check Content: Ask the SA if the system is checked for extraneous device files on a weekly basis. If no automated or manual process is in place, this is a finding.
+
+
+#Fix Text: Configure the system to check for extraneous device files on a weekly basis.
+echo "GEN002260-ESXI5-000047 has to be done manually" >> /tmp/sysadmintodo

@@ -1,0 +1,33 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38611
+#Group Title: SRG-OS-000106
+#Version: RHEL-06-000234
+#Severity: medium
+#Description: SSH trust relationships mean a compromise on one host can allow an attacker to move trivially to other hosts.
+#Rule Title: The SSH daemon must ignore .rhosts files.
+#Version: RHEL-06-000234
+
+#Check Content: To determine how the SSH daemon's "IgnoreRhosts" option is set, run the following command: 
+
+# grep -i IgnoreRhosts /etc/ssh/sshd_config
+
+#If no line, a commented line, or a line indicating the value "yes" is returned, then the required value is set. 
+#If the required value is not set, this is a finding.
+
+
+#Fix Text: SSH can emulate the behavior of the obsolete rsh command in allowing users to enable insecure access to their accounts via ".rhosts" files. 
+
+#To ensure this behavior is disabled, add or correct the following line in "/etc/ssh/sshd_config": 
+
+#IgnoreRhosts yes
+
+if grep -i IgnoreRhosts /etc/ssh/sshd_config|grep -v '^#'|grep yes; then
+echo "This machine is RHEL-06-000234 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000234 Compliant"
+else
+echo "This machine isn't RHEL-06-000234 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000234 Compliant"
+echo "IgnoreRhosts yes" >> /etc/ssh/sshd_config
+fi

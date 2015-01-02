@@ -1,0 +1,24 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-39450
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000039
+#Severity: medium
+#Description: The "/etc/passwd" file contains information about the users that are configured on the system. Protection of this file is critical for system security.
+#Rule Title: The /etc/passwd file must be owned by root.
+#Version: RHEL-06-000039
+#Check Content: To check the ownership of "/etc/passwd", run the command: 
+#$ ls -l /etc/passwd
+#If properly configured, the output should indicate the following owner: "root" 
+#If it does not, this is a finding.
+#Fix Text: To properly set the owner of "/etc/passwd", run the command: 
+# chown root /etc/passwd
+if ls -l /etc/passwd |grep -v "root"; then
+echo "This machine isn't RHEL-06-000039 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000039 Compliant"
+chown root /etc/passwd
+else
+echo "This machine is RHEL-06-000039 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000039 Compliant"
+fi

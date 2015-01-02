@@ -1,0 +1,36 @@
+#!/bin/sh
+
+#Group ID: V-39403
+#Group Title: SRG-OS-000158
+#Version: SRG-OS-000158-ESXI5
+#Severity: medium
+#Description: DoD information systems are required to use FIPS 140-2 approved cryptographic hash functions.
+#Rule Title: The SSH client must be configured to only use Message Authentication Codes (MACs) employing FIPS 140-2 approved cryptographic hash algorithms.
+#Version: SRG-OS-000158-ESXI5
+#Check Content: Disable lock down mode.
+#Enable the ESXi Shell.
+#Check the SSH client configuration for allowed MACs. # grep -i macs /etc/ssh/ssh_config | grep -v '^#' 
+#If no lines are returned, or the returned MACs list contains any MAC other than hmac-sha1, this is a finding.
+#Edit the SSH client configuration and add/modify the "MAC" configuration (example of allowed cipher: hmac-sha1).
+
+
+if grep -i macs /etc/ssh/ssh_config | grep '^#'; then
+echo "MACs / hmac-sha1 is turned off"
+echo "MACs hmac-sha1" >> /etc/ssh/ssh_config
+fi
+
+if grep "hmac-" /etc/ssh/ssh_config|grep hmac-sha1,;then
+echo "hmac-sha1 isn't the only one setup, need to fix"
+sed -i 's/,hmac-md5//g' /etc/ssh/ssh_config
+        echo "hmac-md5 has been removed in ssh_config"
+sed -i 's/,hmac-md5-96//g' /etc/ssh/ssh_config
+        echo "hmac-md5-96 has been removed in ssh_config"
+sed -i 's/,hmac-sha256//g' /etc/ssh/ssh_config
+        echo "hmac-sha256 has been removed in ssh_config"
+sed -i 's/,hmac-sha1-96//g' /etc/ssh/ssh_config
+        echo "hmac-sha1-96 has been removed in ssh_config"
+sed -i 's/,hmac-sha256-96//g' /etc/ssh/ssh_config
+        echo "hmac-sha256-96 has been removed in ssh_config"
+else
+echo "All set up!"
+fi

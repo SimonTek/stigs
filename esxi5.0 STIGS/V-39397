@@ -1,0 +1,38 @@
+#!/bin/sh
+
+#Group ID: V-39397
+#Group Title: SRG-OS-000144
+#Version: SRG-OS-000144-ESXI5
+#Severity: medium
+#Description: Unrestricted access to services running on an ESXi host can exposes a host to outside attacks and unauthorized access. Reduce the risk by configuring the ESXi firewall to allow access from authorized networks only.
+
+#Rule Title: The operating system must monitor and control communications at the external boundary of the information system and at key internal boundaries within the system.
+#Version: SRG-OS-000144-ESXI5
+
+#Check Content: From the vSphere client, select the host, then select "Configuration >> Security Profile". In the "Firewall" section select "Properties". 
+
+#For each enabled service, (e.g., ssh, vSphere Web Access, http client), select "Firewall", and verify "Only allow connections from the following networks" is selected and a range of authorized IP addresses is listed.
+
+#If any enabled service's firewall entry is not configured for "Only allow connections from the following networks" with a range of authorized IP addresses listed, this is a finding.
+
+
+#Fix Text: For each host, from the vSphere client, select the host and go to "Configuration >> Security Profile".  In the "Firewall" section select "Properties".  For each enabled service, (e.g., ssh, vSphere Web Access, http client), select "Firewall", select "Only allow connections from the following networks", and provide a range of authorized IP addresses.
+ echo "SRG-OS-000144-ESXI5 has to be done manually" >> /tmp/sysadmintodo
+ echo "SRG-OS-000144-ESXI5 can be automated, but I need a ton of info to do it." >> /tmp/sysadmintodo
+ 
+ #Where to make changes
+ #/etc/vmware/firewall/service.xml
+ #
+ # Template:
+ #
+ #<service id='0012'>                   
+ #   <id>vpxHeartbeats</id>              
+ #   <rule>                              
+ #     <direction>outbound</direction>   
+ #     <protocol>udp</protocol>          
+ #     <porttype>dst</porttype>          
+ #     <port>902</port>                  
+ #   </rule>                             
+ #   <enabled>true</enabled>             
+ #   <required>false</required>          
+ # </service>   

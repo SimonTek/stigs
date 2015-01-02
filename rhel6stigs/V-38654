@@ -1,0 +1,27 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38654
+#Group Title: SRG-OS-999999
+#Version: RHEL-06-000270
+#Severity: medium
+#Description: NFS mounts should not present suid binaries to users. Only vendor-supplied suid executables should be installed to their default location on the local filesystem.
+#Rule Title: Remote file systems must be mounted with the nosuid option.
+#Version: RHEL-06-000270
+
+#Check Content: To verify the "nosuid" option is configured for all NFS mounts, run the following command: 
+#$ mount | grep nfs
+#All NFS mounts should show the "nosuid" setting in parentheses. 
+#If the setting does not show, this is a finding.
+#Fix Text: Add the "nosuid" option to the fourth column of "/etc/fstab" for the line which controls mounting of any NFS mounts.
+
+if mount | grep nfs|grep "nosuid"; then
+echo "This machine isn't RHEL-06-000270 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000270 Compliant"
+cp /etc/fstab /etc/fstab.bak
+sed -e '/nfs/{/nodev/!s/\S\S*/&,nodev/4}' -e '/nfs/{/nosuid/!s/\S\S*/&,nosuid/4}' /etc/fstab.bak > /etc/fstab
+echo "NFS has been secured"
+else
+echo "This machine is RHEL-06-000270 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000270 Compliant"
+fi

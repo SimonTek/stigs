@@ -1,0 +1,34 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38494
+#Group Title: SRG-OS-000109
+#Version: RHEL-06-000028
+#Severity: low
+#Description: Preventing direct root login to serial port interfaces helps ensure accountability for actions taken on the systems using the root account.
+#Rule Title: The system must prevent the root account from logging in from serial consoles.
+#Version: RHEL-06-000028
+
+#Check Content: To check for serial port entries which permit root login, run the following command: 
+
+# grep '^ttyS[0-9]' /etc/securetty
+
+#If any output is returned, then root login over serial ports is permitted. 
+#If root login over serial ports is permitted, this is a finding.
+
+
+#Fix Text: To restrict root logins on serial ports, ensure lines of this form do not appear in "/etc/securetty": 
+
+#ttyS0
+#ttyS1
+
+#Note:  Serial port entries are not limited to those listed above.  Any lines starting with "ttyS" followed by numerals should be removed
+
+if grep '^ttyS[0-9]' /etc/securetty; then
+echo "This machine isn't RHEL-06-000028 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000028 Compliant"
+sed -i 's@^ttyS@#ttyS@g' /etc/securetty
+else
+echo "This machine is RHEL-06-000028 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000028 Compliant"
+fi

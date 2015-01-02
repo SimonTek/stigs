@@ -1,0 +1,33 @@
+#!/bin/sh
+
+#Group ID: V-39267
+#Group Title: GEN005530
+#Version: GEN005530-ESXI5-000107
+#Severity: medium
+#Description: SSH may be used to provide limited functions other than an interactive shell session, such as file transfer. If local, user-defined environment settings (such as, those configured in ~/.ssh/authorized_keys and ~/.ssh/environment) are configured by the user and permitted by the SSH daemon, they could be used to alter the behavior of the limited functions, potentially granting unauthorized access to the system.
+#Rule Title: The SSH daemon must not permit user environment settings.
+#Version: GEN005530-ESXI5-000107
+
+#Check Content: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# grep PermitUserEnvironment /etc/ssh/sshd_config
+#If "PermitUserEnvironment" is set to "yes" or the keyword/line is missing, this is a finding.
+#Re-enable lock down mode.
+
+#Fix Text: Disable lock down mode. Enable the ESXi Shell. Login as root and execute the following command(s):
+# vi /etc/ssh/sshd_config
+
+#Add/modify the "PermitUserEnvironment" keyword to "no", i.e.; PermitUserEnvironment= no
+
+#Re-enable lock down mode.
+if grep PermitUserEnvironment /etc/ssh/sshd_config|grep -i yes; then
+        sed -i 's/PermitUserEnvironment yes/PermitUserEnvironment no/g' /etc/ssh/sshd_config
+        echo "PermitUserEnvironment has been removed in sshd_config"
+else
+if grep PermitUserEnvironment /etc/ssh/sshd_config; then
+echo "Permit UserEnvironment is set"
+else
+echo "PermitUserEnvironment no" >> /etc/ssh/sshd_config
+echo "PermitUserEnvironment no has been set in sshd_config"
+
+fi
+fi

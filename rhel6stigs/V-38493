@@ -1,0 +1,31 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+
+#Group ID: V-38493
+#Group Title: SRG-OS-000059
+#Version: RHEL-06-000385
+#Severity: medium
+#Description: If users can delete audit logs, audit trails can be modified or destroyed.
+#Rule Title: Audit log directories must have mode 0755 or less permissive.
+#Version: RHEL-06-000385
+
+#Check Content: Run the following command to check the mode of the system audit directories: 
+
+#grep "^log_file" /etc/audit/auditd.conf|sed 's/^[^/]*//; s/[^/]*$//'|xargs stat -c %a:%n
+
+#Audit directories must be mode 0755 or less permissive. 
+#If any are more permissive, this is a finding.
+
+
+#Fix Text: Change the mode of the audit log directories with the following command: 
+
+# chmod go-w [audit_directory]
+
+if grep "^log_file" /etc/audit/auditd.conf|sed 's/^[^/]*//; s/[^/]*$//'|xargs stat -c %a:%n; then
+echo "This machine is RHEL-06-000385 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000385 Compliant"
+else
+echo "This machine isn't RHEL-06-000385 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000385 Compliant"
+chmod go-w /var/log/audit/
+fi

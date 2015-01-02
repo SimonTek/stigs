@@ -1,0 +1,15 @@
+#!/bin/sh
+
+#Group ID: V-39389
+#Group Title: SRG-OS-000104
+#Version: SRG-OS-000104-ESXI5
+#Severity: medium
+#Description: Accounts sharing a UID have full access to each others' files. This has the same effect as sharing a login. There is no way to assure identification, authentication, and accountability because the system sees them as the same user. If the duplicate UID is 0, this gives potential intruders another privileged account to attack.
+#Rule Title: All accounts must be assigned unique User Identification Numbers (UIDs).
+#Version: SRG-OS-000104-ESXI5
+
+#Check Content: Disable lock down mode.  Enable the ESXi Shell. Execute the following command(s): # cat /etc/passwd | cut -f 3 -d ":" | sort If any duplicate UIDs are found, this is a finding. Re-enable lock down mode.
+
+#No Idea how to fix this.
+#Fix Text: Modify user accounts to provide unique UIDs for each account. From the vSphere Client/vCenter:  Click on the "Users and Groups" tab. Click on the "Users" button Right click and select "Add". Specify the desired User Name, Password, etc and Click "OK".
+echo "SRG-OS-000104-ESXI5 has to be done manually" >> /tmp/sysadmintodo
