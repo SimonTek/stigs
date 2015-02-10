@@ -1,0 +1,49 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2240
+#Group Title: WG110
+#Rule ID: SV-33018r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): WG110 A22
+#Rule Title: The number of allowed simultaneous requests must be set.
+#Vulnerability Discussion: Resource exhaustion can occur when an unlimited number of concurrent requests are allowed on a web site, facilitating a denial of service attack. Mitigating this kind of attack will include limiting the number of concurrent HTTP/HTTPS requests per IP address and may include, where feasible, limiting parameter values associated with keepalive, (i.e., a parameter used to limit the amount of time a connection may be inactive).
+#Responsibility: Web Administrator
+#IAControls: ECSC-1
+#To view the MaxKeepAliveRequests value, enter the following command:
+#  grep "MaxKeepAliveRequests" /usr/local/apache2/conf/httpd.conf
+#If the returned value of MaxKeepAliveRequests is not set to 100 or greater, this is a finding.
+#Fix Text: Edit the httpd.conf file and set the MaxKeepAliveRequests directive to 100 or greater. 
+
+if [ -f  /etc/httpd/conf/httpd.conf ]; then
+	echo "File is in etc"
+	if grep "MaxKeepAliveRequests" /etc/httpd/conf/httpd.conf |grep -v '^#'|grep "[1-9][0-9][0-9]"; then
+echo "This machine is WG110 A22 Compliant" >> /var/log/Stig
+echo "This machine is WG110 A22 Compliant"
+else
+echo "This machine isn't WG110 A22 Compliant" >> /var/log/Stig
+echo "This machine isn't WG110 A22 Compliant"
+grep -q '^MaxKeepAliveRequests' /etc/httpd/conf/httpd.conf && \
+  sed -i 's/^MaxKeepAliveRequests.*/MaxKeepAliveRequests 100/g' /etc/httpd/conf/httpd.conf
+if ! [ $? -eq 0 ]; then
+    sed -i 's@#MaxKeepAliveRequests.*@MaxKeepAliveRequests 100@g' /etc/httpd/conf/httpd.conf
+fi
+fi
+
+fi 
+if [ -f  /usr/local/apache2/conf/httpd.conf ]; then
+	echo "File is in Usr/Local"
+if grep "MaxKeepAliveRequests" /usr/local/apache2/conf/httpd.conf |grep -v '^#'|grep "[1-9][0-9][0-9]"; then
+echo "This machine is WG110 A22 Compliant" >> /var/log/Stig
+echo "This machine is WG110 A22 Compliant"
+else
+echo "This machine isn't WG110 A22 Compliant" >> /var/log/Stig
+echo "This machine isn't WG110 A22 Compliant"
+grep -q '^MaxKeepAliveRequests' /usr/local/apache2/conf/httpd.conf && \
+  sed -i 's/^MaxKeepAliveRequests.*/MaxKeepAliveRequests 100/g' /usr/local/apache2/conf/httpd.conf
+if ! [ $? -eq 0 ]; then
+    sed -i 's@#MaxKeepAliveRequests.*@MaxKeepAliveRequests 100@g' /usr/local/apache2/conf/httpd.conf
+fi
+fi
+fi
