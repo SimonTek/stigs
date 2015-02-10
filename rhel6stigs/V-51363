@@ -1,0 +1,36 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-51363
+#Group Title: SRG-OS-999999
+#Rule ID: SV-65573r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): RHEL-06-000020
+#Rule Title: The system must use a Linux Security Module configured to enforce limits on system services.
+
+#Vulnerability Discussion: Setting the SELinux state to enforcing ensures SELinux is able to confine potentially compromised processes to the security policy, which is designed to prevent them from causing damage to the system or further elevating their privileges.
+#Check the file "/etc/selinux/config" and ensure the following line appears:
+
+#SELINUX=enforcing
+
+#If SELINUX is not set to enforcing, this is a finding.
+
+#Fix Text: The SELinux state should be set to "enforcing" at system boot time. In the file "/etc/selinux/config", add or correct the following line to configure the system to boot into enforcing mode:
+
+#SELINUX=enforcing  
+#CCI: CCI-000366
+# Keeping it simple for testing
+
+if grep SELINUX=enforcing /etc/selinux/config|grep -v '^#'; then
+echo "This machine is RHEL-06-000020 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000020 Compliant"
+else
+echo "This machine isn't RHEL-06-000020 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000020 Compliant"
+grep -q '^SELINUX=' /etc/selinux/config && \
+  sed -i 's/^SELINUX=.*/SELINUX=enforcing/g' /etc/selinux/config
+if ! [ $? -eq 0 ]; then
+    sed -i 's@#SELINUX=.*@SELINUX=enforcing@g' /etc/selinux/config
+fi
+fi

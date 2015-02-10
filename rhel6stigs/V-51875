@@ -1,0 +1,32 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-51875
+#Group Title: SRG-OS-999999
+#Rule ID: SV-66089r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): RHEL-06-000372
+#Rule Title: The operating system, upon successful logon/access, must display to the user the number of unsuccessful logon/access attempts since the last successful logon/access.
+
+#Vulnerability Discussion: Users need to be aware of activity that occurs regarding their account. Providing users with information regarding the number of unsuccessful attempts that were made to login to their account allows the user to determine if any unauthorized activity has occurred and gives them an opportunity to notify administrators.
+
+#To ensure that last logon/access notification is configured correctly, run the following command:
+
+# grep pam_lastlog.so /etc/pam.d/system-auth
+
+#The output should show output "showfailed". If that is not the case, this is a finding.
+
+#Fix Text: To configure the system to notify users of last logon/access using "pam_lastlog", add the following line immediately after "session required pam_limits.so":
+
+#session required pam_lastlog.so showfailed  
+#CCI: CCI-000366
+
+if grep pam_lastlog.so /etc/pam.d/system-auth ; then
+echo "This machine is RHEL-06-000372 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000372 Compliant"
+else
+echo "This machine isn't RHEL-06-000372 Compliant " >> /var/log/Stig
+echo "This machine isn't RHEL-06-000372 Compliant "
+sed -i 's/pam_limits.so/pam_limits.so pam_lastlog.so/g' /etc/pam.d/system-auth
+fi

@@ -1,0 +1,38 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-51369
+#Group Title: SRG-OS-999999
+#Rule ID: SV-65579r1_rule
+#Severity: CAT III
+#Rule Version (STIG-ID): RHEL-06-000023
+#Rule Title: The system must use a Linux Security Module configured to limit the privileges of system services.
+
+#Vulnerability Discussion: Setting the SELinux policy to "targeted" or a more specialized policy ensures the system will confine processes that are likely to be targeted for exploitation, such as network or system services.
+
+#Check the file "/etc/selinux/config" and ensure the following line appears:
+
+#SELINUXTYPE=targeted
+
+#If it does not, this is a finding.
+
+#Fix Text: The SELinux "targeted" policy is appropriate for general-purpose desktops and servers, as well as systems in many other roles. To configure the system to use this policy, add or correct the following line in "/etc/selinux/config":
+#SELINUXTYPE=targeted
+#Other policies, such as "mls", provide additional security labeling and greater confinement but are not compatible with many general-purpose use cases.  
+
+#CCI: CCI-000366
+# Needs to be simplified, just setup for testing
+
+if grep SELINUXTYPE=targeted /etc/selinux/config|grep -v '^#'; then
+echo "This machine is RHEL-06-000023 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000023 Compliant"
+else
+echo "This machine isn't RHEL-06-000023 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000023 Compliant"
+grep -q '^SELINUXTYPE=' /etc/selinux/config && \
+  sed -i 's/^SELINUXTYPE=.*/SELINUXTYPE=targeted/g' /etc/selinux/config
+if ! [ $? -eq 0 ]; then
+    sed -i 's@#SELINUXTYPE=.*@SELINUXTYPE=targeted@g' /etc/selinux/config
+fi
+fi

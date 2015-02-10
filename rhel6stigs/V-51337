@@ -1,0 +1,42 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-51337
+#Group Title: SRG-OS-999999
+#Rule ID: SV-65547r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): RHEL-06-000017
+#Rule Title: The system must use a Linux Security Module at boot time.
+
+#Vulnerability Discussion: Disabling a major host protection feature, such as SELinux, at boot time prevents it from confining system services at boot time. Further, it increases the chances that it will remain off during system operation.
+
+#Inspect "/etc/grub.conf" for any instances of "selinux=0" in the kernel boot arguments. Presence of "selinux=0" indicates that SELinux is disabled at boot time. If SELinux is disabled at boot time, this is a finding.
+
+#Fix Text: SELinux can be disabled at boot time by an argument in "/etc/grub.conf". Remove any instances of "selinux=0" from the kernel arguments in that file to prevent SELinux from being disabled at boot.  
+#CCI: CCI-000366
+
+#if grep "selinux=1 " /etc/grub.conf ; then
+#echo "This machine is RHEL-06-000017 Compliant" >> /var/log/Stig
+#echo "This machine is RHEL-06-000017 Compliant"
+#else
+#echo "This machine isn't RHEL-06-000017 Compliant " >> /var/log/Stig
+#echo "This machine isn't RHEL-06-000017 Compliant "
+##Will have to add selinux=1 enforcing=1 to kernel line in /etc/grub.conf
+#sed -i 's@selinux=0@selinux=1@g' /etc/grub
+#sed -i 's@quiet@quiet selinux=1 enforcing=1@g' /etc/grub.conf
+#fi
+
+if grep "selinux=1 " /etc/grub.conf; then
+echo "This machine is RHEL-06-000017 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000017 Compliant"
+else
+echo "This machine isn't RHEL-06-000017 Compliant " >> /var/log/Stig
+echo "This machine isn't RHEL-06-000017 Compliant "
+grep -q selinux= .//grub.conf  && \
+  sed -i 's@selinux=0@selinux=1 enforcing=1@g' /etc/grub.conf
+if ! [ $? -eq 0 ]; then
+    sed -i 's@quiet@quiet selinux=1 enforcing=1@g' /etc/grub.conf
+fi
+fi
+

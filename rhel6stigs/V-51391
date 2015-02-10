@@ -1,0 +1,39 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-51391
+#Group Title: SRG-OS-000232
+#Rule ID: SV-65601r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): RHEL-06-000018
+#Rule Title: A file integrity baseline must be created.
+
+#Vulnerability Discussion: For AIDE to be effective, an initial database of "known-good" information about files must be captured and it should be able to be verified against the installed files.
+#Check Content: 
+#To find the location of the AIDE database file, run the following command:
+
+# grep DBDIR /etc/aide.conf
+#Using the defined values of the [DBDIR] and [database] variables, verify the existence of the AIDE database file:
+# ls -l [DBDIR]/[database_file_name]
+#If there is no database file, this is a finding.
+#Fix Text: Run the following command to generate a new database:
+# /usr/sbin/aide --init
+#By default, the database will be written to the file "/var/lib/aide/aide.db.new.gz". Storing the database, the configuration file "/etc/aide.conf", and the binary "/usr/sbin/aide" (or hashes of these files), in a secure location (such as on read-only media) provides additional assurance about their integrity. The newly-generated database can be installed as follows:
+# cp /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+#To initiate a manual check, run the following command:
+# /usr/sbin/aide --check
+
+#If this check produces any unexpected output, investigate.  
+#CCI: CCI-000366
+
+if [ -f /var/lib/aide/aide.db.gz ]; then
+echo "This machine is RHEL-06-000018 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000018 Compliant"
+else
+echo "This machine isn't RHEL-06-000018 Compliant " >> /var/log/Stig
+echo "This machine isn't RHEL-06-000018 Compliant "
+/usr/sbin/aide --init
+cp /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+/usr/sbin/aide --check
+fi

@@ -1,0 +1,44 @@
+#!/bin/bash
+#Created by Matthew M. Conley / SimonTek
+# Feb. 06, 2015
+
+#Group ID (Vulid): V-43150
+#Group Title: SRG-OS-999999
+#Rule ID: SV-55880r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): RHEL-06-000527
+#Rule Title: The login user list must be disabled.
+
+#Vulnerability Discussion: Leaving the user list enabled is a security risk since it allows anyone with physical access to the system to quickly enumerate known user accounts without logging in.
+#To ensure the user list is disabled, run the following command:
+
+#$ gconftool-2 --direct \
+#--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+#--get /apps/gdm/simple-greeter/disable_user_list
+
+#The output should be "true". If it is not, this is a finding.
+
+#Fix Text: In the default graphical environment, users logging directly into the system are greeted with a login screen that displays all known users. This functionality should be disabled.
+
+#Run the following command to disable the user list:
+
+#$ sudo gconftool-2 --direct \
+#--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+#--type bool --set /apps/gdm/simple-greeter/disable_user_list true  
+
+#CCI: CCI-000366
+
+if gconftool-2 --direct \
+--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+--get /apps/gdm/simple-greeter/disable_user_list|grep true ; then
+echo "This machine is RHEL-06-000527 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000527 Compliant"
+else
+echo "This machine isn't RHEL-06-000527 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000527 Compliant"
+gconftool-2 --direct \
+--config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \
+--type bool --set /apps/gdm/simple-greeter/disable_user_list true 
+
+fi
+
