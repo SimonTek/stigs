@@ -1,0 +1,25 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2249
+#Group Title: WG230
+#Rule ID: SV-33023r1_rule
+#Severity: CAT I
+#Rule Version (STIG-ID): WG230 A22
+#Rule Title: Web server administration must be performed over a secure path or at the local console.
+#Vulnerability Discussion: Logging in to a web server via an unencrypted protocol or service, to perform updates and maintenance, is a major risk. In all such cases, user accounts and passwords are passed in the plain text. An encrypted protocol or service must be used for remote access for remote access to web administration tasks. Another alternative is to administer the web server from the console, which implies physical access to the server.
+#Responsibility: Web Administrator
+#IAControls: EBRP-1, EBRU-1
+#
+#Check Content: 
+#If web administration is performed remotely the following checks will apply:
+#If administration of the server is performed remotely, it will only be performed securely by system administrators.
+#If web site administration or web application administration has been delegated, those users will be documented and approved by the IAO.
+#Remote administration must be in compliance with any requirements contained within the Unix Server STIGs, and any applicable network STIGs.
+#Remote administration of any kind will be restricted to documented and authorized personnel.
+#All users performing remote administration must be authenticated.
+#All remote sessions will be encrypted and they will utilize TLS 1.0.
+#Fix Text: Ensure the web server's administration is only performed over a secure path.
+
+

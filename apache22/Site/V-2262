@@ -1,0 +1,67 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2262
+#Group Title: WG340
+#Rule ID: SV-33029r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): WG340 A22
+#Rule Title: A private web server must utilize TLS v 1.0 or greater.
+#Vulnerability Discussion: Transport Layer Security (TLS) encryption is a required security setting for a private web server. This check precludes the possibility that a valid certificate has been obtained, but TLS has not been activated or is not being used. Transactions encrypted with trusted certificates are necessary when the information being transferred is not intended to be accessed by all parties on the network.
+#Responsibility: Web Administrator
+#IAControls: ECSC-1
+#  /usr/local/apache2/bin/httpd –M |grep -i ssl
+#This will provide a list of all the loaded modules. Verify that the “ssl_module” is loaded. If this module is not found, determine if it is loaded as a dynamic module. Enter the following command:
+#  grep ^LoadModule /usr/local/apache2/conf/httpd.conf
+#If the SSL module is not enabled this is a finding.
+#After determining that the ssl module is active, enter the following command to review the SSL directives.
+#  grep -i ssl /usr/local/apache2/conf/httpd.conf
+#Review the SSL section(s) of the httpd.conf file, all enabled SSLProtocol directives must be set to “TLSv1” or this is a finding.
+# All enabled SSLEngine directive must be set to “on”, if not this is a finding.
+#NOTE: In some cases web servers are configured in an environment to support load balancing. This configuration most likely utilizes a content switch to control traffic to the various web servers. In this situation, the TLS certificate for the web sites may be installed on the content switch vs the individual web sites. This solution is acceptable as long as the web servers are isolated from the general population LAN. Users should not have the ability to bypass the content switch to access the web sites.
+# Fix Text: Edit the httpd.conf file and set the SSLProtocol to TLSv1 and the SSLEngine to On. 
+
+if /usr/sbin/httpd -M |grep -i ssl; then
+echo "SSL modules installed"
+echo "This machine is V-2260 Compliant" >> /var/log/Stig
+echo "This machine is V-2260 Compliant"
+else
+echo "This machine isn't V-2260 Compliant" >> /var/log/Stig
+echo "This machine isn't V-2260 Compliant"
+	if grep ^LoadModule /etc/httpd/conf/httpd.conf|grep -i ssl; then
+	echo "SSL module is loaded in httpd.conf"
+	else	
+	sed -i '/^LoadModule auth_basic_module/a\LoadModule ssl_module modules/mod_ssl.so' /etc/httpd/conf/httpd.conf
+	sed -i '/^Listen/a\Listen 443' /etc/httpd/conf/httpd.conf
+	/etc/init.d/httpd restart
+	fi
+	yum install mod_ssl -y
+fi
+
+if grep -i "^SSLProtocol" /etc/httpd/conf/httpd.conf|grep "TLSv1" ; then
+echo "Configured SSL Protocol correnctly"
+else
+echo "Doh"
+grep -q '^SSLProtocol' /etc/httpd/conf/httpd.conf && \
+  sed -i 's/^SSLProtocol.*/SSLProtocol -all +TLSv1/g' /etc/httpd/conf/httpd.conf
+if ! [ $? -eq 0 ]; then
+     sed -i '/^Listen 443/a\SSLProtocol -all +TLSv1' /etc/httpd/conf/httpd.conf
+	echo "Failed, but I fixed it"
+fi
+
+fi
+
+if grep -i "^SSLEngine" /etc/httpd/conf/httpd.conf|grep -i "ON" ; then
+echo "Configured SSLEngine correnctly"
+else
+echo "Doh"
+grep -q '^SSLEngine' /etc/httpd/conf/httpd.conf && \
+  sed -i 's/^SSLEngine.*/SSLEngine on/g' /etc/httpd/conf/httpd.conf
+if ! [ $? -eq 0 ]; then
+     sed -i '/^SSLProtocol/a\SSLEngine on' /etc/httpd/conf/httpd.conf
+        echo "Failed, but I fixed it"
+fi
+
+fi
+

@@ -1,0 +1,37 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2252
+#Group Title: WG250
+#Rule ID: SV-33033r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): WG250 A22
+#Rule Title: Log file access must be restricted to System Administrators, Web Administrators or Auditors.
+#Vulnerability Discussion: A major tool in exploring the web site use, attempted use, unusual conditions, and problems are the access and error logs. In the event of a security incident, these logs can provide the SA and the web manager with valuable information. To ensure the integrity of the log files and protect the SA and the web manager from a conflict of interest related to the maintenance of these files, only the members of the Auditors group will be granted permissions to move, copy, and delete these files in the course of their duties related to the archiving of these files.
+#Responsibility: Web Administrator
+#IAControls: ECTP-1
+#Check Content: 
+#Enter the following command to determine the directory the log files are located in:
+# grep "ErrorLog" /usr/local/apache2/conf/httpd.conf
+# grep "CustomLog" /usr/local/apache2/conf/httpd.conf
+#Verify the permission of the ErrorLog & CustomLog files by entering the following command:
+# ls -al /usr/local/apache2/logs/*.log
+#Unix file permissions should be 640 or less for all web log files if not, this is a finding.
+#Fix Text: Use the chmod command to set the appropriate file permissions on the log files. 
+RPMCONF=/etc/httpd
+RPMLOG=/var/log/httpd
+DEBCONF=/etc/apache2
+DEBLOG=/var/log/apache2
+UNIVCONF=/usr/local/apache2
+UNIVLOG=/usr/local/apache2/logs
+
+#grep "ErrorLog" /usr/local/apache2/conf/httpd.conf
+#grep "CustomLog" /usr/local/apache2/conf/httpd.conf
+#ls -al /usr/local/apache2/logs/*log
+if ls -al /var/log/httpd/*log |grep -v "rw-r-----"; then
+chmod 0640 /var/log/httpd/*log
+echo "Fixed log perms"
+else
+echo "All Good"
+fi

@@ -1,0 +1,27 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2226
+#Group Title: WG210
+#Rule ID: SV-33022r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): WG210 A22
+#Rule Title: Web content directories must not be anonymously shared.
+
+#Vulnerability Discussion: Sharing web content is a security risk when a web server is involved. Users accessing the share anonymously could experience privileged access to the content of such directories. Network sharable directories expose those directories and their contents to unnecessary access. Any unnecessary exposure increases the risk that someone could exploit that access and either compromises the web content or cause web server performance problems.
+
+#Responsibility: Web Administrator
+#IAControls: ECCD-1, ECCD-2
+#Check Content: 
+#To view the DocumentRoot enter the following command:
+# grep "DocumentRoot" /usr/local/apache2/conf/httpd.conf
+#To view the ServerRoot enter the following command:
+# grep "serverRoot" /usr/local/apache2/conf/httpd.conf
+#Note the location following the DocumentRoot and ServerRoot directives.
+#Enter the following commands to determine if file sharing is running:
+#  ps -ef | grep nfs, ps -ef | grep smb
+#If results are returned, determine the shares and confirm they are not in the same directory as listed above, If they are, this is a finding.
+# Fix Text: Remove the shares from the applicable directories.  
+
+

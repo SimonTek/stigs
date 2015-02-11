@@ -1,0 +1,44 @@
+#!/bin/bash
+# Created by Matthew M. Conley / SimonTek
+# Feb. 10, 2015
+
+#Group ID (Vulid): V-2250
+#Group Title: WG240
+#Rule ID: SV-33025r1_rule
+#Severity: CAT II
+#Rule Version (STIG-ID): WG240 A22
+#Rule Title: Logs of web server access and errors must be established and maintained
+#Vulnerability Discussion: A major tool in exploring the web site use, attempted use, unusual conditions, and problems are reported in the access and error logs. In the event of a security incident, these logs can provide the SA and the web manager with valuable information. Without these log files, SAs and web managers are seriously hindered in their efforts to respond appropriately to suspicious or criminal actions targeted at the web site.
+#Responsibility: Web Administrator
+#IAControls: ECAT-1, ECAT-2
+#To view a list of loaded modules enter the following command:
+#/usr/local/apache2/bin/httpd -M
+#If the following module is not found, this is a finding: "log_config_module"
+#Fix Text: Edit the httpd.conf file and add the following module to configure logging.
+#"log_config_module"
+# /usr/sbin/httpd -M
+if /usr/sbin/httpd -M |grep -i log_config_module; then
+echo "This machine is V-2250 Compliant" >> /var/log/Stig
+echo "This machine is V-2250 Compliant"
+else
+echo "This machine isn't V-2250 Compliant" >> /var/log/Stig
+echo "This machine isn't V-2250 Compliant"
+	if [ -f /usr/lib64/httpd/modules/mod_log_config.so ]; then
+        	if grep "^LoadModule log_config_module modules/mod_log_config.so" ./httpd.conf; then
+		echo "Good"
+		else
+		echo "Bad"
+		sed -i '/^LoadModule auth_basic_module/a\LoadModule log_config_module modules/mod_log_config.so' /etc/httpd/conf/httpd.conf
+		echo "fixed"
+		fi
+	else
+	echo "Re-installing apache to get the file needed"
+	echo "Making backups of the httpd directory"
+	mkdir /etc/backups
+	cp -aur /etc/httpd/* /etc/backups/
+	yum reinstall httpd -y
+	sed -i '/^LoadModule auth_basic_module/a\LoadModule log_config_module modules/mod_log_config.so' /etc/httpd/conf/httpd.conf
+	fi
+fi
+
+
