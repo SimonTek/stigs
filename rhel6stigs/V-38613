@@ -24,6 +24,6 @@ echo "This machine is RHEL-06-000237 Compliant"
 else
 echo "This machine isn't RHEL-06-000237 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000237 Compliant"
-echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+sed -Ei 's/.*PermitRootLogin yes|#PermitRootLogin no/PermitRootLogin no/g' /etc/ssh/sshd_config
 /etc/init.d/sshd restart
 fi

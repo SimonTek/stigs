@@ -31,6 +31,6 @@ echo "This machine is RHEL-06-000247 Compliant"
 else
 echo "This machine isn't RHEL-06-000247 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000247 Compliant"
-/etc/init.d/ntpd on
+/etc/init.d/ntpd start
 chkconfig ntpd on
 fi

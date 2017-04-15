@@ -28,7 +28,7 @@ echo "This machine is RHEL-06-000315 Compliant"
 else
 echo "This machine isn't RHEL-06-000315 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000315 Compliant"
-echo "install bluetooth /bin/false" > /etc/modprobe.d/bluetooth.conf
+echo "install bluetooth /bin/true" > /etc/modprobe.d/bluetooth.conf
 fi
 
 if grep -r net-pf-31 /etc/modprobe.d ; then
@@ -37,5 +37,5 @@ echo "This machine is RHEL-06-000315 Compliant"
 else
 echo "This machine isn't RHEL-06-000315 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000315 Compliant"
-echo "install net-pf-31 /bin/false" > /etc/modprobe.d/net-pf-31.conf
+echo "install net-pf-31 /bin/true" > /etc/modprobe.d/net-pf-31.conf
 fi

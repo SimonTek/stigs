@@ -15,11 +15,11 @@
 #Fix Text: The Openswan package provides an implementation of IPsec and IKE, which permits the creation of secure tunnels over untrusted networks. The "openswan" package can be installed with the following command: 
 # yum install openswan
 
-if rpm -q openswan; then
+if rpm -q libreswan; then
 echo "This machine is RHEL-06-000321 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000321 Compliant"
 else
 echo "This machine isn't RHEL-06-000321 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000321 Compliant"
-yum install openswan -y
+yum install libreswan -y
 fi

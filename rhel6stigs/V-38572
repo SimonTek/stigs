@@ -13,17 +13,17 @@
 
 #$ grep pam_cracklib /etc/pam.d/system-auth
 
-#The "difok" parameter will indicate how many characters must differ. The DoD requires four characters differ during a password change. This would appear as "difok=4". 
+#The "difok" parameter will indicate how many characters must differ. The DoD requires four characters differ during a password change. This would appear as "difok=8". 
 #If difok is not found or not set to the required value, this is a finding.
 
 
 #Fix Text: The pam_cracklib module's "difok" parameter controls requirements for usage of different characters during a password change. Add "difok=[NUM]" after pam_cracklib.so to require differing characters when changing passwords, substituting [NUM] appropriately. The DoD requirement is 4.
 
-if grep pam_cracklib /etc/pam.d/system-auth|grep "difok=4"; then
+if grep pam_cracklib /etc/pam.d/system-auth|grep "difok=8"; then
 echo "This machine is RHEL-06-000060 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000060 Compliant"
 else
 echo "This machine isn't RHEL-06-000060 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000060 Compliant"
-sed -i '/^password    requisite/ s/$/ difok=4/' /etc/pam.d/system-auth
+sed -i '/^password    requisite/ s/$/ difok=8/' /etc/pam.d/system-auth
 fi

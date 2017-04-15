@@ -28,6 +28,7 @@ echo "This machine isn't RHEL-06-000261 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000261 Compliant"
 chkconfig abrtd off
 service abrtd stop
+yum remove abrt*
 else
 echo "This machine is RHEL-06-000261 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000261 Compliant"

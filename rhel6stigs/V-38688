@@ -21,10 +21,13 @@
 #To display a banner, this setting must be enabled and then banner text must also be set.
 
 if gconftool-2 -g /apps/gdm/simple-greeter/banner_message_enable|grep true; then
+
 echo "This machine is RHEL-06-000324 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000324 Compliant"
 else
 echo "This machine isn't RHEL-06-000324 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000324 Compliant"
-gconftool-2 --type bool --set /apps/gdm/simple-greeter/banner_message_enable true
+#gconftool-2 --type bool --set /apps/gdm/simple-greeter/banner_message_enable true
+gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gdm/simple-greeter/banner_message_enable true
 fi
+gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gdm/simple-greeter/banner_message_enable true

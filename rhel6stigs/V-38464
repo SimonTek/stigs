@@ -36,5 +36,5 @@ echo "This machine is RHEL-06-000511 Compliant"
 else
 echo "This machine isn't RHEL-06-000511 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000511 Compliant"
-sed -e 's@disk_error_action = SUSPEND@disk_error_action = SINGLE@g' /etc/audit/auditd.conf
+sed -i 's@disk_error_action = SUSPEND@disk_error_action = SINGLE@g' /etc/audit/auditd.conf
 fi

@@ -37,3 +37,8 @@ echo "This machine isn't RHEL-06-000061 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000061 Compliant"
 sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/system-auth-ac
 fi
+
+
+#auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900
+#auth required pam_faillock.so authsucc deny=3 unlock_time=604800  fail_interval=900
+

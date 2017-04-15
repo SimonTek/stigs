@@ -27,7 +27,8 @@
 #If this check produces any unexpected output, investigate.  
 #CCI: CCI-000366
 
-if [ -f /var/lib/aide/aide.db.gz ]; then
+if [ -f /var/lib/aide/aide.db.gz ] || [ -f  /var/lib/aide/aide.db.new.gz ]; then
+#if [ -f /var/lib/aide/aide.db.new.gz ]; then
 echo "This machine is RHEL-06-000018 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000018 Compliant"
 else

@@ -1,0 +1,26 @@
+#!/bin/bash
+# RHEL-06-000187
+# SV-50351r3_rule
+if grep 'a always,exit -F arch=b32 -S fchmodat -F auid>=500 -F auid!=4294967295' /etc/audit/audit.rules; then
+echo "This machine is RHEL-06-000187 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000187 Compliant"
+else
+echo "This machine isn't RHEL-06-000187 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000187 Compliant"
+echo '# RHEL-06-000187' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b32 -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b32 -S fchmodat -F auid=0 -k perm_mod' >> /etc/audit/audit.rules
+fi
+
+if grep 'a always,exit -F arch=b64 -S fchmodat -F auid>=500 -F auid!=4294967295' /etc/audit/audit.rules; then
+echo "This machine is RHEL-06-000187 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000187 Compliant"
+else
+echo "This machine isn't RHEL-06-000187 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000187 Compliant"
+echo '# RHEL-06-000187 64Bit' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b64 -S fchmodat -F auid>=500 -F auid!=4294967295 -k perm_mod' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b64 -S fchmodat -F auid=0 -k perm_mod' >> /etc/audit/audit.rules
+/etc/init.d/auditd restart
+fi
+

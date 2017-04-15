@@ -29,5 +29,5 @@ echo "This machine is RHEL-06-000503 Compliant"
 else
 echo "This machine isn't RHEL-06-000503 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000503 Compliant"
-echo "install usb-storage /bin/false" > /etc/modprobe.d/usb-storage.conf
+echo "install usb-storage /bin/true" > /etc/modprobe.d/usb-storage.conf
 fi

@@ -36,5 +36,5 @@ echo "This machine is RHEL-06-000005 Compliant"
 else
 echo "This machine isn't RHEL-06-000005 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000005 Compliant"
-sed -i 's@^space_left_action.*@^space_left_action = EMAIL@g' /etc/audit/auditd.conf
+sed -i 's@^space_left_action.*@space_left_action = EMAIL@g' /etc/audit/auditd.conf
 fi

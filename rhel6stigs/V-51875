@@ -28,5 +28,5 @@ echo "This machine is RHEL-06-000372 Compliant"
 else
 echo "This machine isn't RHEL-06-000372 Compliant " >> /var/log/Stig
 echo "This machine isn't RHEL-06-000372 Compliant "
-sed -i 's/pam_limits.so/pam_limits.so pam_lastlog.so/g' /etc/pam.d/system-auth
+sed -i 's/pam_limits.so/pam_limits.so pam_lastlog.so showfailed/g' /etc/pam.d/system-auth
 fi

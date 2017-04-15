@@ -23,11 +23,11 @@
 # chkconfig postfix on
 # service postfix start
 if service postfix status|grep stop; then
-echo "This machine is RHEL-06-000287 Compliant" >> /var/log/Stig
-echo "This machine is RHEL-06-000287 Compliant"
-else
 echo "This machine isn't RHEL-06-000287 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000287 Compliant"
-chkconfig postfix off
-service postfix stop
+chkconfig postfix on
+service postfix start
+else
+echo "This machine is RHEL-06-000287 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000287 Compliant"
 fi

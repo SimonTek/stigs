@@ -32,9 +32,11 @@ echo "This machine isn't RHEL-06-000096 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000096 Compliant"
 if grep --silent ^net.ipv4.conf.all.rp_filter /etc/sysctl.conf ; then
 	sed -i 's/^net.ipv4.conf.all.rp_filter.*/net.ipv4.conf.all.rp_filter = 1/g' /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.rp_filter=1
 else
 	echo "" >> /etc/sysctl.conf
 	echo "# Set net.ipv4.conf.all.rp_filter to 1 per security requirements" >> /etc/sysctl.conf
 	echo "net.ipv4.conf.all.rp_filter = 1" >> /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.rp_filter=1
 fi
 fi

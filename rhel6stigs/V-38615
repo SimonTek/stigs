@@ -19,12 +19,18 @@
 #Banner /etc/issue
 #Another section contains information on how to create an appropriate system-wide warning banner.
 
-if grep -i Banner /etc/ssh/sshd_config|grep -v '^#'|grep issue; then
+if grep Banner /etc/ssh/sshd_config|grep -v '^#'|grep issue; then
 echo "This machine is RHEL-06-000240 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000240 Compliant"
 else
 echo "This machine isn't RHEL-06-000240 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000240 Compliant"
-echo "Banner /etc/issue" >> /etc/ssh/sshd_config
+sed -Ei 's@.*Banner.*@Banner /etc/issue@g' /etc/ssh/sshd_config
+	if grep Banner /etc/ssh/sshd_config; then
+	echo "Banner is Good"
+	else
+	echo "Banner is missing from file, so adding it in"
+	echo "Banner /etc/issue" >> /etc/ssh/sshd_config
+	fi
 /etc/init.d/sshd restart
 fi

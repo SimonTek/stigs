@@ -1,0 +1,23 @@
+#!/bin/bash
+#RHEL-06-000173
+
+# -w /etc/localtime -p wa -k audit_time_rules
+#echo '-w /etc/localtime -p wa -k audit_time_rules' >> /etc/audit/audit.rules
+
+if grep '/etc/localtime' /etc/audit/audit.rules|grep -v '^#'; then
+echo "This machine is RHEL-06-000173 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000173 Compliant"
+else
+echo "This machine isn't RHEL-06-000173 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000173 Compliant"
+sed -Ei 's@.*/etc/localtime -p wa -k audit_time_rules.*@-w /etc/localtime -p wa -k audit_time_rules@g' /etc/audit/audit.rules
+	if grep '/etc/localtime -p wa -k audit_time_rules' /etc/audit/audit.rules; then
+	echo "Localtime is good"
+	else
+	echo "Adding missing Reference"
+	echo '-w /etc/localtime -p wa -k audit_time_rules' >> /etc/audit/audit.rules
+	fi
+/etc/init.d/auditd restart
+fi
+
+

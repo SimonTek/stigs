@@ -23,12 +23,23 @@
 #If virus scanning software does not run daily, or has signatures that are out of date, this is a finding.
 #Fix Text: Install virus scanning software, which uses signatures to search for the presence of viruses on the filesystem. The McAfee uvscan virus scanning tool is provided for DoD systems. Ensure virus definition files are no older than 7 days, or their last release. Configure the virus scanning software to perform scans dynamically on all accessed files. If this is not possible, configure the system to scan all altered files on the system on a daily basis. If the system processes inbound SMTP mail, configure the virus scanner to scan all received mail.
 
-if grep uvscan /etc/cron* /var/spool/cron/*; then
+if grep -r uvscan /etc/cron* ; then
 echo "This machine is RHEL-06-000284 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000284 Compliant"
 else
 echo "This machine isn't RHEL-06-000284 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000284 Compliant"
-echo "This machine does not have McAfee AV installed" >> /var/log/Stig
-echo "This machine does not have McAfee AV installed"
+echo '/usr/local/bin/uvscan --secure -vr --summary --ignore-links  --exclude /usr/local/uvscan/exfile /  > /var/log/vscanresults.txt' > /etc/cron.weekly/av.cron
+chmod 0700 /etc/cron.weekly/av.cron
+
 fi
+
+
+#curdttm=`date +%Y%m%d%H%M`
+#/usr/local/bin/uvscan --secure -vr --summary --ignore-links  --exclude /usr/local/uvscan/exfile /  > /var/log/vscanresults.txt
+#grep -v 'is OK' /var/log/AV/vscanresults.txt > /var/log/AV/tempresults.txt
+#mv -f /var/log/AV/tempresults.txt /var/log/AV/vscanresults.txt
+
+#mv /var/log/AV/vscanresults.txt /var/log/AV/vscanresults.${curdttm}.txt
+#/usr/bin/xz /var/log/AV/vscanresults.${curdttm}.txt
+

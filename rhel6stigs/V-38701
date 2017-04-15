@@ -18,6 +18,7 @@
 #Fix Text: If running the "tftp" service is necessary, it should be configured to change its root directory at startup. To do so, ensure "/etc/xinetd.d/tftp" includes "-s" as a command line argument, as shown in the following example (which is also the default): 
 #server_args = -s /var/lib/tftpboot
 
+
 if grep "server_args" /etc/xinetd.d/tftp| grep "/var/lib/tftpboot"|grep -v '^#'; then
 echo "This machine is RHEL-06-000338 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000338 Compliant"

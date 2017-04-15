@@ -34,6 +34,6 @@ echo "This machine is RHEL-06-000137 Compliant"
 else
 echo "This machine isn't RHEL-06-000137 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000137 Compliant"
-echo "*.* @@loghost.example.mil" >> /etc/rsyslog.conf
+echo "*.* @@130.163.6.254" >> /etc/rsyslog.conf
 fi
 

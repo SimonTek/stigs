@@ -16,14 +16,17 @@
 #Fix Text: Edit "/etc/snmp/snmpd.conf", removing any references to "v1", "v2c", or "com2sec". Upon doing that, restart the SNMP service: 
 # service snmpd restart
 
-
-if grep 'v1\|v2c\|com2sec' /etc/snmp/snmpd.conf | grep -v '^#'; then
-echo "This machine isn't RHEL-06-000340 Compliant" >> /var/log/Stig
-echo "This machine isn't RHEL-06-000340 Compliant"
-sed -i 's/\(^.*v2c.*$\)/#\1/' /etc/snmp/snmpd.conf
-sed -i 's/\(^.*v1 .*$\)/#\1/' /etc/snmp/snmpd.conf
-sed -i 's/\(^.*com2sec.*$\)/#\1/' /etc/snmp/snmpd.conf
+if rpm -q net-snmp |grep -q 'is not installed'; then
+echo "SNMPd is not installed"
 else
-echo "This machine is RHEL-06-000340 Compliant" >> /var/log/Stig
-echo "This machine is RHEL-06-000340 Compliant"
+	if grep 'v1\|v2c\|com2sec' /etc/snmp/snmpd.conf | grep -v '^#'; then
+	echo "This machine isn't RHEL-06-000340 Compliant" >> /var/log/Stig
+	echo "This machine isn't RHEL-06-000340 Compliant"
+	sed -i 's/\(^.*v2c.*$\)/#\1/' /etc/snmp/snmpd.conf
+	sed -i 's/\(^.*v1 .*$\)/#\1/' /etc/snmp/snmpd.conf
+	sed -i 's/\(^.*com2sec.*$\)/#\1/' /etc/snmp/snmpd.conf
+	else
+	echo "This machine is RHEL-06-000340 Compliant" >> /var/log/Stig
+	echo "This machine is RHEL-06-000340 Compliant"
+	fi
 fi

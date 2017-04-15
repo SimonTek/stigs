@@ -30,4 +30,5 @@ echo "This machine isn't RHEL-06-000009 Compliant"
 else
 echo "This machine is RHEL-06-000009 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000009 Compliant"
+chkconfig rhnsd off
 fi

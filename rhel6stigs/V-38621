@@ -21,6 +21,7 @@
 # Due to security issues, You will need to fill in your own ntp settings, but I left this as a template.
 #	Matthew M. Conley
 #
+### Use sed to replace vs just adding
 
 if grep server /etc/ntp.conf |grep -v '^#'; then
 echo "This machine is RHEL-06-000248 Compliant" >> /var/log/Stig

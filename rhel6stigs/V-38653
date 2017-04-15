@@ -17,11 +17,15 @@
 #Fix Text: Edit "/etc/snmp/snmpd.conf", remove default community string "public". Upon doing that, restart the SNMP service: 
 # service snmpd restart
 
-if grep -v "^#" /etc/snmp/snmpd.conf| grep public; then
-echo "This machine isn't RHEL-06-000341 Compliant" >> /var/log/Stig
-echo "This machine isn't RHEL-06-000341 Compliant"
-sed -i '/public/ s/^/#/' /etc/snmp/snmpd.conf
-else
-echo "This machine is RHEL-06-000341 Compliant" >> /var/log/Stig
-echo "This machine is RHEL-06-000341 Compliant"
+if rpm -q net-snmp|grep -q 'is not installed'; then
+echo "SNMPd is not installed"
+else 
+	if grep -v "^#" /etc/snmp/snmpd.conf| grep public; then
+	echo "This machine isn't RHEL-06-000341 Compliant" >> /var/log/Stig
+	echo "This machine isn't RHEL-06-000341 Compliant"
+	sed -i '/public/ s/^/#/' /etc/snmp/snmpd.conf
+	else
+	echo "This machine is RHEL-06-000341 Compliant" >> /var/log/Stig
+	echo "This machine is RHEL-06-000341 Compliant"
+	fi
 fi

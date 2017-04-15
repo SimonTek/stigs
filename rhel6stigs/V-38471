@@ -19,7 +19,7 @@
 #Fix Text: Set the "active" line in "/etc/audisp/plugins.d/syslog.conf" to "yes".  Restart the auditd process.
 
 # service auditd restart
-if grep active /etc/audisp/plugins.d/syslog.conf|grep no; then
+if grep active /etc/audisp/plugins.d/syslog.conf|grep yes; then
 echo "This machine is RHEL-06-000509 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000509 Compliant"
 else

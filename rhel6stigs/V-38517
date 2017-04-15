@@ -22,5 +22,5 @@ echo "This machine is RHEL-06-000127 Compliant"
 else
 echo "This machine isn't RHEL-06-000127 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000127 Compliant"
-echo "install tipc /bin/false" > /etc/modprobe.d/tipc.conf
+echo "install tipc /bin/true" > /etc/modprobe.d/tipc.conf
 fi

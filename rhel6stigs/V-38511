@@ -34,4 +34,10 @@ else
 echo "This machine isn't RHEL-06-000082 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000082 Compliant"
 sysctl -w net.ipv4.ip_forward=0
+	if grep 'net.ipv4.ip_forward' /etc/sysctl.conf; then
+		sed -i 's/.*net.ipv4.ip_forward.*/net.ipv4.ip_forward = 0/g' /etc/sysctl.conf
+	else
+	echo "RHEL-06-000082" >> /etc/sysctl.conf
+	echo 'net.ipv4.ip_forward = 0' >> /etc/sysctl.conf
+	fi
 fi

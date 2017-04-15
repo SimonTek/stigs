@@ -32,10 +32,12 @@ echo "This machine isn't RHEL-06-000090 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000090 Compliant"
 if grep --silent ^net.ipv4.conf.default.secure_redirects /etc/sysctl.conf ; then
 	sed -i 's/^net.ipv4.conf.default.secure_redirects.*/net.ipv4.conf.default.secure_redirects = 0/g' /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.default.secure_redirects=0
 else
 	echo "" >> /etc/sysctl.conf
 	echo "# Set net.ipv4.conf.default.secure_redirects to 0 per security requirements" >> /etc/sysctl.conf
 	echo "net.ipv4.conf.default.secure_redirects = 0" >> /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.default.secure_redirects=0
 fi
 
 fi

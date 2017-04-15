@@ -25,14 +25,16 @@
 
 #Then review the LDAP server and ensure TLS has been configured.
 if rpm -qa |grep pam_ldap; then
-if grep logrotate /var/log/cron*; then
-echo "This machine is RHEL-06-000138 Compliant" >> /var/log/Stig
-echo "This machine is RHEL-06-000138 Compliant"
-else
-echo "This machine isn't RHEL-06-000138 Compliant" >> /var/log/Stig
-echo "This machine isn't RHEL-06-000138 Compliant"
-yum reinstall logrotate -y
-fi
+	if grep start_tls /etc/pam_ldap.conf|grep ssl; then
+	echo "This machine is RHEL-06-000138 Compliant" >> /var/log/Stig
+	echo "This machine is RHEL-06-000138 Compliant"
+	else
+	echo "This machine isn't RHEL-06-000138 Compliant" >> /var/log/Stig
+	echo "This machine isn't RHEL-06-000138 Compliant"
+#	sed -i 's/
+	echo 'ssl start_tls' >> /etc/pam_ldap.conf
+
+	fi
 else
 echo "This machine does not run LDAP" >> /var/log/Stig
 echo "This machine does not run LDAP"

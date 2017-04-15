@@ -24,7 +24,7 @@
 #If this is not the system's default value, add the following line to "/etc/sysctl.conf": 
 
 #net.ipv4.conf.all.log_martians = 1
-if sysctl net.ipv4.conf.all.log_martians|grep "= 0"; then
+if sysctl net.ipv4.conf.all.log_martians|grep "1"; then
 echo "This machine is RHEL-06-000088 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000088 Compliant"
 else
@@ -32,10 +32,12 @@ echo "This machine isn't RHEL-06-000088 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000088 Compliant"
 if grep --silent ^net.ipv4.conf.all.log_martians /etc/sysctl.conf ; then
 	sed -i 's/^net.ipv4.conf.all.log_martians.*/net.ipv4.conf.all.log_martians = 1/g' /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.log_martians=1
 else
 	echo "" >> /etc/sysctl.conf
 	echo "# Set net.ipv4.conf.all.log_martians to 1 per security requirements" >> /etc/sysctl.conf
 	echo "net.ipv4.conf.all.log_martians = 1" >> /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.log_martians=1
 fi
 
 fi

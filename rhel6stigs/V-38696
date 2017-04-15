@@ -24,5 +24,5 @@ echo "This machine is RHEL-06-000303 Compliant"
 else
 echo "This machine isn't RHEL-06-000303 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000303 Compliant"
-echo "05 4 * * * root /usr/sbin/aide --check" >> /etc/crontab
+echo "05 4 * * * root /usr/sbin/aide --check -c /etc/aide.conf" >> /etc/crontab
 fi

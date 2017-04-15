@@ -44,3 +44,7 @@ sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_
 sed -i '/pam_deny.so/a \auth\trequired\t pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900' /etc/pam.d/password-auth-ac
 
 fi
+
+
+#auth [default=die] pam_faillock.so authfail deny=3 unlock_time=604800 fail_interval=900
+#auth required pam_faillock.so authsucc deny=3 unlock_time=604800  fail_interval=900

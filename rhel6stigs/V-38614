@@ -25,5 +25,10 @@ echo "This machine is RHEL-06-000239 Compliant"
 else
 echo "This machine isn't RHEL-06-000239 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000239 Compliant"
-echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config
+  sed -i "s/#PermitEmptyPasswords.*/PermitEmptyPasswords no/g" /etc/ssh/sshd_config
+if ! [ $? -eq 0 ]; then
+    echo "PermitEmptyPasswords no" >> /etc/ssh/sshd_config
+fi
+
+
 fi

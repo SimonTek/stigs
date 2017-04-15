@@ -1,0 +1,15 @@
+#!/bin/bash
+# RHEL-06-000200
+# SV-50376r4_rule
+if grep 'a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295' /etc/audit/audit.rules; then 
+echo "This machine is RHEL-06-000200 Compliant" >> /var/log/Stig
+echo "This machine is RHEL-06-000200 Compliant"
+else
+echo "This machine isn't RHEL-06-000200 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000200 Compliant"
+echo '# RHEL-06-00020' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid>=500 -F auid!=4294967295 -k delete' >> /etc/audit/audit.rules
+echo '-a always,exit -F arch=b64 -S rmdir -S unlink -S unlinkat -S rename -S renameat -F auid=0 -k delete' >> /etc/audit/audit.rules
+/etc/init.d/auditd restart
+fi
+

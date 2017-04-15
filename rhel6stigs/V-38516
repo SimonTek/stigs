@@ -21,11 +21,11 @@
 
 #install rds /bin/true
 
-if grep -r rds /etc/modprobe.d/ ; then
+if grep -r 'install rds' /etc/modprobe.d/ ; then
 echo "This machine is RHEL-06-000126 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000126 Compliant"
 else
 echo "This machine isn't RHEL-06-000126 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000126 Compliant"
-echo "install rds /bin/false" > /etc/modprobe.d/rds.conf
+echo "install rds /bin/true" > /etc/modprobe.d/rds.conf
 fi

@@ -33,7 +33,7 @@ echo "This machine is RHEL-06-000017 Compliant"
 else
 echo "This machine isn't RHEL-06-000017 Compliant " >> /var/log/Stig
 echo "This machine isn't RHEL-06-000017 Compliant "
-grep -q selinux= .//grub.conf  && \
+grep -q selinux= /etc/grub.conf  && \
   sed -i 's@selinux=0@selinux=1 enforcing=1@g' /etc/grub.conf
 if ! [ $? -eq 0 ]; then
     sed -i 's@quiet@quiet selinux=1 enforcing=1@g' /etc/grub.conf

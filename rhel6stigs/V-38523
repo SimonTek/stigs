@@ -33,9 +33,22 @@ echo "This machine isn't RHEL-06-000083 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000083 Compliant"
 if grep --silent ^net.ipv4.conf.all.accept_source_route /etc/sysctl.conf ; then
 	sed -i 's/^net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g' /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.accept_source_route=0
 else
 	echo "" >> /etc/sysctl.conf
 	echo "# Set net.ipv4.conf.all.accept_source_route to 0 per security requirements" >> /etc/sysctl.conf
 	echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.accept_source_route=0
 fi
+fi
+
+#  net.ipv4.conf.all.accept_source_route = 0
+# sysctl -w net.ipv4.conf.all.accept_source_route=0
+if grep --silent ^net.ipv4.conf.all.accept_source_route /etc/sysctl.conf ; then
+	sed -i 's/^net.ipv4.conf.all.accept_source_route.*/net.ipv4.conf.all.accept_source_route = 0/g' /etc/sysctl.conf
+	sysctl -w net.ipv4.conf.all.accept_source_route=0
+else
+	echo "" >> /etc/sysctl.conf
+	echo "# Set net.ipv4.conf.all.accept_source_route to 0 per security requirements" >> /etc/sysctl.conf
+	echo "net.ipv4.conf.all.accept_source_route = 0" >> /etc/sysctl.conf
 fi

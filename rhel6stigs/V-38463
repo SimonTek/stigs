@@ -19,10 +19,10 @@
 
 #Fix Text: System logs are stored in the "/var/log" directory. Ensure that it has its own partition or logical volume at installation time, or migrate it using LVM.
 
-if mount | grep "on /var/log/ "; then
-echo "This machine isn't RHEL-06-000003 Compliant" >> /var/log/Stig
-echo "This machine isn't RHEL-06-000003 Compliant"
-else
+if mount | grep on /var/log/ ; then
 echo "This machine is RHEL-06-000003 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000003 Compliant"
+else
+echo "This machine isn't RHEL-06-000003 Compliant" >> /var/log/Stig
+echo "This machine isn't RHEL-06-000003 Compliant"
 fi

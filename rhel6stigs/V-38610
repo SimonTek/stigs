@@ -23,5 +23,6 @@ echo "This machine is RHEL-06-000004 Compliant"
 else
 echo "This machine isn't RHEL-06-000004 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000004 Compliant"
-echo "ClientAliveCountMax 0" >> /etc/ssh/sshd_config
+sed -Ei 's/.*ClientAliveCountMax.*|#ClientAliveCountMax 0/ClientAliveCountMax 0/g' /etc/ssh/sshd_config
+/etc/init.d/sshd restart
 fi

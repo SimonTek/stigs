@@ -19,11 +19,11 @@
 
 #Fix Text: The ".netrc" files contain login information used to auto-login into FTP servers and reside in the user's home directory. These files may contain unencrypted passwords to remote FTP servers making them susceptible to access by unauthorized users and should not be used. Any ".netrc" files should be removed.
 
-if find /home -xdev -name .netrc; then
+if find /home /root -xdev -name .netrc; then
 echo "This machine is RHEL-06-000347 Compliant" >> /var/log/Stig
 echo "This machine is RHEL-06-000347 Compliant"
 else
 echo "This machine isn't RHEL-06-000347 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000347 Compliant"
-find /home -xdev -name ".netrc" -exec rm -rf {} \;
+find /home /root -xdev -name ".netrc" -exec rm -rf {} \;
 fi

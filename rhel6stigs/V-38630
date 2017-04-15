@@ -31,4 +31,9 @@ else
 echo "This machine isn't RHEL-06-000258 Compliant" >> /var/log/Stig
 echo "This machine isn't RHEL-06-000258 Compliant"
 gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory --type bool --set /apps/gnome-screensaver/idle_activation_enabled true
+gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \ --type bool \ --set /apps/gnome-screensaver/idle_activation_enabled true
+#gconftool-2 --direct --config-source xml:readwrite:/etc/gconf/gconf.xml.mandatory \ --type bool \ --set /apps/gnome-screensaver/idle_activation_enabled true
+
 fi
+
+# /etc/gconf/gconf.xml.mandatory/apps/gnome-screensaver/%gconf.xml
